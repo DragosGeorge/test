@@ -462,9 +462,9 @@ void CHARACTER::Initialize()
 	m_bChatCounter = 0;
 #ifdef __ENABLE_NEW_OFFLINESHOP__
 	m_pkOfflineShop = NULL;
-	m_pkShopSafebox	= NULL;
-	m_pkAuction		= NULL;
-	m_pkAuctionGuest= NULL;
+	m_pkShopSafebox = NULL;
+	m_pkAuction = NULL;
+	m_pkAuctionGuest = NULL;
 	m_pkOfflineShopGuest = NULL;
 	m_bIsLookingOfflineshopOfferList = false;
 #endif
@@ -810,7 +810,7 @@ void CHARACTER::Destroy()
 				party->Quit(GetVID());
 		}
 
-		SetParty(NULL); // ���ص� ������ �����ϰ�.
+		SetParty(NULL); // ï¿½ï¿½ï¿½Øµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½.
 	}
 
 	if (m_pkMobInst)
@@ -943,7 +943,7 @@ void CHARACTER::Destroy()
 	ap_drop_target = 0;
 	apc_drop_target = 0;
 #endif
-	
+
 }
 
 const char* CHARACTER::GetName() const
@@ -965,16 +965,16 @@ void CHARACTER::OpenMyShop(const char* c_pszSign, TShopItemTable* pTable, WORD w
 		return;
 	}
 
-	if (GetMyShop()) // �̹� ���� ���� ������ �ݴ´�.
+	if (GetMyShop()) // ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ý´Â´ï¿½.
 	{
 		CloseMyShop();
 		return;
 	}
 
-	// �������� ����Ʈ�� ������ ������ �� �� ����.
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 	quest::PC* pPC = quest::CQuestManager::instance().GetPCForce(GetPlayerID());
 
-	// GetPCForce�� NULL�� �� �����Ƿ� ���� Ȯ������ ����
+	// GetPCForceï¿½ï¿½ NULLï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	if (pPC->IsRunning())
 		return;
 
@@ -1030,7 +1030,7 @@ void CHARACTER::OpenMyShop(const char* c_pszSign, TShopItemTable* pTable, WORD w
 	}
 
 	// MYSHOP_PRICE_LIST
-	std::map<DWORD, DWORD> itemkind; // ������ ������ ����, first: vnum, second: ���� ���� ����
+	std::map<DWORD, DWORD> itemkind; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, first: vnum, second: ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	// END_OF_MYSHOP_PRICE_LIST
 
 	std::set<TItemPos> cont;
@@ -1086,15 +1086,15 @@ void CHARACTER::OpenMyShop(const char* c_pszSign, TShopItemTable* pTable, WORD w
 	}
 
 	// MYSHOP_PRICE_LIST
-	// ������ ������ ���ҽ�Ų��.
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ò½ï¿½Å²ï¿½ï¿½.
 #if defined(__MYSHOP_DECO__)
-	if (CountSpecifyItem(71049) || CountSpecifyItem(KASHMIR_BUNDLE)) // ��� �������� ������ �ʰ� ���������� �����Ѵ�.
+	if (CountSpecifyItem(71049) || CountSpecifyItem(KASHMIR_BUNDLE)) // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 #else
-	if (CountSpecifyItem(71049)) // ��� �������� ������ �ʰ� ���������� �����Ѵ�.
+	if (CountSpecifyItem(71049)) // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 #endif
 	{
 		//
-		// ������ ���������� �����ϱ� ���� ������ �������� ��Ŷ�� ����� DB ĳ�ÿ� ������.
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ DB Ä³ï¿½Ã¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 		//
 		TItemPriceListTable header;
 		memset(&header, 0, sizeof(TItemPriceListTable));
@@ -1121,7 +1121,7 @@ void CHARACTER::OpenMyShop(const char* c_pszSign, TShopItemTable* pTable, WORD w
 	else if (CountSpecifyItem(50200))
 		RemoveSpecifyItem(50200, 1);
 	else
-		return; // �������� ������ �ߴ�.
+		return; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß´ï¿½.
 
 	if (m_pkExchange)
 		m_pkExchange->Cancel();
@@ -1148,8 +1148,8 @@ void CHARACTER::OpenMyShop(const char* c_pszSign, TShopItemTable* pTable, WORD w
 	{
 		HorseSummon(false, true);
 	}
-	// new mount �̿� �߿�, ���� ���� ���� �ڵ� unmount
-	// StopRiding���� ������Ʈ���� ó���ϸ� ������ �� �׷��� ���س����� �� �� ����.
+	// new mount ï¿½Ì¿ï¿½ ï¿½ß¿ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½ unmount
+	// StopRidingï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½×·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø³ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 	else if (GetMountVnum())
 	{
 		RemoveAffect(AFFECT_MOUNT);
@@ -1506,30 +1506,30 @@ void CHARACTER::Restart(const uint8_t c_uiSubCmd)
 	{
 		switch (c_uiSubCmd)
 		{
-			case SCMD_RESTART_TOWN:
-				sys_log(0, "do_restart: restart town");
-				PIXEL_POSITION pos;
+		case SCMD_RESTART_TOWN:
+			sys_log(0, "do_restart: restart town");
+			PIXEL_POSITION pos;
 
-				RestartAtSamePos();
+			RestartAtSamePos();
 
-				PointChange(POINT_HP, GetMaxHP() - GetHP());
-				PointChange(POINT_SP, GetMaxSP() - GetSP());
-				ReviveInvisible(3);
+			PointChange(POINT_HP, GetMaxHP() - GetHP());
+			PointChange(POINT_SP, GetMaxSP() - GetSP());
+			ReviveInvisible(3);
 #ifdef ENABLE_PET_SYSTEM
-				CheckPet();
+			CheckPet();
 #endif
-				break;
+			break;
 
-			case SCMD_RESTART_HERE:
-				sys_log(0, "do_restart: restart here");
-				RestartAtSamePos();
-				PointChange(POINT_HP, GetMaxHP() - GetHP());
-				PointChange(POINT_SP, GetMaxSP() - GetSP());
-				ReviveInvisible(3);
+		case SCMD_RESTART_HERE:
+			sys_log(0, "do_restart: restart here");
+			RestartAtSamePos();
+			PointChange(POINT_HP, GetMaxHP() - GetHP());
+			PointChange(POINT_SP, GetMaxSP() - GetSP());
+			ReviveInvisible(3);
 #ifdef ENABLE_PET_SYSTEM
-				CheckPet();
+			CheckPet();
 #endif
-				break;
+			break;
 		}
 
 		return;
@@ -1586,7 +1586,7 @@ void CHARACTER::RestartAtSamePos()
 	ViewReencode();
 }
 
-// Entity�� ���� ��Ÿ���ٰ� ��Ŷ�� ������.
+// Entityï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¸ï¿½ï¿½ï¿½Ù°ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 void CHARACTER::EncodeInsertPacket(LPENTITY entity)
 {
 	LPDESC d;
@@ -1594,10 +1594,10 @@ void CHARACTER::EncodeInsertPacket(LPENTITY entity)
 	if (!(d = entity->GetDesc()))
 		return;
 
-	// ����̸� ���� ���� �ڵ�
+	// ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½
 	LPCHARACTER ch = (LPCHARACTER)entity;
 	ch->SendGuildName(GetGuild());
-	// ����̸� ���� ���� �ڵ�
+	// ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½
 
 	TPacketGCCharacterAdd pack;
 
@@ -2184,7 +2184,7 @@ void CHARACTER::SaveReal()
 
 void CHARACTER::FlushDelayedSaveItem()
 {
-	// ���� �ȵ� ����ǰ�� ���� �����Ų��.
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½Èµï¿½ ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Å²ï¿½ï¿½.
 	LPITEM item;
 
 	for (int i = 0; i < INVENTORY_AND_EQUIP_SLOT_MAX; ++i)
@@ -2192,7 +2192,7 @@ void CHARACTER::FlushDelayedSaveItem()
 			ITEM_MANAGER::instance().FlushDelayedSave(item);
 }
 
-void CHARACTER::Disconnect(const char * c_pszReason, int type)
+void CHARACTER::Disconnect(const char* c_pszReason, int type)
 {
 	assert(GetDesc() != NULL);
 
@@ -2228,21 +2228,21 @@ void CHARACTER::Disconnect(const char * c_pszReason, int type)
 	p.bHeader = HEADER_GG_LOGOUT;
 	strlcpy(p.szName, GetName(), sizeof(p.szName));
 	P2P_MANAGER::instance().Send(&p, sizeof(TPacketGGLogout));
-	
+
 	char buf[51];
 #if defined(__CHEQUE_SYSTEM__) && defined(__GEM_SYSTEM__)
 	snprintf(buf, sizeof(buf), "%lld %d %d %d %d %d",
-	GetGold(), GetCheque(), GetGem(), g_bChannel, GetMapIndex(), GetAlignment());
+		GetGold(), GetCheque(), GetGem(), g_bChannel, GetMapIndex(), GetAlignment());
 	//snprintf(buf, sizeof(buf), "%s %lld %d %d %d %ld %d",
 		//inet_ntoa(GetDesc()->GetAddr().sin_addr), GetGold(), GetCheque(), GetGem(), g_bChannel, GetMapIndex(), GetAlignment());
 #elif defined(__CHEQUE_SYSTEM__)
 	snprintf(buf, sizeof(buf), "%s %lld %d %d %d %d",
-	GetGold(), GetCheque(), g_bChannel, GetMapIndex(), GetAlignment());
+		GetGold(), GetCheque(), g_bChannel, GetMapIndex(), GetAlignment());
 	//snprintf(buf, sizeof(buf), "%s %lld %d %d %ld %d",
 	//	inet_ntoa(GetDesc()->GetAddr().sin_addr), GetGold(), GetCheque(), g_bChannel, GetMapIndex(), GetAlignment());
 #else
 	snprintf(buf, sizeof(buf), "%lld %d %d %d",
-	GetGold(), g_bChannel, GetMapIndex(), GetAlignment());
+		GetGold(), g_bChannel, GetMapIndex(), GetAlignment());
 	//snprintf(buf, sizeof(buf), "%s %lld %d %ld %d",
 	//	inet_ntoa(GetDesc()->GetAddr().sin_addr), GetGold(), g_bChannel, GetMapIndex(), GetAlignment());
 #endif
@@ -2279,7 +2279,7 @@ void CHARACTER::Disconnect(const char * c_pszReason, int type)
 	if (GetParty())
 		GetParty()->Unlink(this);
 
-	// �׾��� �� ���Ӳ����� ����ġ �ٰ� �ϱ�
+	// ï¿½×¾ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ó²ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ä¡ ï¿½Ù°ï¿½ ï¿½Ï±ï¿½
 	if (IsStun() || IsDead())
 	{
 		DeathPenalty(0);
@@ -2295,7 +2295,7 @@ void CHARACTER::Disconnect(const char * c_pszReason, int type)
 	offlineshop::GetManager().RemoveSafeboxFromCache(GetPlayerID());
 	offlineshop::GetManager().RemoveGuestFromShops(this);
 
-	if(m_pkAuctionGuest)
+	if (m_pkAuctionGuest)
 	{
 		m_pkAuctionGuest->RemoveGuest(this);
 	}
@@ -2307,8 +2307,8 @@ void CHARACTER::Disconnect(const char * c_pszReason, int type)
 
 	SetShopSafebox(NULL);
 
-	m_pkAuction		= NULL;
-	m_pkAuctionGuest= NULL;
+	m_pkAuction = NULL;
+	m_pkAuctionGuest = NULL;
 	m_bIsLookingOfflineshopOfferList = false;
 #endif
 
@@ -2325,7 +2325,7 @@ void CHARACTER::Disconnect(const char * c_pszReason, int type)
 	}
 #endif
 
-	m_bSkipSave = true; // �� ���Ŀ��� ���̻� �����ϸ� �ȵȴ�.
+	m_bSkipSave = true; // ï¿½ï¿½ ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì»ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ÈµÈ´ï¿½.
 
 	quest::CQuestManager::instance().DisconnectPC(this);
 
@@ -2844,7 +2844,7 @@ void CHARACTER::SetBasicCsotume(LPCHARACTER ch)
 			M2_DESTROY_ITEM(item);
 	}
 	break;
-	}	
+	}
 }
 
 void CHARACTER::SetBasicCsotumeHair(LPCHARACTER ch)
@@ -2920,7 +2920,7 @@ void CHARACTER::SetBasicCsotumeHair(LPCHARACTER ch)
 			M2_DESTROY_ITEM(item);
 	}
 	break;
-	}	
+	}
 }
 
 void CHARACTER::SetEmpire(BYTE bEmpire)
@@ -2981,10 +2981,10 @@ void CHARACTER::SetPlayerProto(const TPlayerTable* t)
 		if (CZodiacManager::Instance().IsZiStageMapIndex(t->lMapIndex))
 			bExitPosition = false;
 #endif
-// #ifdef ENABLE_GUILD_DRAGONLAIR_SYSTEM
-// 		if (CMeleyLairManager::Instance().IsMeleyMap(t->lMapIndex))
-// 			bExitPosition = false;
-// #endif
+		// #ifdef ENABLE_GUILD_DRAGONLAIR_SYSTEM
+		// 		if (CMeleyLairManager::Instance().IsMeleyMap(t->lMapIndex))
+		// 			bExitPosition = false;
+		// #endif
 		if (bExitPosition)
 		{
 			m_posWarp.x = t->lExitX;
@@ -3074,7 +3074,7 @@ void CHARACTER::SetPlayerProto(const TPlayerTable* t)
 	SetSP(t->sp);
 	SetStamina(t->stamina);
 
-	if(GetGMLevel() >= 3 && GetGMLevel() <= 5)
+	if (GetGMLevel() >= 3 && GetGMLevel() <= 5)
 		m_afAffectFlag.Set(AFF_YMIR);
 
 	if (GetLevel() < PK_PROTECT_LEVEL)
@@ -3099,7 +3099,7 @@ void CHARACTER::SetPlayerProto(const TPlayerTable* t)
 	}
 
 #if defined(__PET_SYSTEM__)
-	// NOTE: �ϴ� ĳ���Ͱ� PC�� ��쿡�� PetSystem�� ������ ��. ���� �ӽŴ� �޸� ���������� NPC���� �ϱ� ��..
+	// NOTE: ï¿½Ï´ï¿½ Ä³ï¿½ï¿½ï¿½Í°ï¿½ PCï¿½ï¿½ ï¿½ï¿½ì¿¡ï¿½ï¿½ PetSystemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½Ó½Å´ï¿½ ï¿½Þ¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ NPCï¿½ï¿½ï¿½ï¿½ ï¿½Ï±ï¿½ ï¿½ï¿½..
 	if (m_petSystem)
 	{
 		m_petSystem->Destroy();
@@ -3219,9 +3219,9 @@ void CHARACTER::SetProto(const CMob* pkMob)
 		else
 			SetPoint(POINT_DEF_GRADE_BONUS, 15);
 
-		//��Ÿ��
+		//ï¿½ï¿½Å¸ï¿½ï¿½
 		//m_dwPlayStartTime = get_dword_time() + 10 * 60 * 1000;
-		//�ż��� ���� 
+		//ï¿½Å¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 		m_dwPlayStartTime = get_dword_time() + 30 * 1000;
 		if (test_server)
 			m_dwPlayStartTime = get_dword_time() + 30 * 1000;
@@ -3301,7 +3301,7 @@ float CHARACTER::GetMobDamageMultiply() const
 	float fDamMultiply = GetMobTable().fDamMultiply;
 
 	if (IsBerserk())
-		fDamMultiply = fDamMultiply * 2.0f; // BALANCE: ����ȭ �� �ι�
+		fDamMultiply = fDamMultiply * 2.0f; // BALANCE: ï¿½ï¿½ï¿½ï¿½È­ ï¿½ï¿½ ï¿½Î¹ï¿½
 
 	return fDamMultiply;
 }
@@ -3367,7 +3367,7 @@ DWORD CHARACTER::GetMonsterDrainSPPoint() const
 BYTE CHARACTER::GetMobRank() const
 {
 	if (!m_pkMobData)
-		return MOB_RANK_KNIGHT; // PC�� ��� KNIGHT��
+		return MOB_RANK_KNIGHT; // PCï¿½ï¿½ ï¿½ï¿½ï¿½ KNIGHTï¿½ï¿½
 
 	return m_pkMobData->m_table.bRank;
 }
@@ -3438,7 +3438,7 @@ void CHARACTER::ComputeBattlePoints()
 		SetPoint(POINT_MAGIC_DEF_GRADE, GetPoint(POINT_DEF_GRADE));
 
 		//
-		// �⺻ ATK = 2lev + 2str, ������ ���� 2str�� �ٲ� �� ����
+		// ï¿½âº» ATK = 2lev + 2str, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 2strï¿½ï¿½ ï¿½Ù²ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		//
 		int iAtk = GetLevel() * 2;
 		int iStatAtk = 0;
@@ -3468,14 +3468,14 @@ void CHARACTER::ComputeBattlePoints()
 			break;
 		}
 
-		// ���� Ÿ�� �ְ�, �������� ���� ���ݷ��� ST*2 ���� ������ ST*2�� �Ѵ�.
-		// ������ �߸� ���� ��� ���ݷ��� �� ���� �ʰ� �ϱ� ���ؼ���.
+		// ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ ï¿½Ö°ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ý·ï¿½ï¿½ï¿½ ST*2 ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ST*2ï¿½ï¿½ ï¿½Ñ´ï¿½.
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ý·ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê°ï¿½ ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ï¿½ï¿½.
 		if (GetMountVnum() && iStatAtk < 2 * GetPoint(POINT_ST))
 			iStatAtk = (2 * GetPoint(POINT_ST));
 
 		iAtk += iStatAtk;
 
-		// �¸�(��) : �˼��� ������ ����
+		// ï¿½Â¸ï¿½(ï¿½ï¿½) : ï¿½Ë¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		if (GetMountVnum())
 		{
 			if (GetJob() == JOB_SURA && GetSkillGroup() == 1)
@@ -3496,7 +3496,7 @@ void CHARACTER::ComputeBattlePoints()
 		PointChange(POINT_ATT_GRADE, iAtk);
 
 		// DEF = LEV + CON + ARMOR
-		int iShowDef = GetLevel() + GetPoint(POINT_HT); // For Ymir(õ��)
+		int iShowDef = GetLevel() + GetPoint(POINT_HT); // For Ymir(Ãµï¿½ï¿½)
 		int iDef = GetLevel() + (int)(GetPoint(POINT_HT) / 1.25); // For Other
 		int iArmor = 0;
 
@@ -3550,7 +3550,7 @@ void CHARACTER::ComputeBattlePoints()
 #endif
 		}
 
-		// �� Ÿ�� ���� �� ������ ���� ���� ���º��� ������ ���� �������� ����
+		// ï¿½ï¿½ Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Âºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		if (true == IsHorseRiding())
 		{
 			if (iArmor < GetHorseArmor())
@@ -3667,7 +3667,7 @@ void CHARACTER::ComputePoints()
 
 	if (IsPC())
 	{
-		// �ִ� ������/���ŷ�
+		// ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½/ï¿½ï¿½ï¿½Å·ï¿½
 		iMaxHP = JobInitialPoints[GetJob()].max_hp + m_points.iRandomHP + GetPoint(POINT_HT) * JobInitialPoints[GetJob()].hp_per_ht;
 		iMaxSP = JobInitialPoints[GetJob()].max_sp + m_points.iRandomSP + GetPoint(POINT_IQ) * JobInitialPoints[GetJob()].sp_per_iq;
 		iMaxStamina = JobInitialPoints[GetJob()].max_stamina + GetPoint(POINT_HT) * JobInitialPoints[GetJob()].stamina_per_con;
@@ -3683,7 +3683,7 @@ void CHARACTER::ComputePoints()
 			}
 		}
 
-		// �⺻ ����
+		// ï¿½âº» ï¿½ï¿½ï¿½ï¿½
 		SetPoint(POINT_MOV_SPEED, 100);
 		SetPoint(POINT_ATT_SPEED, 100);
 		PointChange(POINT_ATT_SPEED, GetPoint(POINT_PARTY_HASTE_BONUS));
@@ -3702,9 +3702,9 @@ void CHARACTER::ComputePoints()
 
 	if (IsPC())
 	{
-		// �� Ÿ�� ���� ���� �⺻ ������ ���� ���� ���Ⱥ��� ������ ���� �����.
-		// ���� ���� ���� ������ ���� �����̹Ƿ�, ����/������ ��ü ���� ����
-		// ��ä������ �� �ö󰡰� �� ���̴�.
+		// ï¿½ï¿½ Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½âº» ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Èºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½.
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¹Ç·ï¿½, ï¿½ï¿½ï¿½ï¿½/ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		// ï¿½ï¿½Ã¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ã¶ó°¡°ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½.
 		if (GetMountVnum())
 		{
 			if (GetHorseST() > GetPoint(POINT_ST))
@@ -3737,16 +3737,16 @@ void CHARACTER::ComputePoints()
 
 	ComputeBattlePoints();
 
-	// �⺻ HP/SP ����
+	// ï¿½âº» HP/SP ï¿½ï¿½ï¿½ï¿½
 	if (iMaxHP != GetMaxHP())
 	{
-		SetRealPoint(POINT_MAX_HP, iMaxHP); // �⺻HP�� RealPoint�� ������ ���´�.
+		SetRealPoint(POINT_MAX_HP, iMaxHP); // ï¿½âº»HPï¿½ï¿½ RealPointï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â´ï¿½.
 	}
 	PointChange(POINT_MAX_HP, 0);
 
 	if (iMaxSP != GetMaxSP())
 	{
-		SetRealPoint(POINT_MAX_SP, iMaxSP); // �⺻SP�� RealPoint�� ������ ���´�.
+		SetRealPoint(POINT_MAX_SP, iMaxSP); // ï¿½âº»SPï¿½ï¿½ RealPointï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â´ï¿½.
 	}
 	PointChange(POINT_MAX_SP, 0);
 
@@ -3773,10 +3773,10 @@ void CHARACTER::ComputePoints()
 #ifdef ENABLE_EVENT_MANAGER
 	CHARACTER_MANAGER::Instance().CheckBonusEvent(this);
 #endif
-	// ��ȥ�� �ý���
-	// ComputePoints������ �ɸ����� ��� �Ӽ����� �ʱ�ȭ�ϰ�,
-	// ������, ���� � ���õ� ��� �Ӽ����� �����ϱ� ������,
-	// ��ȥ�� �ý��۵� ActiveDeck�� �ִ� ��� ��ȥ���� �Ӽ����� �ٽ� ������Ѿ� �Ѵ�.
+	// ï¿½ï¿½È¥ï¿½ï¿½ ï¿½Ã½ï¿½ï¿½ï¿½
+	// ComputePointsï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½É¸ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ó¼ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ï°ï¿½,
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½î¿¡ ï¿½ï¿½ï¿½Ãµï¿½ ï¿½ï¿½ï¿½ ï¿½Ó¼ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½,
+	// ï¿½ï¿½È¥ï¿½ï¿½ ï¿½Ã½ï¿½ï¿½Ûµï¿½ ActiveDeckï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È¥ï¿½ï¿½ï¿½ï¿½ ï¿½Ó¼ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¾ï¿½ ï¿½Ñ´ï¿½.
 	if (DragonSoul_IsDeckActivated())
 	{
 		for (int i = WEAR_MAX_NUM + DS_SLOT_MAX * DragonSoul_GetActiveDeck();
@@ -3826,9 +3826,9 @@ void CHARACTER::ComputePoints()
 	UpdatePacket();
 }
 
-// m_dwPlayStartTime�� ������ milisecond��. �����ͺ��̽����� �д����� ����ϱ�
-// ������ �÷��̽ð��� ����� �� / 60000 ���� ������ �ϴµ�, �� ������ ���� ����
-// �� �� ���⿡ dwTimeRemain���� �־ ����� ���ǵ��� ���־�� �Ѵ�.
+// m_dwPlayStartTimeï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ milisecondï¿½ï¿½. ï¿½ï¿½ï¿½ï¿½ï¿½Íºï¿½ï¿½Ì½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ð´ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì½Ã°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ / 60000 ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï´Âµï¿½, ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+// ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½â¿¡ dwTimeRemainï¿½ï¿½ï¿½ï¿½ ï¿½Ö¾î¼­ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Çµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½ ï¿½Ñ´ï¿½.
 void CHARACTER::ResetPlayTime(DWORD dwTimeRemain)
 {
 	m_dwPlayStartTime = get_dword_time() - dwTimeRemain;
@@ -3853,7 +3853,7 @@ EVENTFUNC(recovery_event)
 	if (!ch->IsPC())
 	{
 		//
-		// ���� ȸ��
+		// ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½
 		//
 		if (ch->IsAffectFlag(AFF_POISON))
 			return PASSES_PER_SEC(MAX(1, ch->GetMobTable().bRegenCycle));
@@ -3916,10 +3916,10 @@ EVENTFUNC(recovery_event)
 	else
 	{
 		//
-		// PC ȸ��
+		// PC È¸ï¿½ï¿½
 		//
 		ch->CheckTarget();
-		// ch->UpdateSectree(); // ���⼭ �̰� ������?
+		// ch->UpdateSectree(); // ï¿½ï¿½ï¿½â¼­ ï¿½Ì°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½?
 		ch->UpdateKillerMode();
 
 		if (ch->IsAffectFlag(AFF_POISON) == true)
@@ -3939,8 +3939,8 @@ EVENTFUNC(recovery_event)
 
 		int iSec = (get_dword_time() - ch->GetLastMoveTime()) / 3000;
 
-		// SP ȸ�� ��ƾ.
-		// �� �̰ɷ� �ؼ� �Լ��� �����°� ?!
+		// SP È¸ï¿½ï¿½ ï¿½ï¿½Æ¾.
+		// ï¿½ï¿½ ï¿½Ì°É·ï¿½ ï¿½Ø¼ï¿½ ï¿½Ô¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Â°ï¿½ ?!
 		ch->DistributeSP(ch);
 
 		if (ch->GetMaxHP() <= ch->GetHP())
@@ -3971,7 +3971,7 @@ void CHARACTER::StartRecoveryEvent()
 	if (IsDead() || IsStun())
 		return;
 
-	if (IsNPC() && GetHP() >= GetMaxHP()) // ���ʹ� ü���� �� �������� ���� ���Ѵ�.
+	if (IsNPC() && GetHP() >= GetMaxHP()) // ï¿½ï¿½ï¿½Í´ï¿½ Ã¼ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ñ´ï¿½.
 		return;
 
 #if defined(__GUILD_DRAGONLAIR__)
@@ -4095,7 +4095,7 @@ void CHARACTER::SetRotation(float fRot)
 	m_pointsInstant.fRot = fRot;
 }
 
-// x, y �������� ���� ����.
+// x, y ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 void CHARACTER::SetRotationToXY(long x, long y)
 {
 	SetRotation(GetDegreeFromPositionXY(GetX(), GetY(), x, y));
@@ -4111,10 +4111,10 @@ bool CHARACTER::CanMove() const
 	if (CannotMoveByAffect())
 		return false;
 
-	if (GetMyShop()) // ���� �� ���¿����� ������ �� ����
+	if (GetMyShop()) // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Â¿ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		return false;
 
-	// 0.2�� ���̶�� ������ �� ����.
+	// 0.2ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 	/*
 	if (get_float_time() - m_fSyncTime < 0.2f)
 		return false;
@@ -4122,7 +4122,7 @@ bool CHARACTER::CanMove() const
 	return true;
 }
 
-// ������ x, y ��ġ�� �̵� ��Ų��.
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ x, y ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½Ìµï¿½ ï¿½ï¿½Å²ï¿½ï¿½.
 bool CHARACTER::Sync(long x, long y)
 {
 	if (!GetSectree())
@@ -4151,7 +4151,7 @@ bool CHARACTER::Sync(long x, long y)
 
 	if (GetDungeon())
 	{
-		// ������ �̺�Ʈ �Ӽ� ��ȭ
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìºï¿½Æ® ï¿½Ó¼ï¿½ ï¿½ï¿½È­
 		int iLastEventAttr = m_iEventAttr;
 		m_iEventAttr = new_tree->GetEventAttribute(x, y);
 
@@ -4197,7 +4197,7 @@ bool CHARACTER::Sync(long x, long y)
 void CHARACTER::Stop()
 {
 	if (!IsState(m_stateIdle))
-		MonsterLog("[IDLE] ����");
+		MonsterLog("[IDLE] ï¿½ï¿½ï¿½ï¿½");
 
 	GotoState(m_stateIdle);
 
@@ -4214,8 +4214,8 @@ bool CHARACTER::Goto(long x, long y)
 		return false;
 #endif
 
-	// TODO �Ÿ�üũ �ʿ�
-	// ���� ��ġ�� �̵��� �ʿ� ���� (�ڵ� ����)
+	// TODO ï¿½Å¸ï¿½Ã¼Å© ï¿½Ê¿ï¿½
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½Ìµï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ ï¿½ï¿½ï¿½ï¿½ (ï¿½Úµï¿½ ï¿½ï¿½ï¿½ï¿½)
 	if (GetX() == x && GetY() == y)
 		return false;
 
@@ -4348,14 +4348,14 @@ void CHARACTER::CalculateMoveDuration()
 	m_dwMoveStartTime = get_dword_time();
 }
 
-// x y ��ġ�� �̵� �Ѵ�. (�̵��� �� �ִ� �� ���� ���� Ȯ�� �ϰ� Sync �޼ҵ�� ���� �̵� �Ѵ�)
-// ������ char�� x, y ���� �ٷ� �ٲ�����,
-// Ŭ�󿡼��� ���� ��ġ���� �ٲ� x, y���� interpolation�Ѵ�.
-// �Ȱų� �ٴ� ���� char�� m_bNowWalking�� �޷��ִ�.
-// Warp�� �ǵ��� ���̶�� Show�� ����� ��.
+// x y ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½Ìµï¿½ ï¿½Ñ´ï¿½. (ï¿½Ìµï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ ï¿½Ï°ï¿½ Sync ï¿½Þ¼Òµï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ ï¿½Ñ´ï¿½)
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ charï¿½ï¿½ x, y ï¿½ï¿½ï¿½ï¿½ ï¿½Ù·ï¿½ ï¿½Ù²ï¿½ï¿½ï¿½ï¿½ï¿½,
+// Å¬ï¿½ó¿¡¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½ x, yï¿½ï¿½ï¿½ï¿½ interpolationï¿½Ñ´ï¿½.
+// ï¿½È°Å³ï¿½ ï¿½Ù´ï¿½ ï¿½ï¿½ï¿½ï¿½ charï¿½ï¿½ m_bNowWalkingï¿½ï¿½ ï¿½Þ·ï¿½ï¿½Ö´ï¿½.
+// Warpï¿½ï¿½ ï¿½Çµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¶ï¿½ï¿½ Showï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½.
 bool CHARACTER::Move(long x, long y)
 {
-	// ���� ��ġ�� �̵��� �ʿ� ���� (�ڵ� ����)
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½Ìµï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ ï¿½ï¿½ï¿½ï¿½ (ï¿½Úµï¿½ ï¿½ï¿½ï¿½ï¿½)
 	if (GetX() == x && GetY() == y)
 		return true;
 
@@ -4532,7 +4532,7 @@ void CHARACTER::SetPoint(uint16_t type, int64_t val) //@fixme532
 
 	m_pointsInstant.points[type] = val;
 
-	// ���� �̵��� �� �ȳ����ٸ� �̵� �ð� ����� �ٽ� �ؾ� �Ѵ�.
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½È³ï¿½ï¿½ï¿½ï¿½Ù¸ï¿½ ï¿½Ìµï¿½ ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½Ø¾ï¿½ ï¿½Ñ´ï¿½.
 	if (type == POINT_MOV_SPEED && get_dword_time() < m_dwMoveStartTime + m_dwMoveDuration)
 	{
 		CalculateMoveDuration();
@@ -4586,7 +4586,7 @@ void CHARACTER::PointChange(uint16_t type, int64_t amount, bool bAmount, bool bB
 	case POINT_CONQUEROR_NEXT_EXP:
 	{
 		val = GetConquerorNextExp();
-		bAmount = false; // ������ bAmount�� false ���� �Ѵ�.
+		bAmount = false; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ bAmountï¿½ï¿½ false ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 	} break;
 
 	case POINT_CONQUEROR_EXP:
@@ -4594,7 +4594,7 @@ void CHARACTER::PointChange(uint16_t type, int64_t amount, bool bAmount, bool bB
 		DWORD exp = GetConquerorExp();
 		DWORD next_exp = GetConquerorNextExp();
 
-		// exp�� 0 ���Ϸ� ���� �ʵ��� �Ѵ�
+		// expï¿½ï¿½ 0 ï¿½ï¿½ï¿½Ï·ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Êµï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½
 		if (amount < 0 && exp <= -amount)
 		{
 			sys_log(0, "%s - Reduce EXP by %d, CUR EXP: %d (setting to zero)", GetName(), -amount, exp);
@@ -4612,7 +4612,7 @@ void CHARACTER::PointChange(uint16_t type, int64_t amount, bool bAmount, bool bB
 
 			DWORD iExpBalance = 0;
 
-			// ���� ��!
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½!
 			if (exp + amount >= next_exp)
 			{
 				iExpBalance = (exp + amount) - next_exp;
@@ -4630,7 +4630,7 @@ void CHARACTER::PointChange(uint16_t type, int64_t amount, bool bAmount, bool bB
 			DWORD q = DWORD(next_exp / 4.0f);
 			int iLevStep = GetRealPoint(POINT_CONQUEROR_LEVEL_STEP);
 
-			// iLevStep�� 4 �̻��̸� ������ �ö���� �ϹǷ� ���⿡ �� �� ���� ���̴�.
+			// iLevStepï¿½ï¿½ 4 ï¿½Ì»ï¿½ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã¶ï¿½ï¿½ï¿½ï¿½ ï¿½Ï¹Ç·ï¿½ ï¿½ï¿½ï¿½â¿¡ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½.
 			if (iLevStep >= 4)
 			{
 				sys_err("%s CONQUEROR_LEVEL_STEP bigger than 4! (%d)", GetName(), iLevStep);
@@ -4696,174 +4696,174 @@ void CHARACTER::PointChange(uint16_t type, int64_t amount, bool bAmount, bool bB
 	} break;
 
 #ifdef ENABLE_ATTR_6TH_7TH_EXTEND
-		case POINT_RESIST_FIST:
-		case POINT_SKILL_DAMAGE_SAMYEON:
-		case POINT_SKILL_DAMAGE_TANHWAN:
-		case POINT_SKILL_DAMAGE_PALBANG:
-		case POINT_SKILL_DAMAGE_GIGONGCHAM:
-		case POINT_SKILL_DAMAGE_GYOKSAN:
-		case POINT_SKILL_DAMAGE_GEOMPUNG:
-		case POINT_SKILL_DAMAGE_AMSEOP:
-		case POINT_SKILL_DAMAGE_GUNGSIN:
-		case POINT_SKILL_DAMAGE_CHARYUN:
-		case POINT_SKILL_DAMAGE_SANGONG:
-		case POINT_SKILL_DAMAGE_YEONSA:
-		case POINT_SKILL_DAMAGE_KWANKYEOK:
-		case POINT_SKILL_DAMAGE_GIGUNG:
-		case POINT_SKILL_DAMAGE_HWAJO:
-		case POINT_SKILL_DAMAGE_SWAERYUNG:
-		case POINT_SKILL_DAMAGE_YONGKWON:
-		case POINT_SKILL_DAMAGE_PABEOB:
-		case POINT_SKILL_DAMAGE_MARYUNG:
-		case POINT_SKILL_DAMAGE_HWAYEOMPOK:
-		case POINT_SKILL_DAMAGE_MAHWAN:
-		case POINT_SKILL_DAMAGE_BIPABU:
-		case POINT_SKILL_DAMAGE_YONGBI:
-		case POINT_SKILL_DAMAGE_PAERYONG:
-		case POINT_SKILL_DAMAGE_NOEJEON:
-		case POINT_SKILL_DAMAGE_BYEURAK:
-		case POINT_SKILL_DAMAGE_CHAIN:
-		case POINT_SKILL_DAMAGE_CHAYEOL:
-		case POINT_SKILL_DAMAGE_SALPOONG:
-		case POINT_SKILL_DAMAGE_GONGDAB:
-		case POINT_SKILL_DAMAGE_PASWAE:
-		case POINT_NORMAL_HIT_DEFEND_BONUS_BOSS_OR_MORE:
-		case POINT_SKILL_DEFEND_BONUS_BOSS_OR_MORE:
-		case POINT_NORMAL_HIT_DAMAGE_BONUS_BOSS_OR_MORE:
-		case POINT_SKILL_DAMAGE_BONUS_BOSS_OR_MORE:
-		case POINT_HIT_BUFF_ENCHANT_FIRE:
-		case POINT_HIT_BUFF_ENCHANT_ICE:
-		case POINT_HIT_BUFF_ENCHANT_ELEC:
-		case POINT_HIT_BUFF_ENCHANT_WIND:
-		case POINT_HIT_BUFF_ENCHANT_DARK:
-		case POINT_HIT_BUFF_ENCHANT_EARTH:
-		case POINT_HIT_BUFF_RESIST_FIRE:
-		case POINT_HIT_BUFF_RESIST_ICE:
-		case POINT_HIT_BUFF_RESIST_ELEC:
-		case POINT_HIT_BUFF_RESIST_WIND:
-		case POINT_HIT_BUFF_RESIST_DARK:
-		case POINT_HIT_BUFF_RESIST_EARTH:
-		case POINT_USE_SKILL_CHEONGRANG_MOV_SPEED:
-		case POINT_USE_SKILL_CHEONGRANG_CASTING_SPEED:
-		case POINT_USE_SKILL_CHAYEOL_CRITICAL_PCT:
-		case POINT_USE_SKILL_SANGONG_ATT_GRADE_BONUS:
-		case POINT_USE_SKILL_GIGUNG_ATT_GRADE_BONUS:
-		case POINT_USE_SKILL_JEOKRANG_DEF_BONUS:
-		case POINT_USE_SKILL_GWIGEOM_DEF_BONUS:
-		case POINT_USE_SKILL_TERROR_ATT_GRADE_BONUS:
-		case POINT_USE_SKILL_MUYEONG_ATT_GRADE_BONUS:
-		case POINT_USE_SKILL_MANASHILED_CASTING_SPEED:
-		case POINT_USE_SKILL_HOSIN_DEF_BONUS:
-		case POINT_USE_SKILL_GICHEON_ATT_GRADE_BONUS:
-		case POINT_USE_SKILL_JEONGEOP_ATT_GRADE_BONUS:
-		case POINT_USE_SKILL_JEUNGRYEOK_DEF_BONUS:
-		case POINT_USE_SKILL_GIHYEOL_ATT_GRADE_BONUS:
-		case POINT_USE_SKILL_CHUNKEON_CASTING_SPEED:
-		case POINT_USE_SKILL_NOEGEOM_ATT_GRADE_BONUS:
-		case POINT_SKILL_DURATION_INCREASE_EUNHYUNG:
-		case POINT_SKILL_DURATION_INCREASE_GYEONGGONG:
-		case POINT_SKILL_DURATION_INCREASE_GEOMKYUNG:
-		case POINT_SKILL_DURATION_INCREASE_JEOKRANG:
-		case POINT_USE_SKILL_PALBANG_HP_ABSORB:
-		case POINT_USE_SKILL_AMSEOP_HP_ABSORB:
-		case POINT_USE_SKILL_YEONSA_HP_ABSORB:
-		case POINT_USE_SKILL_YONGBI_HP_ABSORB:
-		case POINT_USE_SKILL_CHAIN_HP_ABSORB:
-		case POINT_USE_SKILL_PASWAE_SP_ABSORB:
-		case POINT_USE_SKILL_GIGONGCHAM_STUN:
-		case POINT_USE_SKILL_CHARYUN_STUN:
-		case POINT_USE_SKILL_PABEOB_STUN:
-		case POINT_USE_SKILL_MAHWAN_STUN:
-		case POINT_USE_SKILL_GONGDAB_STUN:
-		case POINT_USE_SKILL_SAMYEON_STUN:
-		case POINT_USE_SKILL_GYOKSAN_KNOCKBACK:
-		case POINT_USE_SKILL_SEOMJEON_KNOCKBACK:
-		case POINT_USE_SKILL_SWAERYUNG_KNOCKBACK:
-		case POINT_USE_SKILL_HWAYEOMPOK_KNOCKBACK:
-		case POINT_USE_SKILL_GONGDAB_KNOCKBACK:
-		case POINT_USE_SKILL_KWANKYEOK_KNOCKBACK:
-		case POINT_USE_SKILL_SAMYEON_NEXT_COOLTIME_DECREASE_10PER:
-		case POINT_USE_SKILL_GEOMPUNG_NEXT_COOLTIME_DECREASE_10PER:
-		case POINT_USE_SKILL_GUNGSIN_NEXT_COOLTIME_DECREASE_10PER:
-		case POINT_USE_SKILL_KWANKYEOK_NEXT_COOLTIME_DECREASE_10PER:
-		case POINT_USE_SKILL_YONGKWON_NEXT_COOLTIME_DECREASE_10PER:
-		case POINT_USE_SKILL_MARYUNG_NEXT_COOLTIME_DECREASE_10PER:
-		case POINT_USE_SKILL_BIPABU_NEXT_COOLTIME_DECREASE_10PER:
-		case POINT_USE_SKILL_NOEJEON_NEXT_COOLTIME_DECREASE_10PER:
-		case POINT_USE_SKILL_SALPOONG_NEXT_COOLTIME_DECREASE_10PER:
-		case POINT_USE_SKILL_PASWAE_NEXT_COOLTIME_DECREASE_10PER:
-		case POINT_DAMAGE_HP_RECOVERY:
-		case POINT_DAMAGE_SP_RECOVERY:
-		case POINT_ALIGNMENT_DAMAGE_BONUS:
-		case POINT_NORMAL_DAMAGE_GUARD:
-		case POINT_MORE_THEN_HP90_DAMAGE_REDUCE:
-		case POINT_USE_SKILL_TUSOK_HP_ABSORB:
-		case POINT_USE_SKILL_PAERYONG_HP_ABSORB:
-		case POINT_USE_SKILL_BYEURAK_HP_ABSORB:
-		case POINT_FIRST_ATTRIBUTE_BONUS:
-		case POINT_SECOND_ATTRIBUTE_BONUS:
-		case POINT_THIRD_ATTRIBUTE_BONUS:
-		case POINT_FOURTH_ATTRIBUTE_BONUS:
-		case POINT_FIFTH_ATTRIBUTE_BONUS:
-		case POINT_USE_SKILL_SAMYEON_NEXT_COOLTIME_DECREASE_20PER:
-		case POINT_USE_SKILL_GEOMPUNG_NEXT_COOLTIME_DECREASE_20PER:
-		case POINT_USE_SKILL_GUNGSIN_NEXT_COOLTIME_DECREASE_20PER:
-		case POINT_USE_SKILL_KWANKYEOK_NEXT_COOLTIME_DECREASE_20PER:
-		case POINT_USE_SKILL_YONGKWON_NEXT_COOLTIME_DECREASE_20PER:
-		case POINT_USE_SKILL_MARYUNG_NEXT_COOLTIME_DECREASE_20PER:
-		case POINT_USE_SKILL_BIPABU_NEXT_COOLTIME_DECREASE_20PER:
-		case POINT_USE_SKILL_NOEJEON_NEXT_COOLTIME_DECREASE_20PER:
-		case POINT_USE_SKILL_SALPOONG_NEXT_COOLTIME_DECREASE_20PER:
-		case POINT_USE_SKILL_PASWAE_NEXT_COOLTIME_DECREASE_20PER:
-		case POINT_USE_SKILL_CHAYEOL_HP_ABSORB:
-		case POINT_HIT_PCT:
-		case POINT_ATTBONUS_PER_HUMAN:
-		case POINT_ATTBONUS_PER_ANIMAL:
-		case POINT_ATTBONUS_PER_ORC:
-		case POINT_ATTBONUS_PER_MILGYO:
-		case POINT_ATTBONUS_PER_UNDEAD:
-		case POINT_ATTBONUS_PER_DEVIL:
-		case POINT_ENCHANT_PER_ELECT:
-		case POINT_ENCHANT_PER_FIRE:
-		case POINT_ENCHANT_PER_ICE:
-		case POINT_ENCHANT_PER_WIND:
-		case POINT_ENCHANT_PER_EARTH:
-		case POINT_ENCHANT_PER_DARK:
-		case POINT_ATTBONUS_PER_CZ:
-		case POINT_ATTBONUS_PER_INSECT:
-		case POINT_ATTBONUS_PER_DESERT:
-		case POINT_ATTBONUS_PER_STONE:
-		case POINT_ATTBONUS_PER_MONSTER:
-		case POINT_RESIST_PER_HUMAN:
-		case POINT_RESIST_PER_ICE:
-		case POINT_RESIST_PER_DARK:
-		case POINT_RESIST_PER_EARTH:
-		case POINT_RESIST_PER_FIRE:
-		case POINT_RESIST_PER_ELEC:
-		case POINT_RESIST_PER_MAGIC:
-		case POINT_RESIST_PER_WIND:
-		case POINT_HIT_BUFF_SUNGMA_STR:
-		case POINT_HIT_BUFF_SUNGMA_MOVE:
-		case POINT_HIT_BUFF_SUNGMA_HP:
-		case POINT_HIT_BUFF_SUNGMA_IMMUNE:
-		case POINT_MOUNT_MELEE_MAGIC_ATTBONUS_PER:
-		case POINT_DISMOUNT_MOVE_SPEED_BONUS_PER:
-		case POINT_HIT_AUTO_HP_RECOVERY:
-		case POINT_HIT_AUTO_SP_RECOVERY:
-		case POINT_USE_SKILL_COOLTIME_DECREASE_ALL:
-		case POINT_HIT_STONE_ATTBONUS_STONE:
-		case POINT_HIT_STONE_DEF_GRADE_BONUS:
-		case POINT_KILL_BOSS_ITEM_BONUS:
-		case POINT_MOB_HIT_MOB_AGGRESSIVE:
-		case POINT_NO_DEATH_AND_HP_RECOVERY30:
-		case POINT_AUTO_PICKUP:
-		case POINT_MOUNT_NO_KNOCKBACK:
-		case POINT_IMMUNE_POISON100:
-		case POINT_IMMUNE_BLEEDING100:
-		case POINT_MONSTER_DEFEND_BONUS:
-			SetPoint(type, GetPoint(type) + amount);
-			val = GetPoint(type);
-			break;
+	case POINT_RESIST_FIST:
+	case POINT_SKILL_DAMAGE_SAMYEON:
+	case POINT_SKILL_DAMAGE_TANHWAN:
+	case POINT_SKILL_DAMAGE_PALBANG:
+	case POINT_SKILL_DAMAGE_GIGONGCHAM:
+	case POINT_SKILL_DAMAGE_GYOKSAN:
+	case POINT_SKILL_DAMAGE_GEOMPUNG:
+	case POINT_SKILL_DAMAGE_AMSEOP:
+	case POINT_SKILL_DAMAGE_GUNGSIN:
+	case POINT_SKILL_DAMAGE_CHARYUN:
+	case POINT_SKILL_DAMAGE_SANGONG:
+	case POINT_SKILL_DAMAGE_YEONSA:
+	case POINT_SKILL_DAMAGE_KWANKYEOK:
+	case POINT_SKILL_DAMAGE_GIGUNG:
+	case POINT_SKILL_DAMAGE_HWAJO:
+	case POINT_SKILL_DAMAGE_SWAERYUNG:
+	case POINT_SKILL_DAMAGE_YONGKWON:
+	case POINT_SKILL_DAMAGE_PABEOB:
+	case POINT_SKILL_DAMAGE_MARYUNG:
+	case POINT_SKILL_DAMAGE_HWAYEOMPOK:
+	case POINT_SKILL_DAMAGE_MAHWAN:
+	case POINT_SKILL_DAMAGE_BIPABU:
+	case POINT_SKILL_DAMAGE_YONGBI:
+	case POINT_SKILL_DAMAGE_PAERYONG:
+	case POINT_SKILL_DAMAGE_NOEJEON:
+	case POINT_SKILL_DAMAGE_BYEURAK:
+	case POINT_SKILL_DAMAGE_CHAIN:
+	case POINT_SKILL_DAMAGE_CHAYEOL:
+	case POINT_SKILL_DAMAGE_SALPOONG:
+	case POINT_SKILL_DAMAGE_GONGDAB:
+	case POINT_SKILL_DAMAGE_PASWAE:
+	case POINT_NORMAL_HIT_DEFEND_BONUS_BOSS_OR_MORE:
+	case POINT_SKILL_DEFEND_BONUS_BOSS_OR_MORE:
+	case POINT_NORMAL_HIT_DAMAGE_BONUS_BOSS_OR_MORE:
+	case POINT_SKILL_DAMAGE_BONUS_BOSS_OR_MORE:
+	case POINT_HIT_BUFF_ENCHANT_FIRE:
+	case POINT_HIT_BUFF_ENCHANT_ICE:
+	case POINT_HIT_BUFF_ENCHANT_ELEC:
+	case POINT_HIT_BUFF_ENCHANT_WIND:
+	case POINT_HIT_BUFF_ENCHANT_DARK:
+	case POINT_HIT_BUFF_ENCHANT_EARTH:
+	case POINT_HIT_BUFF_RESIST_FIRE:
+	case POINT_HIT_BUFF_RESIST_ICE:
+	case POINT_HIT_BUFF_RESIST_ELEC:
+	case POINT_HIT_BUFF_RESIST_WIND:
+	case POINT_HIT_BUFF_RESIST_DARK:
+	case POINT_HIT_BUFF_RESIST_EARTH:
+	case POINT_USE_SKILL_CHEONGRANG_MOV_SPEED:
+	case POINT_USE_SKILL_CHEONGRANG_CASTING_SPEED:
+	case POINT_USE_SKILL_CHAYEOL_CRITICAL_PCT:
+	case POINT_USE_SKILL_SANGONG_ATT_GRADE_BONUS:
+	case POINT_USE_SKILL_GIGUNG_ATT_GRADE_BONUS:
+	case POINT_USE_SKILL_JEOKRANG_DEF_BONUS:
+	case POINT_USE_SKILL_GWIGEOM_DEF_BONUS:
+	case POINT_USE_SKILL_TERROR_ATT_GRADE_BONUS:
+	case POINT_USE_SKILL_MUYEONG_ATT_GRADE_BONUS:
+	case POINT_USE_SKILL_MANASHILED_CASTING_SPEED:
+	case POINT_USE_SKILL_HOSIN_DEF_BONUS:
+	case POINT_USE_SKILL_GICHEON_ATT_GRADE_BONUS:
+	case POINT_USE_SKILL_JEONGEOP_ATT_GRADE_BONUS:
+	case POINT_USE_SKILL_JEUNGRYEOK_DEF_BONUS:
+	case POINT_USE_SKILL_GIHYEOL_ATT_GRADE_BONUS:
+	case POINT_USE_SKILL_CHUNKEON_CASTING_SPEED:
+	case POINT_USE_SKILL_NOEGEOM_ATT_GRADE_BONUS:
+	case POINT_SKILL_DURATION_INCREASE_EUNHYUNG:
+	case POINT_SKILL_DURATION_INCREASE_GYEONGGONG:
+	case POINT_SKILL_DURATION_INCREASE_GEOMKYUNG:
+	case POINT_SKILL_DURATION_INCREASE_JEOKRANG:
+	case POINT_USE_SKILL_PALBANG_HP_ABSORB:
+	case POINT_USE_SKILL_AMSEOP_HP_ABSORB:
+	case POINT_USE_SKILL_YEONSA_HP_ABSORB:
+	case POINT_USE_SKILL_YONGBI_HP_ABSORB:
+	case POINT_USE_SKILL_CHAIN_HP_ABSORB:
+	case POINT_USE_SKILL_PASWAE_SP_ABSORB:
+	case POINT_USE_SKILL_GIGONGCHAM_STUN:
+	case POINT_USE_SKILL_CHARYUN_STUN:
+	case POINT_USE_SKILL_PABEOB_STUN:
+	case POINT_USE_SKILL_MAHWAN_STUN:
+	case POINT_USE_SKILL_GONGDAB_STUN:
+	case POINT_USE_SKILL_SAMYEON_STUN:
+	case POINT_USE_SKILL_GYOKSAN_KNOCKBACK:
+	case POINT_USE_SKILL_SEOMJEON_KNOCKBACK:
+	case POINT_USE_SKILL_SWAERYUNG_KNOCKBACK:
+	case POINT_USE_SKILL_HWAYEOMPOK_KNOCKBACK:
+	case POINT_USE_SKILL_GONGDAB_KNOCKBACK:
+	case POINT_USE_SKILL_KWANKYEOK_KNOCKBACK:
+	case POINT_USE_SKILL_SAMYEON_NEXT_COOLTIME_DECREASE_10PER:
+	case POINT_USE_SKILL_GEOMPUNG_NEXT_COOLTIME_DECREASE_10PER:
+	case POINT_USE_SKILL_GUNGSIN_NEXT_COOLTIME_DECREASE_10PER:
+	case POINT_USE_SKILL_KWANKYEOK_NEXT_COOLTIME_DECREASE_10PER:
+	case POINT_USE_SKILL_YONGKWON_NEXT_COOLTIME_DECREASE_10PER:
+	case POINT_USE_SKILL_MARYUNG_NEXT_COOLTIME_DECREASE_10PER:
+	case POINT_USE_SKILL_BIPABU_NEXT_COOLTIME_DECREASE_10PER:
+	case POINT_USE_SKILL_NOEJEON_NEXT_COOLTIME_DECREASE_10PER:
+	case POINT_USE_SKILL_SALPOONG_NEXT_COOLTIME_DECREASE_10PER:
+	case POINT_USE_SKILL_PASWAE_NEXT_COOLTIME_DECREASE_10PER:
+	case POINT_DAMAGE_HP_RECOVERY:
+	case POINT_DAMAGE_SP_RECOVERY:
+	case POINT_ALIGNMENT_DAMAGE_BONUS:
+	case POINT_NORMAL_DAMAGE_GUARD:
+	case POINT_MORE_THEN_HP90_DAMAGE_REDUCE:
+	case POINT_USE_SKILL_TUSOK_HP_ABSORB:
+	case POINT_USE_SKILL_PAERYONG_HP_ABSORB:
+	case POINT_USE_SKILL_BYEURAK_HP_ABSORB:
+	case POINT_FIRST_ATTRIBUTE_BONUS:
+	case POINT_SECOND_ATTRIBUTE_BONUS:
+	case POINT_THIRD_ATTRIBUTE_BONUS:
+	case POINT_FOURTH_ATTRIBUTE_BONUS:
+	case POINT_FIFTH_ATTRIBUTE_BONUS:
+	case POINT_USE_SKILL_SAMYEON_NEXT_COOLTIME_DECREASE_20PER:
+	case POINT_USE_SKILL_GEOMPUNG_NEXT_COOLTIME_DECREASE_20PER:
+	case POINT_USE_SKILL_GUNGSIN_NEXT_COOLTIME_DECREASE_20PER:
+	case POINT_USE_SKILL_KWANKYEOK_NEXT_COOLTIME_DECREASE_20PER:
+	case POINT_USE_SKILL_YONGKWON_NEXT_COOLTIME_DECREASE_20PER:
+	case POINT_USE_SKILL_MARYUNG_NEXT_COOLTIME_DECREASE_20PER:
+	case POINT_USE_SKILL_BIPABU_NEXT_COOLTIME_DECREASE_20PER:
+	case POINT_USE_SKILL_NOEJEON_NEXT_COOLTIME_DECREASE_20PER:
+	case POINT_USE_SKILL_SALPOONG_NEXT_COOLTIME_DECREASE_20PER:
+	case POINT_USE_SKILL_PASWAE_NEXT_COOLTIME_DECREASE_20PER:
+	case POINT_USE_SKILL_CHAYEOL_HP_ABSORB:
+	case POINT_HIT_PCT:
+	case POINT_ATTBONUS_PER_HUMAN:
+	case POINT_ATTBONUS_PER_ANIMAL:
+	case POINT_ATTBONUS_PER_ORC:
+	case POINT_ATTBONUS_PER_MILGYO:
+	case POINT_ATTBONUS_PER_UNDEAD:
+	case POINT_ATTBONUS_PER_DEVIL:
+	case POINT_ENCHANT_PER_ELECT:
+	case POINT_ENCHANT_PER_FIRE:
+	case POINT_ENCHANT_PER_ICE:
+	case POINT_ENCHANT_PER_WIND:
+	case POINT_ENCHANT_PER_EARTH:
+	case POINT_ENCHANT_PER_DARK:
+	case POINT_ATTBONUS_PER_CZ:
+	case POINT_ATTBONUS_PER_INSECT:
+	case POINT_ATTBONUS_PER_DESERT:
+	case POINT_ATTBONUS_PER_STONE:
+	case POINT_ATTBONUS_PER_MONSTER:
+	case POINT_RESIST_PER_HUMAN:
+	case POINT_RESIST_PER_ICE:
+	case POINT_RESIST_PER_DARK:
+	case POINT_RESIST_PER_EARTH:
+	case POINT_RESIST_PER_FIRE:
+	case POINT_RESIST_PER_ELEC:
+	case POINT_RESIST_PER_MAGIC:
+	case POINT_RESIST_PER_WIND:
+	case POINT_HIT_BUFF_SUNGMA_STR:
+	case POINT_HIT_BUFF_SUNGMA_MOVE:
+	case POINT_HIT_BUFF_SUNGMA_HP:
+	case POINT_HIT_BUFF_SUNGMA_IMMUNE:
+	case POINT_MOUNT_MELEE_MAGIC_ATTBONUS_PER:
+	case POINT_DISMOUNT_MOVE_SPEED_BONUS_PER:
+	case POINT_HIT_AUTO_HP_RECOVERY:
+	case POINT_HIT_AUTO_SP_RECOVERY:
+	case POINT_USE_SKILL_COOLTIME_DECREASE_ALL:
+	case POINT_HIT_STONE_ATTBONUS_STONE:
+	case POINT_HIT_STONE_DEF_GRADE_BONUS:
+	case POINT_KILL_BOSS_ITEM_BONUS:
+	case POINT_MOB_HIT_MOB_AGGRESSIVE:
+	case POINT_NO_DEATH_AND_HP_RECOVERY30:
+	case POINT_AUTO_PICKUP:
+	case POINT_MOUNT_NO_KNOCKBACK:
+	case POINT_IMMUNE_POISON100:
+	case POINT_IMMUNE_BLEEDING100:
+	case POINT_MONSTER_DEFEND_BONUS:
+		SetPoint(type, GetPoint(type) + amount);
+		val = GetPoint(type);
+		break;
 #endif
 
 #ifdef ENABLE_REFINE_ELEMENT
@@ -4901,7 +4901,7 @@ void CHARACTER::PointChange(uint16_t type, int64_t amount, bool bAmount, bool bB
 
 		sys_log(0, "LEVELUP: %s %d NEXT EXP %d", GetName(), GetLevel(), GetNextExp());
 
-		// WOLFMAN ������ Ư��ó�� (�������� ������ �ϳ��̹Ƿ�, 5������ �Ǹ� ������ 1�� �������� ������. �ϵ��ڵ� ����)
+		// WOLFMAN ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Æ¯ï¿½ï¿½Ã³ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï³ï¿½ï¿½Ì¹Ç·ï¿½, 5ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 1ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½. ï¿½Ïµï¿½ï¿½Úµï¿½ ï¿½ï¿½ï¿½ï¿½)
 		if (GetJob() == JOB_WOLFMAN)
 		{
 			if ((5 <= val) && (GetSkillGroup() != 1))
@@ -4940,7 +4940,7 @@ void CHARACTER::PointChange(uint16_t type, int64_t amount, bool bAmount, bool bB
 	case POINT_NEXT_EXP:
 	{
 		val = GetNextExp();
-		bAmount = false; // ������ bAmount�� false ���� �Ѵ�.
+		bAmount = false; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ bAmountï¿½ï¿½ false ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 	} break;
 
 	case POINT_EXP:
@@ -4956,7 +4956,7 @@ void CHARACTER::PointChange(uint16_t type, int64_t amount, bool bAmount, bool bB
 		DWORD exp = GetExp();
 		DWORD next_exp = GetNextExp();
 
-		// exp�� 0 ���Ϸ� ���� �ʵ��� �Ѵ�
+		// expï¿½ï¿½ 0 ï¿½ï¿½ï¿½Ï·ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Êµï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½
 		if (amount < 0 && exp <= -amount)
 		{
 			sys_log(0, "%s - Reduce EXP by %d, CUR EXP: %d (setting to zero)", GetName(), -amount, exp);
@@ -4980,7 +4980,7 @@ void CHARACTER::PointChange(uint16_t type, int64_t amount, bool bAmount, bool bB
 
 			DWORD iExpBalance = 0;
 
-			// ���� ��!
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½!
 			if (exp + amount >= next_exp)
 			{
 				iExpBalance = (exp + amount) - next_exp;
@@ -5013,7 +5013,7 @@ void CHARACTER::PointChange(uint16_t type, int64_t amount, bool bAmount, bool bB
 			DWORD q = DWORD(next_exp / 4.0f);
 			int iLevStep = GetRealPoint(POINT_LEVEL_STEP);
 
-			// iLevStep�� 4 �̻��̸� ������ �ö���� �ϹǷ� ���⿡ �� �� ���� ���̴�.
+			// iLevStepï¿½ï¿½ 4 ï¿½Ì»ï¿½ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã¶ï¿½ï¿½ï¿½ï¿½ ï¿½Ï¹Ç·ï¿½ ï¿½ï¿½ï¿½â¿¡ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½.
 			if (iLevStep >= 4)
 			{
 				sys_err("%s LEVEL_STEP bigger than 4! (%d)", GetName(), iLevStep);
@@ -5155,16 +5155,16 @@ void CHARACTER::PointChange(uint16_t type, int64_t amount, bool bAmount, bool bB
 
 		if (val == 0)
 		{
-			// Stamina�� ������ ����!
+			// Staminaï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½!
 			SetNowWalking(true);
 		}
 		else if (prev_val == 0)
 		{
-			// ���� ���׹̳��� �������� ���� ��� ����
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½×¹Ì³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			ResetWalking();
 		}
 
-		if (amount < 0 && val != 0) // ���Ҵ� �������ʴ´�.
+		if (amount < 0 && val != 0) // ï¿½ï¿½ï¿½Ò´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê´Â´ï¿½.
 			return;
 	}
 	break;
@@ -5174,7 +5174,7 @@ void CHARACTER::PointChange(uint16_t type, int64_t amount, bool bAmount, bool bB
 		SetPoint(type, GetPoint(type) + amount);
 
 		//SetMaxHP(GetMaxHP() + amount);
-		// �ִ� ������ = (�⺻ �ִ� ������ + �߰�) * �ִ������%
+		// ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ = (ï¿½âº» ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ + ï¿½ß°ï¿½) * ï¿½Ö´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½%
 		int64_t curMaxHP = GetMaxHP();
 		int64_t hp = GetRealPoint(POINT_MAX_HP);
 		int64_t add_hp = MIN(3500, hp * GetPoint(POINT_MAX_HP_PCT) / 100);
@@ -5195,7 +5195,7 @@ void CHARACTER::PointChange(uint16_t type, int64_t amount, bool bAmount, bool bB
 		SetPoint(type, GetPoint(type) + amount);
 
 		//SetMaxSP(GetMaxSP() + amount);
-		// �ִ� ���ŷ� = (�⺻ �ִ� ���ŷ� + �߰�) * �ִ����ŷ�%
+		// ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½Å·ï¿½ = (ï¿½âº» ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½Å·ï¿½ + ï¿½ß°ï¿½) * ï¿½Ö´ï¿½ï¿½ï¿½ï¿½Å·ï¿½%
 		int curMaxSP = GetMaxSP();
 		int sp = GetRealPoint(POINT_MAX_SP);
 		int add_sp = MIN(800, sp * GetPoint(POINT_MAX_SP_PCT) / 100);
@@ -5279,17 +5279,17 @@ void CHARACTER::PointChange(uint16_t type, int64_t amount, bool bAmount, bool bB
 #endif
 
 #ifdef ENABLE_12ZI
-		/*case POINT_BEAD:
-		{
-			const int64_t nTotalBeadPoints = static_cast<int64_t>(GetBeadPoint()) + static_cast<int64_t>(amount);
+	/*case POINT_BEAD:
+	{
+		const int64_t nTotalBeadPoints = static_cast<int64_t>(GetBeadPoint()) + static_cast<int64_t>(amount);
 
-			if ((BEAD_POINT_MAX <= nTotalBeadPoints) || (nTotalBeadPoints < 0))
-				return;
+		if ((BEAD_POINT_MAX <= nTotalBeadPoints) || (nTotalBeadPoints < 0))
+			return;
 
-			SetBeadPoint(GetBeadPoint() + amount);
-			amount = GetBeadPoint();
-		}
-		break;*/
+		SetBeadPoint(GetBeadPoint() + amount);
+		amount = GetBeadPoint();
+	}
+	break;*/
 #endif
 
 #if defined(__GEM_SYSTEM__)
@@ -5349,12 +5349,12 @@ void CHARACTER::PointChange(uint16_t type, int64_t amount, bool bAmount, bool bB
 	case POINT_HP_RECOVERY:
 	case POINT_SP_RECOVERY:
 
-	case POINT_ATTBONUS_HUMAN: // 42 �ΰ����� ����
-	case POINT_ATTBONUS_ANIMAL: // 43 �������� ������ % ����
-	case POINT_ATTBONUS_ORC: // 44 ���Ϳ��� ������ % ����
-	case POINT_ATTBONUS_MILGYO: // 45 �б����� ������ % ����
-	case POINT_ATTBONUS_UNDEAD: // 46 ��ü���� ������ % ����
-	case POINT_ATTBONUS_DEVIL: // 47 ����(�Ǹ�)���� ������ % ����
+	case POINT_ATTBONUS_HUMAN: // 42 ï¿½Î°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	case POINT_ATTBONUS_ANIMAL: // 43 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ % ï¿½ï¿½ï¿½ï¿½
+	case POINT_ATTBONUS_ORC: // 44 ï¿½ï¿½ï¿½Í¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ % ï¿½ï¿½ï¿½ï¿½
+	case POINT_ATTBONUS_MILGYO: // 45 ï¿½Ð±ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ % ï¿½ï¿½ï¿½ï¿½
+	case POINT_ATTBONUS_UNDEAD: // 46 ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ % ï¿½ï¿½ï¿½ï¿½
+	case POINT_ATTBONUS_DEVIL: // 47 ï¿½ï¿½ï¿½ï¿½(ï¿½Ç¸ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ % ï¿½ï¿½ï¿½ï¿½
 
 	case POINT_ATTBONUS_MONSTER:
 	case POINT_ATTBONUS_SURA:
@@ -5378,11 +5378,11 @@ void CHARACTER::PointChange(uint16_t type, int64_t amount, bool bAmount, bool bB
 	case POINT_RESIST_PENETRATE:
 	case POINT_CURSE_PCT:
 
-	case POINT_STEAL_HP: // 48 ������ ����
-	case POINT_STEAL_SP: // 49 ���ŷ� ����
+	case POINT_STEAL_HP: // 48 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	case POINT_STEAL_SP: // 49 ï¿½ï¿½ï¿½Å·ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-	case POINT_MANA_BURN_PCT: // 50 ���� ��
-	case POINT_DAMAGE_SP_RECOVER: // 51 ���ݴ��� �� ���ŷ� ȸ�� Ȯ��
+	case POINT_MANA_BURN_PCT: // 50 ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
+	case POINT_DAMAGE_SP_RECOVER: // 51 ï¿½ï¿½ï¿½Ý´ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Å·ï¿½ È¸ï¿½ï¿½ È®ï¿½ï¿½
 	case POINT_RESIST_NORMAL_DAMAGE:
 	case POINT_RESIST_SWORD:
 	case POINT_RESIST_TWOHAND:
@@ -5402,12 +5402,12 @@ void CHARACTER::PointChange(uint16_t type, int64_t amount, bool bAmount, bool bB
 	case POINT_RESIST_ICE:
 	case POINT_RESIST_EARTH:
 	case POINT_RESIST_DARK:
-	case POINT_REFLECT_MELEE: // 67 ���� �ݻ�
-	case POINT_REFLECT_CURSE: // 68 ���� �ݻ�
-	case POINT_POISON_REDUCE: // 69 �������� ����
+	case POINT_REFLECT_MELEE: // 67 ï¿½ï¿½ï¿½ï¿½ ï¿½Ý»ï¿½
+	case POINT_REFLECT_CURSE: // 68 ï¿½ï¿½ï¿½ï¿½ ï¿½Ý»ï¿½
+	case POINT_POISON_REDUCE: // 69 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	case POINT_BLEEDING_REDUCE:
 
-	case POINT_KILL_SP_RECOVER: // 70 �� �Ҹ�� MP ȸ��
+	case POINT_KILL_SP_RECOVER: // 70 ï¿½ï¿½ ï¿½Ò¸ï¿½ï¿½ MP È¸ï¿½ï¿½
 	case POINT_KILL_HP_RECOVERY: // 75
 	case POINT_HIT_HP_RECOVERY:
 	case POINT_HIT_SP_RECOVERY:
@@ -5661,11 +5661,11 @@ void CHARACTER::ApplyPoint(uint16_t bApplyType, int iVal) //@fixme532
 	case APPLY_NONE:						// 0
 		break;
 
-		// NOTE: �����ۿ� ���� �ִ�HP ���ʽ��� ����Ʈ ���� ���ʽ��� �Ȱ��� ����� ����ϹǷ�
-		// �׳� MAX_HP�� ����ϸ� ����Ʈ ������ ��� ������ ����. ��� ���� ������ �ո����̱⵵ �ϰ�..
-		// �ٲ� ������ ���� �ִ� hp�� ���� hp�� ������ ���� �� �ٲ� �ִ� hp�� �������� hp�� �����Ѵ�.
-		// ���� PointChange���� �ϴ°� ������ ������ ���� ������ ������� skip..
-		// SP�� �Ȱ��� ����Ѵ�.
+		// NOTE: ï¿½ï¿½ï¿½ï¿½ï¿½Û¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½HP ï¿½ï¿½ï¿½Ê½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ê½ï¿½ï¿½ï¿½ ï¿½È°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï¹Ç·ï¿½
+		// ï¿½×³ï¿½ MAX_HPï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½. ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Õ¸ï¿½ï¿½ï¿½ï¿½Ì±âµµ ï¿½Ï°ï¿½..
+		// ï¿½Ù²ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ hpï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ hpï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ù²ï¿½ ï¿½Ö´ï¿½ hpï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ hpï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+		// ï¿½ï¿½ï¿½ï¿½ PointChangeï¿½ï¿½ï¿½ï¿½ ï¿½Ï´Â°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ skip..
+		// SPï¿½ï¿½ ï¿½È°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 		// Mantis : 101460 ~ ity ~
 	case APPLY_MAX_HP:						// 1
 	{
@@ -5745,9 +5745,9 @@ void CHARACTER::ApplyPoint(uint16_t bApplyType, int iVal) //@fixme532
 		break;
 
 	case APPLY_SKILL:						// 51
-	// SKILL_DAMAGE_BONUS
+		// SKILL_DAMAGE_BONUS
 	{
-		// �ֻ��� ��Ʈ �������� 8��Ʈ vnum, 9��Ʈ add, 15��Ʈ change
+		// ï¿½Ö»ï¿½ï¿½ï¿½ ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 8ï¿½ï¿½Æ® vnum, 9ï¿½ï¿½Æ® add, 15ï¿½ï¿½Æ® change
 		// 00000000 00000000 00000000 00000000
 		// ^^^^^^^^  ^^^^^^^^^^^^^^^^^^^^^^^^^
 		// vnum		^ add		change
@@ -5808,33 +5808,33 @@ void CHARACTER::ApplyPoint(uint16_t bApplyType, int iVal) //@fixme532
 	case APPLY_SKILL_DAMAGE_BONUS:			// 71
 	case APPLY_NORMAL_HIT_DAMAGE_BONUS:		// 72
 
-	// DEPEND_BONUS_ATTRIBUTES
+		// DEPEND_BONUS_ATTRIBUTES
 	case APPLY_SKILL_DEFEND_BONUS:			// 73
 	case APPLY_NORMAL_HIT_DEFEND_BONUS:		// 74
-	// END_OF_DEPEND_BONUS_ATTRIBUTES
+		// END_OF_DEPEND_BONUS_ATTRIBUTES
 
 	case APPLY_PC_BANG_EXP_BONUS:			// 75
 	case APPLY_PC_BANG_DROP_BONUS:			// 76
 
-	// case APPLY_EXTRACT_HP_PCT:			// 77 ���� HP �Ҹ�
+		// case APPLY_EXTRACT_HP_PCT:			// 77 ï¿½ï¿½ï¿½ï¿½ HP ï¿½Ò¸ï¿½
 
 	case APPLY_RESIST_WARRIOR:				// 78
 	case APPLY_RESIST_ASSASSIN:				// 79
 	case APPLY_RESIST_SURA:					// 80
 	case APPLY_RESIST_SHAMAN:				// 81
 
-	case APPLY_ENERGY:						// 82 ���
-	case APPLY_DEF_GRADE:					// 83 ����. DEF_GRADE_BONUS�� Ŭ�󿡼� �ι�� �������� �ǵ��� ����(...)�� �ִ�.
-	case APPLY_COSTUME_ATTR_BONUS:			// 84 �ڽ�Ƭ �����ۿ� ���� �Ӽ�ġ ���ʽ�
-	case APPLY_MAGIC_ATTBONUS_PER:			// 85 ���� ���ݷ� +x%
-	case APPLY_MELEE_MAGIC_ATTBONUS_PER:	// 86 ���� + �и� ���ݷ� +x%
+	case APPLY_ENERGY:						// 82 ï¿½ï¿½ï¿½
+	case APPLY_DEF_GRADE:					// 83 ï¿½ï¿½ï¿½ï¿½. DEF_GRADE_BONUSï¿½ï¿½ Å¬ï¿½ó¿¡¼ï¿½ ï¿½Î¹ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Çµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(...)ï¿½ï¿½ ï¿½Ö´ï¿½.
+	case APPLY_COSTUME_ATTR_BONUS:			// 84 ï¿½Ú½ï¿½Æ¬ ï¿½ï¿½ï¿½ï¿½ï¿½Û¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ó¼ï¿½Ä¡ ï¿½ï¿½ï¿½Ê½ï¿½
+	case APPLY_MAGIC_ATTBONUS_PER:			// 85 ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ý·ï¿½ +x%
+	case APPLY_MELEE_MAGIC_ATTBONUS_PER:	// 86 ï¿½ï¿½ï¿½ï¿½ + ï¿½Ð¸ï¿½ ï¿½ï¿½ï¿½Ý·ï¿½ +x%
 
-	case APPLY_RESIST_ICE:					// 87 �ñ� ����
-	case APPLY_RESIST_EARTH:				// 88 ���� ����
-	case APPLY_RESIST_DARK:					// 89 ��� ����
+	case APPLY_RESIST_ICE:					// 87 ï¿½Ã±ï¿½ ï¿½ï¿½ï¿½ï¿½
+	case APPLY_RESIST_EARTH:				// 88 ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	case APPLY_RESIST_DARK:					// 89 ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-	case APPLY_ANTI_CRITICAL_PCT:			// 90 ũ��Ƽ�� ����
-	case APPLY_ANTI_PENETRATE_PCT:			// 91 ����Ÿ�� ����
+	case APPLY_ANTI_CRITICAL_PCT:			// 90 Å©ï¿½ï¿½Æ¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	case APPLY_ANTI_PENETRATE_PCT:			// 91 ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
 	case APPLY_BLEEDING_REDUCE:				// 92
 	case APPLY_BLEEDING_PCT:				// 93
@@ -6140,7 +6140,7 @@ void CHARACTER::MonsterLog(const char* format, ...)
 	else
 		len += len2;
 
-	// \0 ���� ����
+	// \0 ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	++len;
 
 	va_end(args);
@@ -6248,9 +6248,9 @@ void CHARACTER::mining(LPCHARACTER chLoad)
 		return;
 	}
 
-	int count = number(5, 15); // ���� Ƚ��, �� ���۴� 2��
+	int count = number(5, 15); // ï¿½ï¿½ï¿½ï¿½ È½ï¿½ï¿½, ï¿½ï¿½ ï¿½ï¿½ï¿½Û´ï¿½ 2ï¿½ï¿½
 
-	// ä�� ������ ������
+	// Ã¤ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	TPacketGCDigMotion p;
 	p.header = HEADER_GC_DIG_MOTION;
 	p.vid = GetVID();
@@ -6271,7 +6271,7 @@ void CHARACTER::fishing()
 		return;
 	}
 
-	// ���� �Ӽ����� ���ø� �õ��Ѵ�?
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½Ó¼ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ã¸ï¿½ ï¿½Ãµï¿½ï¿½Ñ´ï¿½?
 	{
 		LPSECTREE_MAP pkSectreeMap = SECTREE_MANAGER::instance().GetMap(GetMapIndex());
 
@@ -6290,7 +6290,7 @@ void CHARACTER::fishing()
 
 	LPITEM rod = GetWear(WEAR_WEAPON);
 
-	// ���ô� ����
+	// ï¿½ï¿½ï¿½Ã´ï¿½ ï¿½ï¿½ï¿½ï¿½
 	if (!rod || rod->GetType() != ITEM_ROD)
 	{
 		ChatPacket(CHAT_TYPE_INFO, LC_TEXT("Please choose a Fishing Pole."));
@@ -6567,7 +6567,7 @@ DWORD CHARACTER::GetOriginalPart(BYTE bPartPos) const
 			if (const LPITEM pArmor = GetWear(WEAR_BODY))
 				return pArmor->GetVnum();
 #endif
-		if (!IsPC()) // PC�� �ƴ� ��� ���� ��Ʈ�� �״�� ����
+		if (!IsPC()) // PCï¿½ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½×´ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			return GetPart(PART_MAIN);
 		else
 			return m_pointsInstant.bBasePart;
@@ -6634,7 +6634,7 @@ void CHARACTER::WonExchange(BYTE bOption, WORD wValue)
 			ChatPacket(CHAT_TYPE_INFO, LC_TEXT("You have more than 2 Billion Yang with you. You cannot trade."));
 			return;
 		}
-		
+
 		PointChange(POINT_GOLD, static_cast<long long>(wVal) * static_cast<long long>(CHEQUE_NAME_VALUE * fMul), true);
 		PointChange(POINT_CHEQUE, -wVal, true);
 	}
@@ -6692,7 +6692,7 @@ bool CHARACTER::SetSyncOwner(LPCHARACTER ch, bool bRemoveFromList)
 		if (m_pkChrSyncOwner)
 			sys_log(1, "SyncRelease %s %p from %s", GetName(), this, m_pkChrSyncOwner->GetName());
 
-		// ����Ʈ���� �������� �ʴ��� �����ʹ� NULL�� ���õǾ�� �Ѵ�.
+		// ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í´ï¿½ NULLï¿½ï¿½ ï¿½ï¿½ï¿½ÃµÇ¾ï¿½ï¿½ ï¿½Ñ´ï¿½.
 		m_pkChrSyncOwner = NULL;
 	}
 	else
@@ -6700,12 +6700,12 @@ bool CHARACTER::SetSyncOwner(LPCHARACTER ch, bool bRemoveFromList)
 		if (!IsSyncOwner(ch))
 			return false;
 
-		// �Ÿ��� 200 �̻��̸� SyncOwner�� �� �� ����.
+		// ï¿½Å¸ï¿½ï¿½ï¿½ 200 ï¿½Ì»ï¿½ï¿½Ì¸ï¿½ SyncOwnerï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 		if (DISTANCE_APPROX(GetX() - ch->GetX(), GetY() - ch->GetY()) > 250)
 		{
 			sys_log(1, "SetSyncOwner distance over than 250 %s %s", GetName(), ch->GetName());
 
-			// SyncOwner�� ��� Owner�� ǥ���Ѵ�.
+			// SyncOwnerï¿½ï¿½ ï¿½ï¿½ï¿½ Ownerï¿½ï¿½ Ç¥ï¿½ï¿½ï¿½Ñ´ï¿½.
 			if (m_pkChrSyncOwner == ch)
 				return true;
 
@@ -6723,7 +6723,7 @@ bool CHARACTER::SetSyncOwner(LPCHARACTER ch, bool bRemoveFromList)
 			m_pkChrSyncOwner = ch;
 			m_pkChrSyncOwner->m_kLst_pkChrSyncOwned.push_back(this);
 
-			// SyncOwner�� �ٲ�� LastSyncTime�� �ʱ�ȭ�Ѵ�.
+			// SyncOwnerï¿½ï¿½ ï¿½Ù²ï¿½ï¿½ LastSyncTimeï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
 			static const timeval zero_tv = { 0, 0 };
 			SetLastSyncTime(zero_tv);
 
@@ -6733,9 +6733,9 @@ bool CHARACTER::SetSyncOwner(LPCHARACTER ch, bool bRemoveFromList)
 		m_fSyncTime = get_float_time();
 	}
 
-	// TODO: Sync Owner�� ������ ��� ��Ŷ�� ������ �����Ƿ�,
-	// ����ȭ �� �ð��� 3�� �̻� ������ �� Ǯ���ִ� ��Ŷ��
-	// ������ ������� �ϸ� ��Ŷ�� ���� �� �ִ�.
+	// TODO: Sync Ownerï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½,
+	// ï¿½ï¿½ï¿½ï¿½È­ ï¿½ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½ 3ï¿½ï¿½ ï¿½Ì»ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Ç®ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï¸ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½.
 	TPacketGCOwnership pack;
 
 	pack.bHeader = HEADER_GC_OWNERSHIP;
@@ -6751,7 +6751,7 @@ struct FuncClearSync
 	void operator () (LPCHARACTER ch)
 	{
 		assert(ch != NULL);
-		ch->SetSyncOwner(NULL, false); // false �÷��׷� �ؾ� for_each �� ����� ����.
+		ch->SetSyncOwner(NULL, false); // false ï¿½Ã·ï¿½ï¿½×·ï¿½ ï¿½Ø¾ï¿½ for_each ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 	}
 };
 
@@ -6809,11 +6809,11 @@ void CHARACTER::SetParty(LPPARTY pkParty)
 }
 
 // PARTY_JOIN_BUG_FIX
-/// ��Ƽ ���� event ����
+/// ï¿½ï¿½Æ¼ ï¿½ï¿½ï¿½ï¿½ event ï¿½ï¿½ï¿½ï¿½
 EVENTINFO(TPartyJoinEventInfo)
 {
-	DWORD dwGuestPID; ///< ��Ƽ�� ������ ĳ������ PID
-	DWORD dwLeaderPID; ///< ��Ƽ ������ PID
+	DWORD dwGuestPID; ///< ï¿½ï¿½Æ¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ PID
+	DWORD dwLeaderPID; ///< ï¿½ï¿½Æ¼ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ PID
 
 	TPartyJoinEventInfo()
 		: dwGuestPID(0)
@@ -7007,8 +7007,8 @@ void CHARACTER::AcceptToParty(LPCHARACTER member)
 }
 
 /**
-* ��Ƽ �ʴ� event callback �Լ�.
-* event �� �ߵ��ϸ� �ʴ� ������ ó���Ѵ�.
+* ï¿½ï¿½Æ¼ ï¿½Ê´ï¿½ event callback ï¿½Ô¼ï¿½.
+* event ï¿½ï¿½ ï¿½ßµï¿½ï¿½Ï¸ï¿½ ï¿½Ê´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½Ñ´ï¿½.
 **/
 EVENTFUNC(party_invite_event)
 {
@@ -7096,7 +7096,7 @@ void CHARACTER::PartyInvite(LPCHARACTER pchInvitee)
 		return;
 
 	//
-	// EventMap �� �̺�Ʈ �߰�
+	// EventMap ï¿½ï¿½ ï¿½Ìºï¿½Æ® ï¿½ß°ï¿½
 	//
 	TPartyJoinEventInfo* info = AllocEventInfo<TPartyJoinEventInfo>();
 
@@ -7106,7 +7106,7 @@ void CHARACTER::PartyInvite(LPCHARACTER pchInvitee)
 	m_PartyInviteEventMap.insert(EventMap::value_type(pchInvitee->GetPlayerID(), event_create(party_invite_event, info, PASSES_PER_SEC(10))));
 
 	//
-	// �ʴ� �޴� character ���� �ʴ� ��Ŷ ����
+	// ï¿½Ê´ï¿½ ï¿½Þ´ï¿½ character ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´ï¿½ ï¿½ï¿½Å¶ ï¿½ï¿½ï¿½ï¿½
 	//
 
 	TPacketGCPartyInvite p;
@@ -7180,7 +7180,7 @@ void CHARACTER::PartyInviteAccept(LPCHARACTER pchInvitee)
 	}
 
 	//
-	// ��Ƽ ���� ó��
+	// ï¿½ï¿½Æ¼ ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
 	//
 
 	if (GetParty())
@@ -7483,7 +7483,7 @@ void CHARACTER::OnClick(LPCHARACTER pkChrCauser)
 	}
 #endif
 
-	// ��ȯ���϶� ����Ʈ�� ������ �� ����.
+	// ï¿½ï¿½È¯ï¿½ï¿½ï¿½Ï¶ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 	{
 		if (pkChrCauser->GetExchange())
 		{
@@ -7493,9 +7493,9 @@ void CHARACTER::OnClick(LPCHARACTER pkChrCauser)
 		}
 	}
 
-	// ������ �����·� ����Ʈ�� ������ �� ����.
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Â·ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 	{
-		// ��, �ڽ��� �ڽ��� ������ Ŭ���� �� �ִ�.
+		// ï¿½ï¿½, ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½.
 		if (pkChrCauser->GetMyShop() && pkChrCauser != this)
 		{
 			if (test_server)
@@ -7506,16 +7506,16 @@ void CHARACTER::OnClick(LPCHARACTER pkChrCauser)
 
 	if (IsPC())
 	{
-		// Ÿ������ ������ ���� PC�� ���� Ŭ���� ����Ʈ�� ó���ϵ��� �մϴ�.
+		// Å¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ PCï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½Õ´Ï´ï¿½.
 		if (!CTargetManager::instance().GetTargetInfo(pkChrCauser->GetPlayerID(), TARGET_TYPE_VID, GetVID()))
 		{
-			// 2005.03.17.myevan.Ÿ���� �ƴ� ���� ���� ���� ó�� ����� �۵���Ų��.
+			// 2005.03.17.myevan.Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ûµï¿½ï¿½ï¿½Å²ï¿½ï¿½.
 			if (GetMyShop())
 			{
 				if (pkChrCauser->IsDead() == true) return;
 
 				// PREVENT_TRADE_WINDOW
-				if (pkChrCauser == this) // �ڱ�� ����
+				if (pkChrCauser == this) // ï¿½Ú±ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 				{
 					if (PreventTradeWindow(WND_MYSHOP, true/*except*/))
 					{
@@ -7523,16 +7523,16 @@ void CHARACTER::OnClick(LPCHARACTER pkChrCauser)
 						return;
 					}
 				}
-				else // �ٸ� ����� Ŭ��������
+				else // ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				{
-					// Ŭ���� ����� ��ȯ/â��/���λ���/�����̿����̶�� �Ұ�
+					// Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯/Ã¢ï¿½ï¿½/ï¿½ï¿½ï¿½Î»ï¿½ï¿½ï¿½/ï¿½ï¿½ï¿½ï¿½ï¿½Ì¿ï¿½ï¿½ï¿½ï¿½Ì¶ï¿½ï¿½ ï¿½Ò°ï¿½
 					if (pkChrCauser->PreventTradeWindow(WND_ALL))
 					{
 						pkChrCauser->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("You can't use a private shop now."));
 						return;
 					}
 
-					// Ŭ���� ����� ��ȯ/â��/�����̿����̶�� �Ұ�
+					// Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯/Ã¢ï¿½ï¿½/ï¿½ï¿½ï¿½ï¿½ï¿½Ì¿ï¿½ï¿½ï¿½ï¿½Ì¶ï¿½ï¿½ ï¿½Ò°ï¿½
 					//if ((GetExchange() || IsOpenSafebox() || GetShopOwner()))
 					if (PreventTradeWindow(WND_MYSHOP | WND_SHOPOWNER, true/*except*/))
 					{
@@ -7571,12 +7571,12 @@ void CHARACTER::OnClick(LPCHARACTER pkChrCauser)
 		return;
 	}
 
-	// NPC ���� ��� ���� : ���� ���� ��
+	// NPC ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 	if (!IsPC())
 	{
 		if (!m_triggerOnClick.pFunc)
 		{
-			// NPC Ʈ���� �ý��� �α� ����
+			// NPC Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½Ã½ï¿½ï¿½ï¿½ ï¿½Î±ï¿½ ï¿½ï¿½ï¿½ï¿½
 			/*
 			sys_err("%s.OnClickFailure(%s) : triggerOnClick.pFunc is EMPTY(pid=%d)",
 				pkChrCauser->GetName(),
@@ -7627,10 +7627,10 @@ void CHARACTER::SetStone(LPCHARACTER pkChrStone)
 
 	if (m_pkChrStone)
 	{
-/*#ifdef ENABLE_12ZI
-		if (GetZodiac())
-			m_pkFromStone = true;
-#endif*/
+		/*#ifdef ENABLE_12ZI
+				if (GetZodiac())
+					m_pkFromStone = true;
+		#endif*/
 		if (pkChrStone->m_set_pkChrSpawnedBy.find(this) == pkChrStone->m_set_pkChrSpawnedBy.end())
 			pkChrStone->m_set_pkChrSpawnedBy.insert(this);
 	}
@@ -7649,7 +7649,7 @@ void CHARACTER::ClearStone()
 {
 	if (!m_set_pkChrSpawnedBy.empty())
 	{
-		// ���� ������Ų ���͵��� ��� ���δ�.
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å² ï¿½ï¿½ï¿½Íµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î´ï¿½.
 		FuncDeadSpawnedByStone f;
 		std::for_each(m_set_pkChrSpawnedBy.begin(), m_set_pkChrSpawnedBy.end(), f);
 		m_set_pkChrSpawnedBy.clear();
@@ -7992,9 +7992,9 @@ void CHARACTER::ExitToSavedLocation()
 }
 
 // fixme
-// ���ݱ��� privateMapIndex �� ���� �� �ε����� ������ üũ �ϴ� ���� �ܺο��� �ϰ�,
-// �ٸ��� warpset�� �ҷ��µ�
-// �̸� warpset ������ ����.
+// ï¿½ï¿½ï¿½Ý±ï¿½ï¿½ï¿½ privateMapIndex ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¼Å© ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ÜºÎ¿ï¿½ï¿½ï¿½ ï¿½Ï°ï¿½,
+// ï¿½Ù¸ï¿½ï¿½ï¿½ warpsetï¿½ï¿½ ï¿½Ò·ï¿½ï¿½Âµï¿½
+// ï¿½Ì¸ï¿½ warpset ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 bool CHARACTER::WarpSet(long x, long y, long lPrivateMapIndex)
 {
 	if (!IsPC())
@@ -8209,14 +8209,14 @@ bool CHARACTER::Follow(LPCHARACTER pkChr, float fMinDistance)
 	// TRENT_MONSTER
 	if (IS_SET(m_pointsInstant.dwAIFlag, AIFLAG_NOMOVE))
 	{
-		if (pkChr->IsPC()) // �Ѿư��� ��밡 PC�� ��
+		if (pkChr->IsPC()) // ï¿½Ñ¾Æ°ï¿½ï¿½ï¿½ ï¿½ï¿½ë°¡ PCï¿½ï¿½ ï¿½ï¿½
 		{
 			// If i'm in a party. I must obey party leader's AI.
 			if (!GetParty() || !GetParty()->GetLeader() || GetParty()->GetLeader() == this)
 			{
-				if (get_dword_time() - m_pkMobInst->m_dwLastAttackedTime >= 15000) // ���������� ���ݹ����� 15�ʰ� ������
+				if (get_dword_time() - m_pkMobInst->m_dwLastAttackedTime >= 15000) // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ý¹ï¿½ï¿½ï¿½ï¿½ï¿½ 15ï¿½Ê°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				{
-					// ������ ���� ������ ���� 50���� �̻� ���̳��� �����ϰ� ���ư���.
+					// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 50ï¿½ï¿½ï¿½ï¿½ ï¿½Ì»ï¿½ ï¿½ï¿½ï¿½Ì³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½Æ°ï¿½ï¿½ï¿½.
 					if (m_pkMobData->m_table.wAttackRange < DISTANCE_APPROX(pkChr->GetX() - GetX(), pkChr->GetY() - GetY()))
 						if (Return())
 							return true;
@@ -8230,14 +8230,14 @@ bool CHARACTER::Follow(LPCHARACTER pkChr, float fMinDistance)
 	long x = pkChr->GetX();
 	long y = pkChr->GetY();
 
-	if (pkChr->IsPC()) // �Ѿư��� ��밡 PC�� ��
+	if (pkChr->IsPC()) // ï¿½Ñ¾Æ°ï¿½ï¿½ï¿½ ï¿½ï¿½ë°¡ PCï¿½ï¿½ ï¿½ï¿½
 	{
 		// If i'm in a party. I must obey party leader's AI.
 		if (!GetParty() || !GetParty()->GetLeader() || GetParty()->GetLeader() == this)
 		{
-			if (get_dword_time() - m_pkMobInst->m_dwLastAttackedTime >= 15000) // ���������� ���ݹ����� 15�ʰ� ������
+			if (get_dword_time() - m_pkMobInst->m_dwLastAttackedTime >= 15000) // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ý¹ï¿½ï¿½ï¿½ï¿½ï¿½ 15ï¿½Ê°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			{
-				// ������ ���� ������ ���� 50���� �̻� ���̳��� �����ϰ� ���ư���.
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 50ï¿½ï¿½ï¿½ï¿½ ï¿½Ì»ï¿½ ï¿½ï¿½ï¿½Ì³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½Æ°ï¿½ï¿½ï¿½.
 				if (5000 < DISTANCE_APPROX(m_pkMobInst->m_posLastAttacked.x - GetX(), m_pkMobInst->m_posLastAttacked.y - GetY()))
 					if (Return())
 						return true;
@@ -8262,9 +8262,9 @@ bool CHARACTER::Follow(LPCHARACTER pkChr, float fMinDistance)
 #endif
 		)
 	{
-		// ����� �̵����̸� ���� �̵��� �Ѵ�
-		// ���� ������ �ӵ����� �Ÿ��κ��� ���� �ð��� ������ ��
-		// ������ �� �ð����� �������� �̵��Ѵٰ� �����Ͽ� �ű�� �̵��Ѵ�.
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Óµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Å¸ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ï¿½Ñ´Ù°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½Å±ï¿½ï¿½ ï¿½Ìµï¿½ï¿½Ñ´ï¿½.
 		float rot = pkChr->GetRotation();
 		float rot_delta = GetDegreeDelta(rot, GetDegreeFromPositionXY(GetX(), GetY(), pkChr->GetX(), pkChr->GetY()));
 
@@ -8296,7 +8296,7 @@ bool CHARACTER::Follow(LPCHARACTER pkChr, float fMinDistance)
 		}
 	}
 
-	// ������ ��ġ�� �ٶ���� �Ѵ�.
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½Ù¶ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 	SetRotationToXY(x, y);
 
 	float fDist = DISTANCE_SQRT(x - GetX(), y - GetY());
@@ -8308,7 +8308,7 @@ bool CHARACTER::Follow(LPCHARACTER pkChr, float fMinDistance)
 
 	if (IsChangeAttackPosition(pkChr) && GetMobRank() < MOB_RANK_BOSS)
 	{
-		// ���� �ֺ� ������ ������ �̵�
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½Öºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
 		SetChangeAttackPositionTime();
 
 		int retry = 16;
@@ -8334,23 +8334,23 @@ bool CHARACTER::Follow(LPCHARACTER pkChr, float fMinDistance)
 				break;
 		}
 
-		//sys_log(0, "��ó ��򰡷� �̵� %s retry %d", GetName(), retry);
+		//sys_log(0, "ï¿½ï¿½Ã³ ï¿½ï¿½ò°¡·ï¿½ ï¿½Ìµï¿½ %s retry %d", GetName(), retry);
 		if (!Goto(dx, dy))
 			return false;
 	}
 	else
 	{
-		// ���� ���󰡱�
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ó°¡±ï¿½
 		float fDistToGo = fDist - fMinDistance;
 		GetDeltaByDegree(GetRotation(), fDistToGo, &fx, &fy);
 
-		//sys_log(0, "�������� �̵� %s", GetName());
+		//sys_log(0, "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ %s", GetName());
 		if (!Goto(GetX() + (int)fx, GetY() + (int)fy))
 			return false;
 	}
 
 	SendMovePacket(FUNC_WAIT, 0, 0, 0, 0);
-	//MonsterLog("�Ѿư���; %s", pkChr->GetName());
+	//MonsterLog("ï¿½Ñ¾Æ°ï¿½ï¿½ï¿½; %s", pkChr->GetName());
 	return true;
 }
 
@@ -8476,9 +8476,9 @@ void CHARACTER::LoadSafebox(int iSize, DWORD dwGold, int iItemCount, TPlayerItem
 #if defined(__ITEM_APPLY_RANDOM__)
 			item->SetRandomApplies(pItems->aApplyRandom);
 #endif
-// #ifdef ENABLE_SET_ITEM
-// 			item->SetItemSetValue(pItems->set_value);
-// #endif
+			// #ifdef ENABLE_SET_ITEM
+			// 			item->SetItemSetValue(pItems->set_value);
+			// #endif
 
 #if defined(__SET_ITEM__)
 			item->SetItemSetValue(pItems->bSetValue);
@@ -8736,13 +8736,13 @@ void CHARACTER::SetSafeboxBuff()
 	};
 	using SafeboxBuffVec = std::vector<SafeboxBuff>;
 
-	static SafeboxBuffVec s_vSafeboxBuf {
+	static SafeboxBuffVec s_vSafeboxBuf{
 		{ POINT_MALL_DEFBONUS, 20, "You have received a storage bonus of %d defence.", },
 		{ POINT_MAX_HP_PCT, 1, "You have received a storage bonus of %d%% HP.", },
 		{ POINT_MALL_EXPBONUS, 5, "You have received a storage bonus of %d%% EXP.", },
 		{ POINT_ATTBONUS_MONSTER, 3, "You have received a storage bonus of %d%% strength against monsters." },
 	};
-		
+
 	SafeboxBuffVec::const_iterator it = s_vSafeboxBuf.begin();
 	std::advance(it, std::rand() % s_vSafeboxBuf.size());
 
@@ -8803,9 +8803,9 @@ void CHARACTER::LoadMall(int iItemCount, TPlayerItem* pItems)
 #if defined(__ITEM_APPLY_RANDOM__)
 			item->SetRandomApplies(pItems->aApplyRandom);
 #endif
-// #ifdef ENABLE_SET_ITEM
-// 			item->SetItemSetValue(pItems->set_value);
-// #endif
+			// #ifdef ENABLE_SET_ITEM
+			// 			item->SetItemSetValue(pItems->set_value);
+			// #endif
 
 #if defined(__SET_ITEM__)
 			item->SetItemSetValue(pItems->bSetValue);
@@ -9179,7 +9179,7 @@ void CHARACTER::ResetPoint(int iLv)
 
 	ComputePoints();
 
-	// ȸ��
+	// È¸ï¿½ï¿½
 	PointChange(POINT_HP, GetMaxHP() - GetHP());
 	PointChange(POINT_SP, GetMaxSP() - GetSP());
 
@@ -9498,11 +9498,11 @@ void CHARACTER::SetPolymorph(DWORD dwRaceNum, bool bMaintainStat)
 		PointChange(POINT_HT, 0);
 	}
 
-	// �������� ���¿��� �״� ���, ���������� Ǯ���� �Ǵµ�
-	// ���� ���� ���ķ� valid combo interval�� �ٸ��� ������
-	// Combo �� �Ǵ� Hacker�� �ν��ϴ� ��찡 �ִ�.
-	// ���� ���������� Ǯ�ų� �������� �ϰ� �Ǹ�,
-	// valid combo interval�� reset�Ѵ�.
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â¿ï¿½ï¿½ï¿½ ï¿½×´ï¿½ ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ç®ï¿½ï¿½ï¿½ï¿½ ï¿½Ç´Âµï¿½
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ä·ï¿½ valid combo intervalï¿½ï¿½ ï¿½Ù¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	// Combo ï¿½ï¿½ ï¿½Ç´ï¿½ Hackerï¿½ï¿½ ï¿½Î½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ì°¡ ï¿½Ö´ï¿½.
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ç®ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï°ï¿½ ï¿½Ç¸ï¿½,
+	// valid combo intervalï¿½ï¿½ resetï¿½Ñ´ï¿½.
 	SetValidComboInterval(0);
 	SetComboSequence(0);
 
@@ -9603,7 +9603,7 @@ void CHARACTER::DetermineDropMetinStone()
 				else
 				{
 					iGradePct -= iLevelGradePortion;
-					m_dwDropMetinStone += 100; // �� +a -> +(a+1)�� �ɶ����� 100�� ����
+					m_dwDropMetinStone += 100; // ï¿½ï¿½ +a -> +(a+1)ï¿½ï¿½ ï¿½É¶ï¿½ï¿½ï¿½ï¿½ï¿½ 100ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 				}
 			}
 		}
@@ -9686,9 +9686,9 @@ void CHARACTER::MountVnum(DWORD vnum)
 	m_posDest.x = m_posStart.x = GetX();
 	m_posDest.y = m_posStart.y = GetY();
 
-	// NOTE : Mount�Ѵٰ� �ؼ� Client Side�� ��ü�� �������� �ʴ´�.
-	// �׸��� ����Side���� ������ ��ġ �̵��� ���� �ʴ´�. �ֳ��ϸ� Client Side���� Coliision Adjust�� �Ҽ� �ִµ�
-	// ��ü�� �Ҹ���״ٰ� ������ġ�� �̵���Ű�� �̶� collision check�� ������ �����Ƿ� ��濡 ���ų� �հ� ������ ������ �����Ѵ�.
+	// NOTE : Mountï¿½Ñ´Ù°ï¿½ ï¿½Ø¼ï¿½ Client Sideï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
+	// ï¿½×¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Sideï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ ï¿½Ìµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½. ï¿½Ö³ï¿½ï¿½Ï¸ï¿½ Client Sideï¿½ï¿½ï¿½ï¿½ Coliision Adjustï¿½ï¿½ ï¿½Ò¼ï¿½ ï¿½Ö´Âµï¿½
+	// ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½Ò¸ï¿½ï¿½ï¿½×´Ù°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½Ìµï¿½ï¿½ï¿½Å°ï¿½ï¿½ ï¿½Ì¶ï¿½ collision checkï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ ï¿½ï¿½æ¿¡ ï¿½ï¿½ï¿½Å³ï¿½ ï¿½Õ°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	m_posDest.x = m_posStart.x = GetX();
 	m_posDest.y = m_posStart.y = GetY();
 #ifdef __MOUNT_ENTITY_REFRESH__
@@ -9702,7 +9702,7 @@ void CHARACTER::MountVnum(DWORD vnum)
 	{
 		LPENTITY entity = (it++)->first;
 
-		// Mount�Ѵٰ� �ؼ� Client Side�� ��ü�� �������� �ʴ´�.
+		// Mountï¿½Ñ´Ù°ï¿½ ï¿½Ø¼ï¿½ Client Sideï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 #ifdef __MOUNT_ENTITY_REFRESH__
 		EncodeRemovePacket(entity);
 		if (!m_bIsObserver)
@@ -9958,10 +9958,10 @@ bool CHARACTER::WarpToPID(DWORD dwPID, bool bWarpForce)
 	}
 	else
 	{
-		// �ٸ� ������ �α��ε� ����� ���� -> �޽��� ���� ��ǥ�� �޾ƿ���
-		// 1. A.pid, B.pid �� �Ѹ�
-		// 2. B.pid�� ���� ������ �Ѹ��������� A.pid, ��ǥ �� ����
-		// 3. ����
+		// ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Î±ï¿½ï¿½Îµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ -> ï¿½Þ½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½Þ¾Æ¿ï¿½ï¿½ï¿½
+		// 1. A.pid, B.pid ï¿½ï¿½ ï¿½Ñ¸ï¿½
+		// 2. B.pidï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ A.pid, ï¿½ï¿½Ç¥ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		// 3. ï¿½ï¿½ï¿½ï¿½
 		CCI* pcci = P2P_MANAGER::instance().FindByPID(dwPID);
 
 		if (!pcci)
@@ -10022,7 +10022,7 @@ int CHARACTER::ComputeRefineFee(int iCost, int iMultiply) const
 		if (pGuild == GetGuild())
 			return iCost * iMultiply * 9 / 10;
 
-		// �ٸ� ���� ����� �õ��ϴ� ��� �߰��� 3�� ��
+		// ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ãµï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ 3ï¿½ï¿½ ï¿½ï¿½
 		LPCHARACTER chRefineNPC = CHARACTER_MANAGER::instance().Find(m_dwRefineNPCVID);
 		if (chRefineNPC && chRefineNPC->GetEmpire() != GetEmpire())
 			return iCost * iMultiply * 3;
@@ -10042,7 +10042,7 @@ void CHARACTER::PayRefineFee(int iTotalMoney)
 
 	if (pGuild)
 	{
-		// �ڱ� ����̸� iTotalMoney�� �̹� 10%�� ���ܵǾ��ִ�
+		// ï¿½Ú±ï¿½ ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ iTotalMoneyï¿½ï¿½ ï¿½Ì¹ï¿½ 10%ï¿½ï¿½ ï¿½ï¿½ï¿½ÜµÇ¾ï¿½ï¿½Ö´ï¿½
 		if (pGuild != GetGuild())
 		{
 			pGuild->RequestDepositMoney(this, iFee);
@@ -10108,7 +10108,7 @@ bool CHARACTER::PreventTradeWindow(int flags, bool except) const
 		if (GetPrivateShopSearchState() != SHOP_SEARCH_OFF)
 			return true;
 #endif
-	
+
 #if defined(__MAILBOX__)
 	if (except && !(WND_MAILBOX & flags) || !except && (WND_MAILBOX & flags))
 		if (GetMailBox())
@@ -10142,7 +10142,7 @@ bool CHARACTER::PreventTradeWindow(int flags, bool except) const
 }
 // END_PREVENT_TRADE_WINDOW
 
-// Hack ������ ���� üũ.
+// Hack ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã¼Å©.
 bool CHARACTER::IsHack(bool bSendMsg, bool bCheckShopOwner, int limittime)
 {
 	const int iPulse = thecore_pulse();
@@ -10150,7 +10150,7 @@ bool CHARACTER::IsHack(bool bSendMsg, bool bCheckShopOwner, int limittime)
 	if (test_server)
 		bSendMsg = true;
 
-	// â�� ���� üũ
+	// Ã¢ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã¼Å©
 	if (iPulse - GetSafeboxLoadTime() < PASSES_PER_SEC(limittime))
 	{
 		if (bSendMsg)
@@ -10161,7 +10161,7 @@ bool CHARACTER::IsHack(bool bSendMsg, bool bCheckShopOwner, int limittime)
 		return true;
 	}
 
-	// �ŷ����� â üũ
+	// ï¿½Å·ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¢ Ã¼Å©
 	if (bCheckShopOwner)
 	{
 		if (PreventTradeWindow(WND_ALL))
@@ -10184,7 +10184,7 @@ bool CHARACTER::IsHack(bool bSendMsg, bool bCheckShopOwner, int limittime)
 	}
 
 	// PREVENT_PORTAL_AFTER_EXCHANGE
-	// ��ȯ �� �ð�üũ
+	// ï¿½ï¿½È¯ ï¿½ï¿½ ï¿½Ã°ï¿½Ã¼Å©
 	if (iPulse - GetExchangeTime() < PASSES_PER_SEC(limittime))
 	{
 		if (bSendMsg)
@@ -10547,7 +10547,7 @@ void CHARACTER::StartCheckSpeedHackEvent()
 
 	info->ch = this;
 
-	m_pkCheckSpeedHackEvent = event_create(check_speedhack_event, info, PASSES_PER_SEC(60)); // 1��
+	m_pkCheckSpeedHackEvent = event_create(check_speedhack_event, info, PASSES_PER_SEC(60)); // 1ï¿½ï¿½
 }
 
 void CHARACTER::GoHome()
@@ -10684,7 +10684,7 @@ DWORD CHARACTER::GetSkipComboAttackByTime() const
 	return m_dwSkipComboAttackByTime;
 }
 
-// ���̳� �ٸ����� Ÿ�� �ֳ�?
+// ï¿½ï¿½ï¿½Ì³ï¿½ ï¿½Ù¸ï¿½ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ ï¿½Ö³ï¿½?
 bool CHARACTER::IsRiding() const
 {
 	return IsHorseRiding() || GetMountVnum();
@@ -11336,9 +11336,9 @@ void CHARACTER::RefineAcceMaterials()
 
 #ifdef ENABLE_REFINE_ELEMENT
 		pkItemMaterial[0]->SetElement(pkItemMaterial[1]->GetElementGrade(),
-		pkItemMaterial[1]->GetElementAttacks(),
-		pkItemMaterial[1]->GetElementsType(),
-		pkItemMaterial[1]->GetElementsValues());
+			pkItemMaterial[1]->GetElementAttacks(),
+			pkItemMaterial[1]->GetElementsType(),
+			pkItemMaterial[1]->GetElementsValues());
 #endif
 
 		ITEM_MANAGER::instance().RemoveItem(pkItemMaterial[1], "ABSORBED (REFINE SUCCESS)");
@@ -11637,41 +11637,146 @@ void CHARACTER::SortSpecialInventoryItems(BYTE type)
 
 #ifdef ENABLE_GROWTH_PET_SYSTEM
 #ifdef ENABLE_PET_SUMMON_AFTER_REWARP
+//EVENTFUNC(summon_growth_pet_event);
+// void CHARACTER::SetSummonGrowthPetWithDelay(LPITEM pPetItem)
+// {
+// 	if (!pPetItem)
+// 		return;
+
+// 	SummonGrowthPetEventInfo* info = AllocEventInfo<SummonGrowthPetEventInfo>(); // Corectat
+// 	info->ch = this;
+// 	info->pPetItem = pPetItem;
+
+// 	event_create(summon_growth_pet_event, info, PASSES_PER_SEC(5)); // 1 secundă delay
+// }
+
+EVENTFUNC(summon_growth_pet_event)
+{
+	GiveBuffEventInfo* info = static_cast<GiveBuffEventInfo*>(event->info);
+	if (!info)
+		return 0;
+
+	LPCHARACTER ch = info->ch;
+	CGrowthPetSystemActor* petActor = info->petActor;
+
+	if (ch && petActor)
+	{
+		petActor->GiveBuff();
+		ch->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("Buff-urile au fost aplicate pet-ului."));
+	}
+
+	return 0; // Evenimentul se termină
+}
+// {
+
+// 	SummonGrowthPetEventInfo* info = static_cast<SummonGrowthPetEventInfo*>(event->info);
+// 	if (!info)
+// 		return 0;
+
+// 	LPCHARACTER ch = info->ch;
+// 	LPITEM pPetItem = info->pPetItem;
+
+// 	if (ch && pPetItem)
+// 	{
+// 		ch->SetSummonGrowthPet(pPetItem);
+// 		ch->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("AM INVIAT PETUL"));
+// 	}
+
+// 	return 0; // Evenimentul se termină după execuție
+// }
+//void CHARACTER::SetSummonGrowthPet(LPITEM pPetItem)
+//{
+//	if (!pPetItem)
+//		return;
+//
+//	if (pPetItem->GetType() != ITEM_PET || pPetItem->GetSubType() != PET_UPBRINGING)
+//		return;
+//
+//	SetQuestFlag("growthpet_system.growthpet_summoned", pPetItem->GetGrowthPetItemInfo().pet_vnum);
+//	SetQuestFlag("growthpet_system.growthpet_id", pPetItem->GetID());
+//	ChatPacket(CHAT_TYPE_INFO, LC_TEXT("Summoning Growth Pet: VNUM=%d, ItemID=%d"), pPetItem->GetGrowthPetItemInfo().pet_vnum, pPetItem->GetID());
+//
+//
+//	CGrowthPetSystem* petSystem = GetGrowthPetSystem();
+//	if (petSystem && !petSystem->IsActivePet())
+//	{
+//		petSystem->Summon(pPetItem->GetGrowthPetItemInfo().pet_vnum, pPetItem, "", false);
+//	}
+//
+//	pPetItem->SetSocket(3, TRUE);
+//}
 void CHARACTER::SetSummonGrowthPet(LPITEM pPetItem)
 {
 	if (!pPetItem)
 		return;
-
 	if (pPetItem->GetType() != ITEM_PET || pPetItem->GetSubType() != PET_UPBRINGING)
 		return;
-
 	SetQuestFlag("growthpet_system.growthpet_summoned", pPetItem->GetValue(0));
 	SetQuestFlag("growthpet_system.growthpet_id", pPetItem->GetID());
 	ChatPacket(CHAT_TYPE_INFO, LC_TEXT("Summoning Growth Pet: VNUM=%d, ItemID=%d"), pPetItem->GetValue(0), pPetItem->GetID());
-
 	CGrowthPetSystem* petSystem = GetGrowthPetSystem();
 	if (petSystem)
 	{
 		if (petSystem->IsActivePet())
 		{
-			// Dacă pet-ul este deja activ, ne asigurăm că îl eliminăm corect înainte de a-l chema din nou
+			// Dac? pet-ul este deja activ, ne asigur?m c? îl elimin?m corect înainte de a-l chema din nou
 			petSystem->Dismiss();
 		}
+		// Re-sumon?m pet-ul dup? teleport
+		CGrowthPetSystemActor* petActor = petSystem->Summon(pPetItem->GetValue(0), pPetItem, "", false);
+		// Reaplic?m buff-urile ?i recalcul?m statisticile
+		ComputePoints();
+		// if (petActor)
+		// {
+		// 	petActor->GiveBuff();  // Apel?m GiveBuff() pe pet-ul respectiv
+		// }
+		if (petActor)
+		{
+			// Creăm evenimentul pentru a aplica buff-ul după 2 secunde
+			GiveBuffEventInfo* info = AllocEventInfo<GiveBuffEventInfo>();
+			info->ch = this;
+			info->petActor = petActor;
 
-		// Re-sumonăm pet-ul după teleport
-		petSystem->Summon(pPetItem->GetValue(0), pPetItem, "", false);
-
-		// Reaplicăm buff-urile și recalculăm statisticile
-		//ComputePoints();
-		//GiveBuff();
+			event_create(summon_growth_pet_event, info, PASSES_PER_SEC(2)); // Rulează după 2 secunde
+		}
 	}
-
-	// Marcăm item-ul ca având pet-ul activ
+	// Marc?m item-ul ca având pet-ul activ
 	pPetItem->SetSocket(3, TRUE);
 }
+// void CHARACTER::SetSummonGrowthPet(LPITEM pPetItem)
+// {
+// 	if (!pPetItem)
+// 		return;
+
+// 	if (pPetItem->GetType() != ITEM_PET || pPetItem->GetSubType() != PET_UPBRINGING)
+// 		return;
+
+// 	SetQuestFlag("growthpet_system.growthpet_summoned", pPetItem->GetGrowthPetItemInfo().pet_vnum);
+// 	SetQuestFlag("growthpet_system.growthpet_id", pPetItem->GetID());
+
+// 	CGrowthPetSystem* petSystem = GetGrowthPetSystem();
+// 	if (petSystem)
+// 	{
+// 		if (petSystem->IsActivePet())
+// 		{
+// 			// Dac? pet-ul este deja activ, ne asigur?m c? îl elimin?m corect înainte de a-l chema din nou
+// 			petSystem->Dismiss();
+// 		}
+
+// 		// Re-sumon?m pet-ul dup? teleport
+// 		petSystem->Summon(pPetItem->GetGrowthPetItemInfo().pet_vnum, pPetItem, "", false);
+
+// 		// Reaplic?m buff-urile ?i recalcul?m statisticile
+// 		ComputePoints();
+// 		//GiveBuff();
+// 	}
+
+// 	// Marc?m item-ul ca având pet-ul activ
+// 	pPetItem->SetSocket(3, TRUE);
+// }
 LPITEM CHARACTER::GetSummonGrowthPet() const
 {
-    return m_pkSummonGrowthPet;
+	return m_pkSummonGrowthPet;
 }
 #endif
 void CHARACTER::SetGrowthPetInfo(TGrowthPetInfo petInfo)
@@ -12038,19 +12143,19 @@ bool CHARACTER::StartMoveChannel(long lNewAddr, WORD wNewPort)
 #endif
 
 #ifdef __ENABLE_NEW_OFFLINESHOP__
-void CHARACTER::SetShopSafebox(offlineshop::CShopSafebox* pk) 
+void CHARACTER::SetShopSafebox(offlineshop::CShopSafebox* pk)
 {
-	if(m_pkShopSafebox && pk==NULL)
+	if (m_pkShopSafebox && pk == NULL)
 	{
 		m_pkShopSafebox->SetOwner(NULL);
 	}
 
-	else if(m_pkShopSafebox==NULL && pk)
+	else if (m_pkShopSafebox == NULL && pk)
 	{
 		pk->SetOwner(this);
 	}
 
-	m_pkShopSafebox  = pk;
+	m_pkShopSafebox = pk;
 }
 #endif
 
@@ -12322,15 +12427,15 @@ void CHARACTER::BeadTime()
 	if (animaSphere < 36 && ((get_global_time() - lastTime) > 3600))
 	{
 		int iTime = get_global_time() - lastTime;
-		int iCount = iTime/3600;
+		int iCount = iTime / 3600;
 
-		if ((animaSphere+iCount) <= 36)
+		if ((animaSphere + iCount) <= 36)
 		{
 			SetAnimaSphere(iCount);
 		}
-		else if ((animaSphere+iCount) > 36)
+		else if ((animaSphere + iCount) > 36)
 		{
-			int jCount = 36-animaSphere;
+			int jCount = 36 - animaSphere;
 			if (jCount <= 36)
 				SetAnimaSphere(jCount);
 
@@ -12389,7 +12494,7 @@ void CHARACTER::CheckFloor()
 				}
 
 				if (Floor == 7 || Floor == 14 || Floor == 21 || Floor == 28 || Floor == 35 || Floor == 36 || Floor == 37 || Floor == 38 || Floor == 39 || Floor == 40) //Bonus floor
-				//if (Floor == 40) //Bonus floor
+					//if (Floor == 40) //Bonus floor
 					time = 5 * 60;
 				else //Normal floor
 					time = 10 * 60;
@@ -12689,40 +12794,40 @@ void CHARACTER::RefreshItemSetBonus()
 
 			switch (bSetType)
 			{
-				case SET_ITEM_COSTUME_BODY:
-					pItem = GetWear(WEAR_COSTUME_BODY);
-					break;
+			case SET_ITEM_COSTUME_BODY:
+				pItem = GetWear(WEAR_COSTUME_BODY);
+				break;
 
-				case SET_ITEM_COSTUME_HAIR:
-					pItem = GetWear(WEAR_COSTUME_HAIR);
-					break;
+			case SET_ITEM_COSTUME_HAIR:
+				pItem = GetWear(WEAR_COSTUME_HAIR);
+				break;
 
 #if defined(__MOUNT_COSTUME_SYSTEM__)
-				case SET_ITEM_COSTUME_MOUNT:
-					pItem = GetWear(WEAR_COSTUME_MOUNT);
-					break;
+			case SET_ITEM_COSTUME_MOUNT:
+				pItem = GetWear(WEAR_COSTUME_MOUNT);
+				break;
 #endif
 
 #if defined(__ACCE_COSTUME_SYSTEM__)
-				case SET_ITEM_COSTUME_ACCE:
-					pItem = GetWear(WEAR_COSTUME_ACCE);
-					break;
+			case SET_ITEM_COSTUME_ACCE:
+				pItem = GetWear(WEAR_COSTUME_ACCE);
+				break;
 #endif
 
 #if defined(__WEAPON_COSTUME_SYSTEM__)
-				case SET_ITEM_COSTUME_WEAPON:
-					pItem = GetWear(WEAR_COSTUME_WEAPON);
-					break;
+			case SET_ITEM_COSTUME_WEAPON:
+				pItem = GetWear(WEAR_COSTUME_WEAPON);
+				break;
 #endif
 
-				case SET_ITEM_UNIQUE:
-					pUnique1 = GetWear(WEAR_UNIQUE1);
-					pUnique2 = GetWear(WEAR_UNIQUE2);
-					break;
+			case SET_ITEM_UNIQUE:
+				pUnique1 = GetWear(WEAR_UNIQUE1);
+				pUnique2 = GetWear(WEAR_UNIQUE2);
+				break;
 
-				case SET_ITEM_PET:
-					pPetSystem = GetPetSystem();
-					break;
+			case SET_ITEM_PET:
+				pPetSystem = GetPetSystem();
+				break;
 			}
 
 			const auto& [dwMinVnum, dwMaxVnum, bRange] = kItemTuple;
@@ -12901,7 +13006,7 @@ void CHARACTER::SendWarTeleportButton(bool show)
 		show = false;
 
 	CGuild* pGuild = this->GetGuild();
-	if(pGuild && pGuild->UnderAnyWar(GUILD_WAR_TYPE_FIELD))
+	if (pGuild && pGuild->UnderAnyWar(GUILD_WAR_TYPE_FIELD))
 		show = false;
 
 	ChatPacket(CHAT_TYPE_COMMAND, "guild_war %d", show);

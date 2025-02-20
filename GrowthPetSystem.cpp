@@ -901,28 +901,28 @@ bool CGrowthPetSystemActor::SetExp(uint32_t dwExpValue, uint8_t bExpMode)
 	switch (bExpMode)
 	{
 		// Exp Monster
-		case PET_EXP_FROM_MOB:
-		{
-			if (m_PetInfo.exp_monster >= m_PetInfo.next_exp_monster)
-				return false;
-
-			const uint32_t remain = m_PetInfo.next_exp_monster - m_PetInfo.exp_monster;
-			m_PetInfo.exp_monster += (dwExpValue > remain ? remain : dwExpValue);
-			break;
-		}
-		// Exp Item
-		case PET_EXP_FROM_ITEM:
-		{
-			if (m_PetInfo.exp_item >= m_PetInfo.next_exp_item)
-				return false;
-
-			const uint32_t remain = m_PetInfo.next_exp_item - m_PetInfo.exp_item;
-			m_PetInfo.exp_item += (dwExpValue >= remain ? remain : dwExpValue);
-			m_pkOwner->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("Experience has increased to %d points."), (dwExpValue >= remain ? remain : dwExpValue));
-			break;
-		}
-		default:
+	case PET_EXP_FROM_MOB:
+	{
+		if (m_PetInfo.exp_monster >= m_PetInfo.next_exp_monster)
 			return false;
+
+		const uint32_t remain = m_PetInfo.next_exp_monster - m_PetInfo.exp_monster;
+		m_PetInfo.exp_monster += (dwExpValue > remain ? remain : dwExpValue);
+		break;
+	}
+	// Exp Item
+	case PET_EXP_FROM_ITEM:
+	{
+		if (m_PetInfo.exp_item >= m_PetInfo.next_exp_item)
+			return false;
+
+		const uint32_t remain = m_PetInfo.next_exp_item - m_PetInfo.exp_item;
+		m_PetInfo.exp_item += (dwExpValue >= remain ? remain : dwExpValue);
+		m_pkOwner->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("Experience has increased to %d points."), (dwExpValue >= remain ? remain : dwExpValue));
+		break;
+	}
+	default:
+		return false;
 	}
 
 	if (m_PetInfo.exp_monster >= m_PetInfo.next_exp_monster && m_PetInfo.exp_item < m_PetInfo.next_exp_item)
@@ -1096,18 +1096,18 @@ uint32_t CGrowthPetSystemActor::Summon(const char* petName, LPITEM pSummonItem, 
 
 		switch (skill_type)
 		{
-			case PET_SKILL_USE_TYPE_PASSIVE:
-			{
-				//m_pkOwner->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("%s effect activated."), LC_LOCALE_PET_SKILL_TEXT(skill_vnum));
-			}
+		case PET_SKILL_USE_TYPE_PASSIVE:
+		{
+			//m_pkOwner->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("%s effect activated."), LC_LOCALE_PET_SKILL_TEXT(skill_vnum));
+		}
+		break;
+		case PET_SKILL_USE_TYPE_AUTO:
+		{
+			//m_pkOwner->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("%s effect not activated."), LC_LOCALE_PET_SKILL_TEXT(skill_vnum));
+		}
+		break;
+		default:
 			break;
-			case PET_SKILL_USE_TYPE_AUTO:
-			{
-				//m_pkOwner->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("%s effect not activated."), LC_LOCALE_PET_SKILL_TEXT(skill_vnum));
-			}
-			break;
-			default:
-				break;
 		}
 	}
 
@@ -1200,116 +1200,116 @@ bool CGrowthPetSystemActor::Update(uint32_t deltaTime)
 		{
 			switch (m_PetInfo.skill_vnum[slot])
 			{
-				case PET_SKILL_AFFECT_HEAL:
+			case PET_SKILL_AFFECT_HEAL:
+			{
+				if (m_pkOwner && (m_PetInfo.skill_cool[slot] < time(0)) && (m_pkOwner->GetHPPct() < 20))
 				{
-					if (m_pkOwner && (m_PetInfo.skill_cool[slot] < time(0)) && (m_pkOwner->GetHPPct() < 20))
+					const int rand = number(1, 100);
+					const int value = (int)m_PetInfo.skill_formula1[slot];
+					if (rand <= value)
 					{
-						const int rand = number(1, 100);
-						const int value = (int)m_PetInfo.skill_formula1[slot];
-						if (rand <= value)
-						{
-							m_PetInfo.skill_cool[slot] = get_global_time() + 480;
+						m_PetInfo.skill_cool[slot] = get_global_time() + 480;
 
-							const int restore_hp = MIN((m_pkOwner->GetHP() + (int)m_PetInfo.skill_spec[slot]), m_pkOwner->GetMaxHP());
+						const int restore_hp = MIN((m_pkOwner->GetHP() + (int)m_PetInfo.skill_spec[slot]), m_pkOwner->GetMaxHP());
 
-							m_pkOwner->PointChange(POINT_HP, restore_hp);
-							m_pkOwner->EffectPacket(SE_HPUP_RED);
+						m_pkOwner->PointChange(POINT_HP, restore_hp);
+						m_pkOwner->EffectPacket(SE_HPUP_RED);
 
-							m_pkOwner->SetGrowthPetInfo(m_PetInfo);
-							m_pkOwner->SendGrowthPetInfoPacket();
+						m_pkOwner->SetGrowthPetInfo(m_PetInfo);
+						m_pkOwner->SendGrowthPetInfoPacket();
 
-							m_pkOwner->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("%s skill activated. HP restored by %d."),
-								LC_LOCALE_PET_SKILL_TEXT((int)m_PetInfo.skill_vnum[slot], m_pkOwner->GetLanguage()), restore_hp);
-							GiveBuff();
-							if (test_server)
-								m_pkOwner->ChatPacket(CHAT_TYPE_PARTY, "Heal! recovered %1.f (%d) hp.", m_PetInfo.skill_formula1[slot], restore_hp);
-						}
+						m_pkOwner->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("%s skill activated. HP restored by %d."),
+							LC_LOCALE_PET_SKILL_TEXT((int)m_PetInfo.skill_vnum[slot], m_pkOwner->GetLanguage()), restore_hp);
+						GiveBuff();
+						if (test_server)
+							m_pkOwner->ChatPacket(CHAT_TYPE_PARTY, "Heal! recovered %1.f (%d) hp.", m_PetInfo.skill_formula1[slot], restore_hp);
 					}
-
-					break;
 				}
-				case PET_SKILL_AFFECT_INVINCIBILITY:
+
+				break;
+			}
+			case PET_SKILL_AFFECT_INVINCIBILITY:
+			{
+				if (m_pkOwner && (m_PetInfo.skill_cool[slot] < time(0)) && (m_pkOwner->GetHPPct() < 10))
 				{
-					if (m_pkOwner && (m_PetInfo.skill_cool[slot] < time(0)) && (m_pkOwner->GetHPPct() < 10))
-					{
-						if (!m_pkOwner->FindAffect(AFFECT_IMPOSSIBLE_ATTACK))
-						{
-							const int rand = number(1, 100);
-							const int value = (int)m_PetInfo.next_skill_formula1[slot];
-							if (rand <= value)
-							{
-								m_PetInfo.skill_cool[slot] = get_global_time() + 600;
-
-								const long duration = (int)m_PetInfo.skill_formula2[slot];
-
-								m_pkOwner->AddAffect(AFFECT_IMPOSSIBLE_ATTACK, APPLY_NONE, 10, AFF_NONE, duration, 0, false, false);
-								m_pkOwner->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("%s skill activated. You will now receive no damage."),
-									LC_LOCALE_PET_SKILL_TEXT((int)m_PetInfo.skill_vnum[slot], m_pkOwner->GetLanguage()));
-								GiveBuff();
-								if (test_server)
-									m_pkOwner->ChatPacket(CHAT_TYPE_PARTY, "Invincibility actived, probably: %d, duration: %ld", value, duration);
-								// long start_time = get_global_time();
-								// while (get_global_time() - start_time < duration)
-								// {
-								// 				m_pkOwner->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("You are invincible! Duration left: %ld seconds"),
-								// 								(duration - (get_global_time() - start_time)));
-
-								// 				std::this_thread::sleep_for(std::chrono::seconds(1)); // a?teapt? 1 secund? înainte de urm?torul mesaj
-								// }
-							}
-						}
-
-					}
-
-					break;
-				}
-				case PET_SKILL_AFFECT_REMOVAL:
-				{
-					if (m_pkOwner && (m_PetInfo.skill_cool[slot] < time(0)))
+					if (!m_pkOwner->FindAffect(AFFECT_IMPOSSIBLE_ATTACK))
 					{
 						const int rand = number(1, 100);
 						const int value = (int)m_PetInfo.next_skill_formula1[slot];
 						if (rand <= value)
 						{
-							bool bIsBadAffect = false;
+							m_PetInfo.skill_cool[slot] = get_global_time() + 600;
 
-							if (m_pkOwner->IsAffectFlag(AFF_STUN))
-								bIsBadAffect = true;
-							if (m_pkOwner->IsAffectFlag(AFF_SLOW))
-								bIsBadAffect = true;
-							if (m_pkOwner->IsAffectFlag(AFF_POISON))
-								bIsBadAffect = true;
-							if (m_pkOwner->IsAffectFlag(AFF_FIRE))
-								bIsBadAffect = true;
-#ifdef __WOLFMAN_CHARACTER__
-							if (m_pkOwner->IsAffectFlag(AFF_BLEEDING))
-								bIsBadAffect = true;
-#endif
+							const long duration = (int)m_PetInfo.skill_formula2[slot];
 
-							if (bIsBadAffect)
-							{
-								m_PetInfo.skill_cool[slot] = get_global_time() + 480;
-								m_pkOwner->RemoveBadAffect();
+							m_pkOwner->AddAffect(AFFECT_IMPOSSIBLE_ATTACK, APPLY_NONE, 10, AFF_NONE, duration, 0, false, false);
+							m_pkOwner->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("%s skill activated. You will now receive no damage."),
+								LC_LOCALE_PET_SKILL_TEXT((int)m_PetInfo.skill_vnum[slot], m_pkOwner->GetLanguage()));
+							GiveBuff();
+							if (test_server)
+								m_pkOwner->ChatPacket(CHAT_TYPE_PARTY, "Invincibility actived, probably: %d, duration: %ld", value, duration);
+							// long start_time = get_global_time();
+							// while (get_global_time() - start_time < duration)
+							// {
+							// 				m_pkOwner->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("You are invincible! Duration left: %ld seconds"),
+							// 								(duration - (get_global_time() - start_time)));
 
-								m_pkOwner->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("%s skill activated. Slow, poison and bleeding effects were removed."),
-									LC_LOCALE_PET_SKILL_TEXT((int)m_PetInfo.skill_vnum[slot], m_pkOwner->GetLanguage()));
-								GiveBuff();
-								if (test_server)
-									m_pkOwner->ChatPacket(CHAT_TYPE_PARTY, "Panacea actived, negative effects removed!");
-							}
+							// 				std::this_thread::sleep_for(std::chrono::seconds(1)); // a?teapt? 1 secund? înainte de urm?torul mesaj
+							// }
 						}
 					}
 
-					break;
-				}
-				case PET_SKILL_FEATHER:
-				{
-					return false;
-					break;
 				}
 
-				default:
-					break;
+				break;
+			}
+			case PET_SKILL_AFFECT_REMOVAL:
+			{
+				if (m_pkOwner && (m_PetInfo.skill_cool[slot] < time(0)))
+				{
+					const int rand = number(1, 100);
+					const int value = (int)m_PetInfo.next_skill_formula1[slot];
+					if (rand <= value)
+					{
+						bool bIsBadAffect = false;
+
+						if (m_pkOwner->IsAffectFlag(AFF_STUN))
+							bIsBadAffect = true;
+						if (m_pkOwner->IsAffectFlag(AFF_SLOW))
+							bIsBadAffect = true;
+						if (m_pkOwner->IsAffectFlag(AFF_POISON))
+							bIsBadAffect = true;
+						if (m_pkOwner->IsAffectFlag(AFF_FIRE))
+							bIsBadAffect = true;
+#ifdef __WOLFMAN_CHARACTER__
+						if (m_pkOwner->IsAffectFlag(AFF_BLEEDING))
+							bIsBadAffect = true;
+#endif
+
+						if (bIsBadAffect)
+						{
+							m_PetInfo.skill_cool[slot] = get_global_time() + 480;
+							m_pkOwner->RemoveBadAffect();
+
+							m_pkOwner->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("%s skill activated. Slow, poison and bleeding effects were removed."),
+								LC_LOCALE_PET_SKILL_TEXT((int)m_PetInfo.skill_vnum[slot], m_pkOwner->GetLanguage()));
+							GiveBuff();
+							if (test_server)
+								m_pkOwner->ChatPacket(CHAT_TYPE_PARTY, "Panacea actived, negative effects removed!");
+						}
+					}
+				}
+
+				break;
+			}
+			case PET_SKILL_FEATHER:
+			{
+				return false;
+				break;
+			}
+
+			default:
+				break;
 			}
 		}
 	}
@@ -1370,33 +1370,33 @@ TPetSkillTable CGrowthPetSystemActor::GetPetSkillInformation(uint8_t skill_slot)
 
 	switch (table.skill_type)
 	{
-		case PET_SKILL_USE_TYPE_PASSIVE:
+	case PET_SKILL_USE_TYPE_PASSIVE:
+	{
+		const float skill_value = skill_spec ? skill_spec : table.skill_formula1;
+		skill_formula2 = (skill_value / PET_MAX_SKILL_POINTS) * skill_level;
+		next_skill_formula2 = (skill_value / PET_MAX_SKILL_POINTS) * (skill_level + 1);
+
+		if (skill_spec)
 		{
-			const float skill_value = skill_spec ? skill_spec : table.skill_formula1;
-			skill_formula2 = (skill_value / PET_MAX_SKILL_POINTS) * skill_level;
-			next_skill_formula2 = (skill_value / PET_MAX_SKILL_POINTS) * (skill_level + 1);
-
-			if (skill_spec)
-			{
-				skill_formula2 = (skill_spec / PET_MAX_SKILL_POINTS) * skill_level;
-				next_skill_formula2 = (skill_spec / PET_MAX_SKILL_POINTS) * (skill_level + 1);
-			}
-
-			break;
+			skill_formula2 = (skill_spec / PET_MAX_SKILL_POINTS) * skill_level;
+			next_skill_formula2 = (skill_spec / PET_MAX_SKILL_POINTS) * (skill_level + 1);
 		}
-		case PET_SKILL_USE_TYPE_AUTO:
-		{
-			skill_formula1 = (table.skill_formula1 / PET_MAX_SKILL_POINTS) * skill_level;
-			next_skill_formula1 = (table.skill_formula1 / PET_MAX_SKILL_POINTS) * (skill_level + 1);
 
-			const float skill_value = skill_spec ? skill_spec : table.next_skill_formula1;
-			skill_formula2 = (skill_value / PET_MAX_SKILL_POINTS) * skill_level;
-			next_skill_formula2 = (skill_value / PET_MAX_SKILL_POINTS) * (skill_level + 1);
+		break;
+	}
+	case PET_SKILL_USE_TYPE_AUTO:
+	{
+		skill_formula1 = (table.skill_formula1 / PET_MAX_SKILL_POINTS) * skill_level;
+		next_skill_formula1 = (table.skill_formula1 / PET_MAX_SKILL_POINTS) * (skill_level + 1);
 
-			break;
-		}
-		default:
-			break;
+		const float skill_value = skill_spec ? skill_spec : table.next_skill_formula1;
+		skill_formula2 = (skill_value / PET_MAX_SKILL_POINTS) * skill_level;
+		next_skill_formula2 = (skill_value / PET_MAX_SKILL_POINTS) * (skill_level + 1);
+
+		break;
+	}
+	default:
+		break;
 	}
 
 	if (GetPetLevel() < PET_MAX_LEVEL)
@@ -1471,31 +1471,31 @@ void CGrowthPetSystemActor::GiveBuff()
 
 			switch (table.skill_type)
 			{
-				case PET_SKILL_USE_TYPE_PASSIVE:
+			case PET_SKILL_USE_TYPE_PASSIVE:
+			{
+				if (table.skill_formula2)
 				{
-					if (table.skill_formula2)
-					{
-						const long lApplyValue = table.skill_formula2;
-						m_pkOwner->AddAffect(AFFECT_GROWTH_PET, aApplyInfo[table.skill_apply].bPointType, lApplyValue, 0, expire_time, 0, false);
-					}
-
-					m_PetInfo.skill_formula2[i] = table.skill_formula2;
-					m_PetInfo.next_skill_formula2[i] = table.next_skill_formula2;
-
-					break;
+					const long lApplyValue = table.skill_formula2;
+					m_pkOwner->AddAffect(AFFECT_GROWTH_PET, aApplyInfo[table.skill_apply].bPointType, lApplyValue, 0, expire_time, 0, false);
 				}
-				case PET_SKILL_USE_TYPE_AUTO:
-					ActivePassiveSkill(true);
 
-					m_PetInfo.skill_formula1[i] = table.skill_formula1;
-					m_PetInfo.next_skill_formula1[i] = table.next_skill_formula1;
+				m_PetInfo.skill_formula2[i] = table.skill_formula2;
+				m_PetInfo.next_skill_formula2[i] = table.next_skill_formula2;
 
-					m_PetInfo.skill_formula2[i] = table.skill_formula2;
-					m_PetInfo.next_skill_formula2[i] = table.next_skill_formula2;
+				break;
+			}
+			case PET_SKILL_USE_TYPE_AUTO:
+				ActivePassiveSkill(true);
 
-					break;
-				default:
-					break;
+				m_PetInfo.skill_formula1[i] = table.skill_formula1;
+				m_PetInfo.next_skill_formula1[i] = table.next_skill_formula1;
+
+				m_PetInfo.skill_formula2[i] = table.skill_formula2;
+				m_PetInfo.next_skill_formula2[i] = table.next_skill_formula2;
+
+				break;
+			default:
+				break;
 			}
 
 		}

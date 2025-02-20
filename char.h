@@ -30,6 +30,10 @@
 #include "BiologSystemManager.h"
 #endif
 
+#ifdef ENABLE_GROWTH_PET_SYSTEM
+#	include "GrowthPetSystem.h"
+#endif
+
 class CBuffOnAttributes;
 class CPetSystem;
 
@@ -130,7 +134,7 @@ enum EDamageType
 	DAMAGE_TYPE_NONE,
 	DAMAGE_TYPE_NORMAL,
 	DAMAGE_TYPE_NORMAL_RANGE,
-	// ��ų
+	// ï¿½ï¿½Å³
 	DAMAGE_TYPE_MELEE,
 	DAMAGE_TYPE_RANGE,
 	DAMAGE_TYPE_FIRE,
@@ -164,103 +168,103 @@ enum EPointTypes
 	POINT_MAX_HP,							// 6
 	POINT_SP,								// 7
 	POINT_MAX_SP,							// 8
-	POINT_STAMINA,							// 9 ���׹̳�
-	POINT_MAX_STAMINA,						// 10 �ִ� ���׹̳�
+	POINT_STAMINA,							// 9 ï¿½ï¿½ï¿½×¹Ì³ï¿½
+	POINT_MAX_STAMINA,						// 10 ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½×¹Ì³ï¿½
 
 	POINT_GOLD,								// 11
-	POINT_ST,								// 12 �ٷ�
-	POINT_HT,								// 13 ü��
-	POINT_DX,								// 14 ��ø��
-	POINT_IQ,								// 15 ���ŷ�
+	POINT_ST,								// 12 ï¿½Ù·ï¿½
+	POINT_HT,								// 13 Ã¼ï¿½ï¿½
+	POINT_DX,								// 14 ï¿½ï¿½Ã¸ï¿½ï¿½
+	POINT_IQ,								// 15 ï¿½ï¿½ï¿½Å·ï¿½
 	POINT_DEF_GRADE,						// 16 ...
-	POINT_ATT_SPEED,						// 17 ���ݼӵ�
-	POINT_ATT_GRADE,						// 18 ���ݷ� MAX
-	POINT_MOV_SPEED,						// 19 �̵��ӵ�
-	POINT_CLIENT_DEF_GRADE,					// 20 �����
-	POINT_CASTING_SPEED,					// 21 �ֹ��ӵ� (��ٿ�Ÿ��*100) / (100 + �̰�) = ���� ��ٿ� Ÿ��
-	POINT_MAGIC_ATT_GRADE,					// 22 �������ݷ�
-	POINT_MAGIC_DEF_GRADE,					// 23 ��������
-	POINT_EMPIRE_POINT,						// 24 ��������
-	POINT_LEVEL_STEP,						// 25 �� ���������� �ܰ�.. (1 2 3 �� �� ����, 4 �Ǹ� ���� ��)
-	POINT_STAT,								// 26 �ɷ�ġ �ø� �� �ִ� ����
-	POINT_SUB_SKILL,						// 27 ���� ��ų ����Ʈ
-	POINT_SKILL,							// 28 ��Ƽ�� ��ų ����Ʈ
-	POINT_WEAPON_MIN,						// 29 ���� �ּ� ������
-	POINT_WEAPON_MAX,						// 30 ���� �ִ� ������
-	POINT_PLAYTIME,							// 31 �÷��̽ð�
-	POINT_HP_REGEN,							// 32 HP ȸ����
-	POINT_SP_REGEN,							// 33 SP ȸ����
+	POINT_ATT_SPEED,						// 17 ï¿½ï¿½ï¿½Ý¼Óµï¿½
+	POINT_ATT_GRADE,						// 18 ï¿½ï¿½ï¿½Ý·ï¿½ MAX
+	POINT_MOV_SPEED,						// 19 ï¿½Ìµï¿½ï¿½Óµï¿½
+	POINT_CLIENT_DEF_GRADE,					// 20 ï¿½ï¿½ï¿½ï¿½ï¿½
+	POINT_CASTING_SPEED,					// 21 ï¿½Ö¹ï¿½ï¿½Óµï¿½ (ï¿½ï¿½Ù¿ï¿½Å¸ï¿½ï¿½*100) / (100 + ï¿½Ì°ï¿½) = ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ù¿ï¿½ Å¸ï¿½ï¿½
+	POINT_MAGIC_ATT_GRADE,					// 22 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý·ï¿½
+	POINT_MAGIC_DEF_GRADE,					// 23 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	POINT_EMPIRE_POINT,						// 24 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	POINT_LEVEL_STEP,						// 25 ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ü°ï¿½.. (1 2 3 ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, 4 ï¿½Ç¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½)
+	POINT_STAT,								// 26 ï¿½É·ï¿½Ä¡ ï¿½Ã¸ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½
+	POINT_SUB_SKILL,						// 27 ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å³ ï¿½ï¿½ï¿½ï¿½Æ®
+	POINT_SKILL,							// 28 ï¿½ï¿½Æ¼ï¿½ï¿½ ï¿½ï¿½Å³ ï¿½ï¿½ï¿½ï¿½Æ®
+	POINT_WEAPON_MIN,						// 29 ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	POINT_WEAPON_MAX,						// 30 ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	POINT_PLAYTIME,							// 31 ï¿½Ã·ï¿½ï¿½Ì½Ã°ï¿½
+	POINT_HP_REGEN,							// 32 HP È¸ï¿½ï¿½ï¿½ï¿½
+	POINT_SP_REGEN,							// 33 SP È¸ï¿½ï¿½ï¿½ï¿½
 
-	POINT_BOW_DISTANCE,						// 34 Ȱ �����Ÿ� ����ġ (meter)
+	POINT_BOW_DISTANCE,						// 34 È° ï¿½ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ ï¿½ï¿½ï¿½ï¿½Ä¡ (meter)
 
-	POINT_HP_RECOVERY,						// 35 ü�� ȸ�� ������
-	POINT_SP_RECOVERY,						// 36 ���ŷ� ȸ�� ������
+	POINT_HP_RECOVERY,						// 35 Ã¼ï¿½ï¿½ È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	POINT_SP_RECOVERY,						// 36 ï¿½ï¿½ï¿½Å·ï¿½ È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-	POINT_POISON_PCT,						// 37 �� Ȯ��
-	POINT_STUN_PCT,							// 38 ���� Ȯ��
-	POINT_SLOW_PCT,							// 39 ���ο� Ȯ��
-	POINT_CRITICAL_PCT,						// 40 ũ��Ƽ�� Ȯ��
-	POINT_PENETRATE_PCT,					// 41 ����Ÿ�� Ȯ��
-	POINT_CURSE_PCT,						// 42 ���� Ȯ��
+	POINT_POISON_PCT,						// 37 ï¿½ï¿½ È®ï¿½ï¿½
+	POINT_STUN_PCT,							// 38 ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½
+	POINT_SLOW_PCT,							// 39 ï¿½ï¿½ï¿½Î¿ï¿½ È®ï¿½ï¿½
+	POINT_CRITICAL_PCT,						// 40 Å©ï¿½ï¿½Æ¼ï¿½ï¿½ È®ï¿½ï¿½
+	POINT_PENETRATE_PCT,					// 41 ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ È®ï¿½ï¿½
+	POINT_CURSE_PCT,						// 42 ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½
 
-	POINT_ATTBONUS_HUMAN,					// 43 �ΰ����� ����
-	POINT_ATTBONUS_ANIMAL,					// 44 �������� ������ % ����
-	POINT_ATTBONUS_ORC,						// 45 ���Ϳ��� ������ % ����
-	POINT_ATTBONUS_MILGYO,					// 46 �б����� ������ % ����
-	POINT_ATTBONUS_UNDEAD,					// 47 ��ü���� ������ % ����
-	POINT_ATTBONUS_DEVIL,					// 48 ����(�Ǹ�)���� ������ % ����
-	POINT_ATTBONUS_INSECT,					// 49 ������
-	POINT_ATTBONUS_FIRE,					// 50 ȭ����
-	POINT_ATTBONUS_ICE,						// 51 ������
-	POINT_ATTBONUS_DESERT,					// 52 �縷��
-	POINT_ATTBONUS_MONSTER,					// 53 ��� ���Ϳ��� ����
-	POINT_ATTBONUS_WARRIOR,					// 54 ���翡�� ����
-	POINT_ATTBONUS_ASSASSIN,				// 55 �ڰ����� ����
-	POINT_ATTBONUS_SURA,					// 56 ���󿡰� ����
-	POINT_ATTBONUS_SHAMAN,					// 57 ���翡�� ����
-	POINT_ATTBONUS_TREE,					// 58 �������� ���� 20050729.myevan UNUSED5
+	POINT_ATTBONUS_HUMAN,					// 43 ï¿½Î°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	POINT_ATTBONUS_ANIMAL,					// 44 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ % ï¿½ï¿½ï¿½ï¿½
+	POINT_ATTBONUS_ORC,						// 45 ï¿½ï¿½ï¿½Í¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ % ï¿½ï¿½ï¿½ï¿½
+	POINT_ATTBONUS_MILGYO,					// 46 ï¿½Ð±ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ % ï¿½ï¿½ï¿½ï¿½
+	POINT_ATTBONUS_UNDEAD,					// 47 ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ % ï¿½ï¿½ï¿½ï¿½
+	POINT_ATTBONUS_DEVIL,					// 48 ï¿½ï¿½ï¿½ï¿½(ï¿½Ç¸ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ % ï¿½ï¿½ï¿½ï¿½
+	POINT_ATTBONUS_INSECT,					// 49 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	POINT_ATTBONUS_FIRE,					// 50 È­ï¿½ï¿½ï¿½ï¿½
+	POINT_ATTBONUS_ICE,						// 51 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	POINT_ATTBONUS_DESERT,					// 52 ï¿½ç¸·ï¿½ï¿½
+	POINT_ATTBONUS_MONSTER,					// 53 ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Í¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	POINT_ATTBONUS_WARRIOR,					// 54 ï¿½ï¿½ï¿½ç¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	POINT_ATTBONUS_ASSASSIN,				// 55 ï¿½Ú°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	POINT_ATTBONUS_SURA,					// 56 ï¿½ï¿½ï¿½ó¿¡°ï¿½ ï¿½ï¿½ï¿½ï¿½
+	POINT_ATTBONUS_SHAMAN,					// 57 ï¿½ï¿½ï¿½ç¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	POINT_ATTBONUS_TREE,					// 58 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 20050729.myevan UNUSED5
 
-	POINT_RESIST_WARRIOR,					// 59 ���翡�� ����
-	POINT_RESIST_ASSASSIN,					// 60 �ڰ����� ����
-	POINT_RESIST_SURA,						// 61 ���󿡰� ����
-	POINT_RESIST_SHAMAN,					// 62 ���翡�� ����
+	POINT_RESIST_WARRIOR,					// 59 ï¿½ï¿½ï¿½ç¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	POINT_RESIST_ASSASSIN,					// 60 ï¿½Ú°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	POINT_RESIST_SURA,						// 61 ï¿½ï¿½ï¿½ó¿¡°ï¿½ ï¿½ï¿½ï¿½ï¿½
+	POINT_RESIST_SHAMAN,					// 62 ï¿½ï¿½ï¿½ç¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-	POINT_STEAL_HP,							// 63 ������ ����
-	POINT_STEAL_SP,							// 64 ���ŷ� ����
+	POINT_STEAL_HP,							// 63 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	POINT_STEAL_SP,							// 64 ï¿½ï¿½ï¿½Å·ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-	POINT_MANA_BURN_PCT,					// 65 ���� ��
+	POINT_MANA_BURN_PCT,					// 65 ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 
-	/// ���ؽ� ���ʽ� ///
+	/// ï¿½ï¿½ï¿½Ø½ï¿½ ï¿½ï¿½ï¿½Ê½ï¿½ ///
 
-	POINT_DAMAGE_SP_RECOVER,				// 66 ���ݴ��� �� ���ŷ� ȸ�� Ȯ��
+	POINT_DAMAGE_SP_RECOVER,				// 66 ï¿½ï¿½ï¿½Ý´ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Å·ï¿½ È¸ï¿½ï¿½ È®ï¿½ï¿½
 
-	POINT_BLOCK,							// 67 ������
-	POINT_DODGE,							// 68 ȸ����
+	POINT_BLOCK,							// 67 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	POINT_DODGE,							// 68 È¸ï¿½ï¿½ï¿½ï¿½
 
 	POINT_RESIST_SWORD,						// 69
 	POINT_RESIST_TWOHAND,					// 70
 	POINT_RESIST_DAGGER,					// 71
 	POINT_RESIST_BELL,						// 72
 	POINT_RESIST_FAN,						// 73
-	POINT_RESIST_BOW,						// 74 ȭ�� ���� : ����� ����
-	POINT_RESIST_FIRE,						// 75 ȭ�� ���� : ȭ�����ݿ� ���� ����� ����
-	POINT_RESIST_ELEC,						// 76 ���� ���� : ������ݿ� ���� ����� ����
-	POINT_RESIST_MAGIC,						// 77 ���� ���� : �������� ���� ����� ����
-	POINT_RESIST_WIND,						// 78 �ٶ� ���� : �ٶ����ݿ� ���� ����� ����
+	POINT_RESIST_BOW,						// 74 È­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	POINT_RESIST_FIRE,						// 75 È­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : È­ï¿½ï¿½ï¿½ï¿½ï¿½Ý¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	POINT_RESIST_ELEC,						// 76 ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	POINT_RESIST_MAGIC,						// 77 ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	POINT_RESIST_WIND,						// 78 ï¿½Ù¶ï¿½ ï¿½ï¿½ï¿½ï¿½ : ï¿½Ù¶ï¿½ï¿½ï¿½ï¿½Ý¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-	POINT_REFLECT_MELEE,					// 79 ���� �ݻ�
+	POINT_REFLECT_MELEE,					// 79 ï¿½ï¿½ï¿½ï¿½ ï¿½Ý»ï¿½
 
-	/// Ư�� ���ؽ� ///
-	POINT_REFLECT_CURSE,					// 80 ���� �ݻ�
-	POINT_POISON_REDUCE,					// 81 �������� ����
+	/// Æ¯ï¿½ï¿½ ï¿½ï¿½ï¿½Ø½ï¿½ ///
+	POINT_REFLECT_CURSE,					// 80 ï¿½ï¿½ï¿½ï¿½ ï¿½Ý»ï¿½
+	POINT_POISON_REDUCE,					// 81 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-	/// �� �Ҹ�� ///
-	POINT_KILL_SP_RECOVER,					// 82 �� �Ҹ�� MP ȸ��
+	/// ï¿½ï¿½ ï¿½Ò¸ï¿½ï¿½ ///
+	POINT_KILL_SP_RECOVER,					// 82 ï¿½ï¿½ ï¿½Ò¸ï¿½ï¿½ MP È¸ï¿½ï¿½
 	POINT_EXP_DOUBLE_BONUS,					// 83
 	POINT_GOLD_DOUBLE_BONUS,				// 84
 	POINT_ITEM_DROP_BONUS,					// 85
 
-	/// ȸ�� ���� ///
+	/// È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ///
 	POINT_POTION_BONUS,						// 86
 	POINT_KILL_HP_RECOVERY,					// 87
 
@@ -284,7 +288,7 @@ enum EPointTypes
 
 	POINT_HIT_HP_RECOVERY,					// 100
 	POINT_HIT_SP_RECOVERY,					// 101
-	POINT_MANASHIELD,						// 102 ��ż�ȣ ��ų�� ���� �������� ȿ�� ����
+	POINT_MANASHIELD,						// 102 ï¿½ï¿½Å¼ï¿½È£ ï¿½ï¿½Å³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¿ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
 	POINT_PARTY_BUFFER_BONUS,				// 103
 	POINT_PARTY_SKILL_MASTER_BONUS,			// 104
@@ -293,56 +297,56 @@ enum EPointTypes
 	POINT_SP_RECOVER_CONTINUE,				// 106
 
 	POINT_STEAL_GOLD,						// 107
-	POINT_POLYMORPH,						// 108 ������ ���� ��ȣ
-	POINT_MOUNT,							// 109 Ÿ���ִ� ���� ��ȣ
+	POINT_POLYMORPH,						// 108 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£
+	POINT_MOUNT,							// 109 Å¸ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£
 
 	POINT_PARTY_HASTE_BONUS,				// 110
 	POINT_PARTY_DEFENDER_BONUS,				// 111
-	POINT_STAT_RESET_COUNT,					// 112 ���� �ܾ� ����� ���� ���� ���� ����Ʈ (1�� 1����Ʈ ���°���)
+	POINT_STAT_RESET_COUNT,					// 112 ï¿½ï¿½ï¿½ï¿½ ï¿½Ü¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® (1ï¿½ï¿½ 1ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½Â°ï¿½ï¿½ï¿½)
 
 	POINT_HORSE_SKILL,						// 113
 
-	POINT_MALL_ATTBONUS,					// 114 ���ݷ� +x%
-	POINT_MALL_DEFBONUS,					// 115 ���� +x%
-	POINT_MALL_EXPBONUS,					// 116 ����ġ +x%
-	POINT_MALL_ITEMBONUS,					// 117 ������ ����� x/10��
-	POINT_MALL_GOLDBONUS,					// 118 �� ����� x/10��
+	POINT_MALL_ATTBONUS,					// 114 ï¿½ï¿½ï¿½Ý·ï¿½ +x%
+	POINT_MALL_DEFBONUS,					// 115 ï¿½ï¿½ï¿½ï¿½ +x%
+	POINT_MALL_EXPBONUS,					// 116 ï¿½ï¿½ï¿½ï¿½Ä¡ +x%
+	POINT_MALL_ITEMBONUS,					// 117 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ x/10ï¿½ï¿½
+	POINT_MALL_GOLDBONUS,					// 118 ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ x/10ï¿½ï¿½
 
-	POINT_MAX_HP_PCT,						// 119 �ִ������ +x%
-	POINT_MAX_SP_PCT,						// 120 �ִ����ŷ� +x%
+	POINT_MAX_HP_PCT,						// 119 ï¿½Ö´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ +x%
+	POINT_MAX_SP_PCT,						// 120 ï¿½Ö´ï¿½ï¿½ï¿½ï¿½Å·ï¿½ +x%
 
-	POINT_SKILL_DAMAGE_BONUS,				// 121 ��ų ������ *(100+x)%
-	POINT_NORMAL_HIT_DAMAGE_BONUS,			// 122 ��Ÿ ������ *(100+x)%
+	POINT_SKILL_DAMAGE_BONUS,				// 121 ï¿½ï¿½Å³ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ *(100+x)%
+	POINT_NORMAL_HIT_DAMAGE_BONUS,			// 122 ï¿½ï¿½Å¸ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ *(100+x)%
 
 	// DEFEND_BONUS_ATTRIBUTES
-	POINT_SKILL_DEFEND_BONUS,				// 123 ��ų ��� ������
-	POINT_NORMAL_HIT_DEFEND_BONUS,			// 124 ��Ÿ ��� ������
+	POINT_SKILL_DEFEND_BONUS,				// 123 ï¿½ï¿½Å³ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	POINT_NORMAL_HIT_DEFEND_BONUS,			// 124 ï¿½ï¿½Å¸ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	// END_OF_DEFEND_BONUS_ATTRIBUTES
 
 	// PC_BANG_ITEM_ADD 
-	POINT_PC_BANG_EXP_BONUS,				// 125 PC�� ���� ����ġ ���ʽ�
-	POINT_PC_BANG_DROP_BONUS,				// 126 PC�� ���� ��ӷ� ���ʽ�
+	POINT_PC_BANG_EXP_BONUS,				// 125 PCï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½Ê½ï¿½
+	POINT_PC_BANG_DROP_BONUS,				// 126 PCï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ó·ï¿½ ï¿½ï¿½ï¿½Ê½ï¿½
 	// END_PC_BANG_ITEM_ADD
-	POINT_RAMADAN_CANDY_BONUS_EXP,			// 127 �󸶴� ���� ����ġ ������
+	POINT_RAMADAN_CANDY_BONUS_EXP,			// 127 ï¿½ó¸¶´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-	POINT_ENERGY = 128,						// 128 ���
+	POINT_ENERGY = 128,						// 128 ï¿½ï¿½ï¿½
 
-	// ��� ui ��.
-	// �������� ���� �ʱ⸸, Ŭ���̾�Ʈ���� ����� �� �ð��� POINT�� �����ϱ� ������ �̷��� �Ѵ�.
-	// �� �β�����
-	POINT_ENERGY_END_TIME = 129,			// 129 ��� ���� �ð�
+	// ï¿½ï¿½ï¿½ ui ï¿½ï¿½.
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±â¸¸, Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½ POINTï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì·ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
+	// ï¿½ï¿½ ï¿½Î²ï¿½ï¿½ï¿½ï¿½ï¿½
+	POINT_ENERGY_END_TIME = 129,			// 129 ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½
 
 	POINT_COSTUME_ATTR_BONUS = 130,			// 130
 	POINT_MAGIC_ATT_BONUS_PER = 131,		// 131
 	POINT_MELEE_MAGIC_ATT_BONUS_PER = 132,	// 132
 
-	// �߰� �Ӽ� ����
-	POINT_RESIST_ICE = 133,					// 133 �ñ� ���� : �������ݿ� ���� ����� ����
-	POINT_RESIST_EARTH = 134,				// 134 ���� ���� : �������ݿ� ���� ����� ����
-	POINT_RESIST_DARK = 135,				// 135 ��� ���� : �������ݿ� ���� ����� ����
+	// ï¿½ß°ï¿½ ï¿½Ó¼ï¿½ ï¿½ï¿½ï¿½ï¿½
+	POINT_RESIST_ICE = 133,					// 133 ï¿½Ã±ï¿½ ï¿½ï¿½ï¿½ï¿½ : ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	POINT_RESIST_EARTH = 134,				// 134 ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	POINT_RESIST_DARK = 135,				// 135 ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-	POINT_RESIST_CRITICAL = 136,			// 136 ũ��Ƽ�� ���� : ����� ũ��Ƽ�� Ȯ���� ����
-	POINT_RESIST_PENETRATE = 137,			// 137 ����Ÿ�� ���� : ����� ����Ÿ�� Ȯ���� ����
+	POINT_RESIST_CRITICAL = 136,			// 136 Å©ï¿½ï¿½Æ¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : ï¿½ï¿½ï¿½ï¿½ï¿½ Å©ï¿½ï¿½Æ¼ï¿½ï¿½ È®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	POINT_RESIST_PENETRATE = 137,			// 137 ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ È®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
 	POINT_BLEEDING_REDUCE = 138,			// 138
 	POINT_BLEEDING_PCT = 139,				// 139
@@ -377,7 +381,7 @@ enum EPointTypes
 #endif
 	POINT_ATTBONUS_STONE,					// 160
 
-	// 20220314.owsap ������ ������ ����Ʈ.
+	// 20220314.owsap ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®.
 	POINT_RESERVED_200 = 200,
 	POINT_RESERVED_201,
 	POINT_RESERVED_202,
@@ -397,7 +401,7 @@ enum EPointTypes
 	POINT_CONQUEROR_POINT = 227,
 #endif
 
-	// 20220314.owsap Ư���� ����Ʈ�� ���� ����� �ֹ�.
+	// 20220314.owsap Æ¯ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¹ï¿½.
 	POINT_RESERVED_240 = 240,
 #if defined(__CHEQUE_SYSTEM__)
 	POINT_CHEQUE = 241,
@@ -430,7 +434,7 @@ enum EPointTypes
 	POINT_SKILL_DAMAGE_SWAERYUNG,
 	POINT_SKILL_DAMAGE_YONGKWON,
 	POINT_SKILL_DAMAGE_PABEOB,
-	POINT_SKILL_DAMAGE_MARYUNG ,
+	POINT_SKILL_DAMAGE_MARYUNG,
 	POINT_SKILL_DAMAGE_HWAYEOMPOK,
 	POINT_SKILL_DAMAGE_MAHWAN,
 	POINT_SKILL_DAMAGE_BIPABU,
@@ -524,7 +528,7 @@ enum EPointTypes
 	POINT_USE_SKILL_SAMYEON_NEXT_COOLTIME_DECREASE_20PER,
 	POINT_USE_SKILL_GEOMPUNG_NEXT_COOLTIME_DECREASE_20PER,
 	POINT_USE_SKILL_GUNGSIN_NEXT_COOLTIME_DECREASE_20PER,
-	POINT_USE_SKILL_KWANKYEOK_NEXT_COOLTIME_DECREASE_20PER ,
+	POINT_USE_SKILL_KWANKYEOK_NEXT_COOLTIME_DECREASE_20PER,
 	POINT_USE_SKILL_YONGKWON_NEXT_COOLTIME_DECREASE_20PER,
 	POINT_USE_SKILL_MARYUNG_NEXT_COOLTIME_DECREASE_20PER,
 	POINT_USE_SKILL_BIPABU_NEXT_COOLTIME_DECREASE_20PER,
@@ -653,7 +657,20 @@ struct DynamicCharacterPtr
 	uint32_t id;
 };
 
-/* �����ϴ� ������ */
+#ifdef ENABLE_PET_SUMMON_AFTER_REWARP
+// struct SummonGrowthPetEventInfo : public event_info_data
+// {
+// 	LPCHARACTER ch;
+// 	LPITEM pPetItem;
+// };
+
+struct GiveBuffEventInfo : public event_info_data
+{
+	LPCHARACTER ch;
+	CGrowthPetSystemActor* petActor;
+};
+#endif
+/* ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 typedef struct character_point
 {
 	int64_t points[POINT_MAX_NUM];
@@ -696,7 +713,7 @@ typedef struct character_point
 	BYTE skill_group;
 } CHARACTER_POINT;
 
-/* ������� �ʴ� ĳ���� ������ */
+/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 typedef struct character_point_instant
 {
 	long long points[POINT_MAX_NUM];
@@ -718,7 +735,7 @@ typedef struct character_point_instant
 	LPITEM pItems[INVENTORY_AND_EQUIP_SLOT_MAX];
 	WORD bItemGrid[INVENTORY_AND_EQUIP_SLOT_MAX];
 
-	// ��ȥ�� �κ��丮.
+	// ï¿½ï¿½È¥ï¿½ï¿½ ï¿½Îºï¿½ï¿½ä¸®.
 	LPITEM pDSItems[DRAGON_SOUL_INVENTORY_MAX_NUM];
 	WORD wDSItemGrid[DRAGON_SOUL_INVENTORY_MAX_NUM];
 
@@ -743,7 +760,7 @@ typedef struct character_point_instant
 
 	BYTE gm_level;
 
-	BYTE bBasePart; // ��� ��ȣ
+	BYTE bBasePart; // ï¿½ï¿½ï¿½ ï¿½ï¿½È£
 
 	int iMaxStamina;
 
@@ -986,7 +1003,7 @@ private:
 
 protected:
 	//////////////////////////////////////////////////////////////////////////////////
-	// Entity ����
+	// Entity ï¿½ï¿½ï¿½ï¿½
 	virtual void EncodeInsertPacket(LPENTITY entity);
 	virtual void EncodeRemovePacket(LPENTITY entity);
 	//////////////////////////////////////////////////////////////////////////////////
@@ -999,7 +1016,7 @@ public:
 #endif
 
 	//////////////////////////////////////////////////////////////////////////////////
-	// FSM (Finite State Machine) ����
+	// FSM (Finite State Machine) ï¿½ï¿½ï¿½ï¿½
 protected:
 	CStateTemplate<CHARACTER> m_stateMove;
 	CStateTemplate<CHARACTER> m_stateBattle;
@@ -1060,7 +1077,7 @@ public:
 	void Destroy();
 
 	//void Disconnect(const char* c_pszReason);
-	void Disconnect(const char * c_pszReason, int type = -1);
+	void Disconnect(const char* c_pszReason, int type = -1);
 
 protected:
 	void Initialize();
@@ -1081,13 +1098,13 @@ public:
 	DWORD GetPlayerID() const { return m_dwPlayerID; }
 
 	void SetPlayerProto(const TPlayerTable* table);
-	void CreatePlayerProto(TPlayerTable& tab); // ���� �� ���
+	void CreatePlayerProto(TPlayerTable& tab); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½
 
 	void SetProto(const CMob* c_pkMob);
 	WORD GetRaceNum() const;
 
 	void Save(); // DelayedSave
-	void SaveReal(); // ���� ����
+	void SaveReal(); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	void FlushDelayedSaveItem();
 
 #if defined(__EXTENDED_BLEND_AFFECT__)
@@ -1149,7 +1166,7 @@ public:
 	DWORD GetExp() const { return m_points.exp; }
 	void SetExp(DWORD exp) { m_points.exp = exp; }
 	DWORD GetNextExp() const;
-	LPCHARACTER DistributeExp(); // ���� ���� ���� ����� �����Ѵ�.
+	LPCHARACTER DistributeExp(); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	void DistributeHP(LPCHARACTER pkKiller);
 	void DistributeSP(LPCHARACTER pkKiller, int iMethod = 0);
 
@@ -1249,7 +1266,7 @@ public:
 	DWORD GetPolymorphItemVnum() const;
 	DWORD GetMonsterDrainSPPoint() const;
 
-	void MainCharacterPacket(); // ���� ����ĳ���Ͷ�� �����ش�.
+	void MainCharacterPacket(); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ä³ï¿½ï¿½ï¿½Í¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½.
 
 	void ComputePoints();
 	void ComputeBattlePoints();
@@ -1257,7 +1274,7 @@ public:
 	void PointsPacket();
 	void UpdatePointsPacket(BYTE type, long long val, long long amount = 0, bool bAmount = false, bool bBroadcast = false);
 	void ApplyPoint(uint16_t bApplyType, int iVal); //@fixme532
-	void CheckMaximumPoints(); // HP, SP ���� ���� ���� �ִ밪 ���� ������ �˻��ϰ� ���ٸ� �����.
+	void CheckMaximumPoints(); // HP, SP ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ë°ª ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½.
 
 #if defined(__WJ_SHOW_MOB_INFO__)
 	bool Show(long lMapIndex, long x, long y, long z = LONG_MAX, bool bShowSpawnMotion = false, bool bAggressive = false);
@@ -1287,7 +1304,7 @@ public:
 	bool IsBlockMode(BYTE bFlag) const { return (m_pointsInstant.bBlockMode & bFlag) ? true : false; }
 
 	bool IsPolymorphed() const { return m_dwPolymorphRace > 0; }
-	bool IsPolyMaintainStat() const { return m_bPolyMaintainStat; } // ���� ������ �����ϴ� ��������.
+	bool IsPolyMaintainStat() const { return m_bPolyMaintainStat; } // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 	void SetPolymorph(DWORD dwRaceNum, bool bMaintainStat = false);
 	DWORD GetPolymorphVnum() const { return m_dwPolymorphRace; }
 	int GetPolymorphPower() const;
@@ -1327,9 +1344,9 @@ public:
 	void SendPetLevelUpEffect(int vid, int value);
 #endif
 
-// #ifdef ENABLE_SET_ITEM
-// 	void GetSetCount(int& setID, int& setCount);
-// #endif
+	// #ifdef ENABLE_SET_ITEM
+	// 	void GetSetCount(int& setID, int& setCount);
+	// #endif
 
 	void ResetWhisperCounter() { m_bWhisperCounter = 0; }
 	bool IncreaseWhisperCounter() { ++m_bWhisperCounter; return m_bWhisperCounter; }
@@ -1367,15 +1384,15 @@ public:
 	void SetNowWalking(bool bWalkFlag);
 	void ResetWalking() { SetNowWalking(m_bWalking); }
 
-	bool Goto(long x, long y); // �ٷ� �̵� ��Ű�� �ʰ� ��ǥ ��ġ�� BLENDING ��Ų��.
+	bool Goto(long x, long y); // ï¿½Ù·ï¿½ ï¿½Ìµï¿½ ï¿½ï¿½Å°ï¿½ï¿½ ï¿½Ê°ï¿½ ï¿½ï¿½Ç¥ ï¿½ï¿½Ä¡ï¿½ï¿½ BLENDING ï¿½ï¿½Å²ï¿½ï¿½.
 	void Stop();
 
-	bool CanMove() const; // �̵��� �� �ִ°�?
+	bool CanMove() const; // ï¿½Ìµï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´Â°ï¿½?
 
 	void SyncPacket();
-	bool Sync(long x, long y); // ���� �� �޼ҵ�� �̵� �Ѵ� (�� �� ���ǿ� ���� �̵� �Ұ��� ����)
-	bool Move(long x, long y); // ������ �˻��ϰ� Sync �޼ҵ带 ���� �̵� �Ѵ�.
-	void OnMove(bool bIsAttack = false); // �����϶� �Ҹ���. Move() �޼ҵ� �̿ܿ����� �Ҹ� �� �ִ�.
+	bool Sync(long x, long y); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Þ¼Òµï¿½ï¿½ ï¿½Ìµï¿½ ï¿½Ñ´ï¿½ (ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ç¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ ï¿½Ò°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
+	bool Move(long x, long y); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½ï¿½Ï°ï¿½ Sync ï¿½Þ¼Òµå¸¦ ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ ï¿½Ñ´ï¿½.
+	void OnMove(bool bIsAttack = false); // ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½ ï¿½Ò¸ï¿½ï¿½ï¿½. Move() ï¿½Þ¼Òµï¿½ ï¿½Ì¿Ü¿ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ò¸ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½.
 	DWORD GetMotionMode() const;
 	float GetMoveMotionSpeed() const;
 	float GetMoveSpeed() const;
@@ -1387,7 +1404,7 @@ public:
 	DWORD GetLastMoveTime() const { return m_dwLastMoveTime; }
 	DWORD GetLastAttackTime() const { return m_dwLastAttackTime; }
 
-	void SetLastAttacked(DWORD time); // ���������� ���ݹ��� �ð� �� ��ġ�� ������
+	void SetLastAttacked(DWORD time); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ý¹ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 	bool SetSyncOwner(LPCHARACTER ch, bool bRemoveFromList = true);
 	bool IsSyncOwner(LPCHARACTER ch) const;
@@ -1414,21 +1431,21 @@ public:
 	void ResetStopTime();
 	DWORD GetStopTime() const;
 #ifdef FIX_GMVSHACKER
-    void UpdateAttackTimeTo(DWORD dwVID, DWORD dwTime) { m_map_dwAttackTime[dwVID] = dwTime; }
-    DWORD GetLastAttackTimeTo(DWORD dwVID) { return m_map_dwAttackTime[dwVID];  }
+	void UpdateAttackTimeTo(DWORD dwVID, DWORD dwTime) { m_map_dwAttackTime[dwVID] = dwTime; }
+	DWORD GetLastAttackTimeTo(DWORD dwVID) { return m_map_dwAttackTime[dwVID]; }
 
-    void IncreaseSyncAttackSusCount() { m_dwSyncAttackSusCount++; }
-    void ResetSyncAttackSusCount() { m_dwSyncAttackSusCount = 0; }
-    DWORD GetSyncAttackSusCount() const { return m_dwSyncAttackSusCount; }
+	void IncreaseSyncAttackSusCount() { m_dwSyncAttackSusCount++; }
+	void ResetSyncAttackSusCount() { m_dwSyncAttackSusCount = 0; }
+	DWORD GetSyncAttackSusCount() const { return m_dwSyncAttackSusCount; }
 
-    private:
-        std::map <DWORD, DWORD> m_map_dwAttackTime;
-        DWORD m_dwSyncAttackSusCount{ 0 };
+private:
+	std::map <DWORD, DWORD> m_map_dwAttackTime;
+	DWORD m_dwSyncAttackSusCount{ 0 };
 #endif
 #ifdef __ENABLE_NEW_OFFLINESHOP__
 public:
-	int GetOfflineShopUseTime() const {return m_iOfflineShopUseTime;}
-	void SetOfflineShopUseTime(){m_iOfflineShopUseTime = thecore_pulse();}
+	int GetOfflineShopUseTime() const { return m_iOfflineShopUseTime; }
+	void SetOfflineShopUseTime() { m_iOfflineShopUseTime = thecore_pulse(); }
 
 private:
 	int m_iOfflineShopUseTime = 0;
@@ -1448,7 +1465,7 @@ protected:
 
 	float m_fSyncTime;
 	LPCHARACTER m_pkChrSyncOwner;
-	CHARACTER_LIST m_kLst_pkChrSyncOwned; // ���� SyncOwner�� �ڵ�
+	CHARACTER_LIST m_kLst_pkChrSyncOwned; // ï¿½ï¿½ï¿½ï¿½ SyncOwnerï¿½ï¿½ ï¿½Úµï¿½
 
 	PIXEL_POSITION m_posDest;
 	PIXEL_POSITION m_posStart;
@@ -1474,7 +1491,7 @@ protected:
 #endif
 	// End
 
-	// Quickslot ����
+	// Quickslot ï¿½ï¿½ï¿½ï¿½
 public:
 	void SyncQuickslot(BYTE bType, WORD wOldPos, WORD wNewPos);
 #if defined(__SWAP_ITEM_SYSTEM__)
@@ -1526,7 +1543,7 @@ public:
 	load_affect_login_event_info* affectInfo;
 
 public:
-	// Affect loading�� ���� �����ΰ�?
+	// Affect loadingï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Î°ï¿½?
 	bool IsLoadedAffect() const { return m_bIsLoadedAffect; }
 
 	bool IsGoodAffect(BYTE bAffectType) const;
@@ -1558,25 +1575,25 @@ public:
 	void DenyToParty(LPCHARACTER member);
 	void AcceptToParty(LPCHARACTER member);
 
-	/// �ڽ��� ��Ƽ�� �ٸ� character �� �ʴ��Ѵ�.
+	/// ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ¼ï¿½ï¿½ ï¿½Ù¸ï¿½ character ï¿½ï¿½ ï¿½Ê´ï¿½ï¿½Ñ´ï¿½.
 	/**
-	* @param pchInvitee �ʴ��� ��� character. ��Ƽ�� ���� ������ �����̾�� �Ѵ�.
+	* @param pchInvitee ï¿½Ê´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ character. ï¿½ï¿½Æ¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ï¿½ ï¿½Ñ´ï¿½.
 	*
-	* ���� character �� ���°� ��Ƽ�� �ʴ��ϰ� �ʴ���� �� �ִ� ���°� �ƴ϶�� �ʴ��ϴ� ĳ���Ϳ��� �ش��ϴ� ä�� �޼����� �����Ѵ�.
+	* ï¿½ï¿½ï¿½ï¿½ character ï¿½ï¿½ ï¿½ï¿½ï¿½Â°ï¿½ ï¿½ï¿½Æ¼ï¿½ï¿½ ï¿½Ê´ï¿½ï¿½Ï°ï¿½ ï¿½Ê´ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½Â°ï¿½ ï¿½Æ´Ï¶ï¿½ï¿½ ï¿½Ê´ï¿½ï¿½Ï´ï¿½ Ä³ï¿½ï¿½ï¿½Í¿ï¿½ï¿½ï¿½ ï¿½Ø´ï¿½ï¿½Ï´ï¿½ Ã¤ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	**/
 	void PartyInvite(LPCHARACTER pchInvitee);
 
-	/// �ʴ��ߴ� character �� ������ ó���Ѵ�.
+	/// ï¿½Ê´ï¿½ï¿½ß´ï¿½ character ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½Ñ´ï¿½.
 	/**
-	* @param pchInvitee ��Ƽ�� ������ character. ��Ƽ�� ���������� �����̾�� �Ѵ�.
+	* @param pchInvitee ï¿½ï¿½Æ¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ character. ï¿½ï¿½Æ¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ï¿½ ï¿½Ñ´ï¿½.
 	*
-	* pchInvitee �� ��Ƽ�� ������ �� �ִ� ��Ȳ�� �ƴ϶�� �ش��ϴ� ä�� �޼����� �����Ѵ�.
+	* pchInvitee ï¿½ï¿½ ï¿½ï¿½Æ¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½È²ï¿½ï¿½ ï¿½Æ´Ï¶ï¿½ï¿½ ï¿½Ø´ï¿½ï¿½Ï´ï¿½ Ã¤ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	**/
 	void PartyInviteAccept(LPCHARACTER pchInvitee);
 
-	/// �ʴ��ߴ� character �� �ʴ� �źθ� ó���Ѵ�.
+	/// ï¿½Ê´ï¿½ï¿½ß´ï¿½ character ï¿½ï¿½ ï¿½Ê´ï¿½ ï¿½ÅºÎ¸ï¿½ Ã³ï¿½ï¿½ï¿½Ñ´ï¿½.
 	/**
-	* @param [in] dwPID �ʴ� �ߴ� character �� PID
+	* @param [in] dwPID ï¿½Ê´ï¿½ ï¿½ß´ï¿½ character ï¿½ï¿½ PID
 	**/
 	void PartyInviteDeny(DWORD dwPID);
 
@@ -1591,46 +1608,46 @@ public:
 
 protected:
 
-	/// ��Ƽ�� �����Ѵ�.
+	/// ï¿½ï¿½Æ¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	/**
-	* @param pkLeader ������ ��Ƽ�� ����
+	* @param pkLeader ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	**/
 	void PartyJoin(LPCHARACTER pkLeader);
 
 	/**
-	* ��Ƽ ������ �� �� ���� ����� �����ڵ�.
-	* Error code �� �ð��� �������ΰ��� ���� ���氡����(mutable) type �� ����(static) type ���� ������.
-	* Error code �� ���� PERR_SEPARATOR ���� ������ ���氡���� type �̰� ������ ���� type �̴�.
+	* ï¿½ï¿½Æ¼ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½.
+	* Error code ï¿½ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½æ°¡ï¿½ï¿½ï¿½ï¿½(mutable) type ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(static) type ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+	* Error code ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ PERR_SEPARATOR ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½æ°¡ï¿½ï¿½ï¿½ï¿½ type ï¿½Ì°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ type ï¿½Ì´ï¿½.
 	**/
 	enum PartyJoinErrCode
 	{
-		PERR_NONE = 0, ///< ó������
-		PERR_SERVER, ///< ���������� ��Ƽ���� ó�� �Ұ�
-		PERR_DUNGEON, ///< ĳ���Ͱ� ������ ����
-		PERR_OBSERVER, ///< ���������
-		PERR_LVBOUNDARY, ///< ��� ĳ���Ϳ� �������̰� ��
-		PERR_LOWLEVEL, ///< �����Ƽ�� �ְ��������� 30���� ����
-		PERR_HILEVEL, ///< �����Ƽ�� ������������ 30���� ����
-		PERR_ALREADYJOIN, ///< ��Ƽ���� ��� ĳ���Ͱ� �̹� ��Ƽ��
-		PERR_PARTYISFULL, ///< ��Ƽ�ο� ���� �ʰ�
+		PERR_NONE = 0, ///< Ã³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		PERR_SERVER, ///< ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ¼ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ ï¿½Ò°ï¿½
+		PERR_DUNGEON, ///< Ä³ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		PERR_OBSERVER, ///< ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		PERR_LVBOUNDARY, ///< ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½Í¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì°ï¿½ ï¿½ï¿½
+		PERR_LOWLEVEL, ///< ï¿½ï¿½ï¿½ï¿½ï¿½Æ¼ï¿½ï¿½ ï¿½Ö°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 30ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		PERR_HILEVEL, ///< ï¿½ï¿½ï¿½ï¿½ï¿½Æ¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 30ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		PERR_ALREADYJOIN, ///< ï¿½ï¿½Æ¼ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½Í°ï¿½ ï¿½Ì¹ï¿½ ï¿½ï¿½Æ¼ï¿½ï¿½
+		PERR_PARTYISFULL, ///< ï¿½ï¿½Æ¼ï¿½Î¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê°ï¿½
 		PERR_SEPARATOR, ///< Error type separator.
-		PERR_DIFFEMPIRE, ///< ��� ĳ���Ϳ� �ٸ� ������
-		PERR_MAX ///< Error code �ְ�ġ. �� �տ� Error code �� �߰��Ѵ�.
+		PERR_DIFFEMPIRE, ///< ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½Í¿ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		PERR_MAX ///< Error code ï¿½Ö°ï¿½Ä¡. ï¿½ï¿½ ï¿½Õ¿ï¿½ Error code ï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ñ´ï¿½.
 	};
 
-	/// ��Ƽ �����̳� �Ἲ ������ ������ �˻��Ѵ�.
+	/// ï¿½ï¿½Æ¼ ï¿½ï¿½ï¿½ï¿½ï¿½Ì³ï¿½ ï¿½á¼º ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½ï¿½Ñ´ï¿½.
 	/**
-	* @param pchLeader ��Ƽ�� leader �̰ų� �ʴ��� character
-	* @param pchGuest �ʴ�޴� character
-	* @return ��� PartyJoinErrCode �� ��ȯ�� �� �ִ�.
+	* @param pchLeader ï¿½ï¿½Æ¼ï¿½ï¿½ leader ï¿½Ì°Å³ï¿½ ï¿½Ê´ï¿½ï¿½ï¿½ character
+	* @param pchGuest ï¿½Ê´ï¿½Þ´ï¿½ character
+	* @return ï¿½ï¿½ï¿½ PartyJoinErrCode ï¿½ï¿½ ï¿½ï¿½È¯ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½.
 	**/
 	static PartyJoinErrCode IsPartyJoinableCondition(const LPCHARACTER pchLeader, const LPCHARACTER pchGuest);
 
-	/// ��Ƽ �����̳� �Ἲ ������ ������ ������ �˻��Ѵ�.
+	/// ï¿½ï¿½Æ¼ ï¿½ï¿½ï¿½ï¿½ï¿½Ì³ï¿½ ï¿½á¼º ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½ï¿½Ñ´ï¿½.
 	/**
-	* @param pchLeader ��Ƽ�� leader �̰ų� �ʴ��� character
-	* @param pchGuest �ʴ�޴� character
-	* @return mutable type �� code �� ��ȯ�Ѵ�.
+	* @param pchLeader ï¿½ï¿½Æ¼ï¿½ï¿½ leader ï¿½Ì°Å³ï¿½ ï¿½Ê´ï¿½ï¿½ï¿½ character
+	* @param pchGuest ï¿½Ê´ï¿½Þ´ï¿½ character
+	* @return mutable type ï¿½ï¿½ code ï¿½ï¿½ ï¿½ï¿½È¯ï¿½Ñ´ï¿½.
 	**/
 	static PartyJoinErrCode IsPartyJoinableMutableCondition(const LPCHARACTER pchLeader, const LPCHARACTER pchGuest);
 
@@ -1639,11 +1656,11 @@ protected:
 	LPEVENT m_pkPartyRequestEvent;
 
 	/**
-	* ��Ƽ��û Event map.
-	* key: �ʴ���� ĳ������ PID
-	* value: event�� pointer
+	* ï¿½ï¿½Æ¼ï¿½ï¿½Ã» Event map.
+	* key: ï¿½Ê´ï¿½ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ PID
+	* value: eventï¿½ï¿½ pointer
 	*
-	* �ʴ��� ĳ���͵鿡 ���� event map.
+	* ï¿½Ê´ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½Íµé¿¡ ï¿½ï¿½ï¿½ï¿½ event map.
 	**/
 	typedef std::map<DWORD, LPEVENT> EventMap;
 	EventMap m_PartyInviteEventMap;
@@ -1698,7 +1715,7 @@ private:
 	////////////////////////////////////////////////////////////////////////////////////////
 	// Item related
 public:
-	bool CanHandleItem(bool bSkipRefineCheck = false, bool bSkipObserver = false); // ������ ���� ������ �� �� �ִ°�?
+	bool CanHandleItem(bool bSkipRefineCheck = false, bool bSkipObserver = false); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´Â°ï¿½?
 
 	bool IsItemLoaded() const { return m_bItemLoaded; }
 	void SetItemLoaded() { m_bItemLoaded = true; }
@@ -1748,16 +1765,16 @@ public:
 	LPITEM GetWear(UINT bCell) const;
 
 	// MYSHOP_PRICE_LIST
-	void UseSilkBotary(void); /// ��� ������ �������� ���
+	void UseSilkBotary(void); /// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 #if defined(__MYSHOP_DECO__)
 	void UseDecoBundle(void);
 #endif
-	/// DB ĳ�÷� ���� �޾ƿ� �������� ����Ʈ�� �������� �����ϰ� ������ ������ ����� ó���Ѵ�.
+	/// DB Ä³ï¿½Ã·ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¾Æ¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½Ñ´ï¿½.
 	/**
-	* @param [in] p �������� ����Ʈ ��Ŷ
+	* @param [in] p ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½Å¶
 	*
-	* ������ �� ó�� ��� ������ ������ ��� �� UseSilkBotary ���� DB ĳ�÷� �������� ����Ʈ�� ��û�ϰ�
-	* ������� ������ �� �Լ����� ���� ��ܺ����� ����� ó���Ѵ�.
+	* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Ã³ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ UseSilkBotary ï¿½ï¿½ï¿½ï¿½ DB Ä³ï¿½Ã·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½Ï°ï¿½
+	* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Üºï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½Ñ´ï¿½.
 	**/
 	void UseSilkBotaryReal(const TPacketMyshopPricelistHeader* p);
 	// END_OF_MYSHOP_PRICE_LIST
@@ -1810,12 +1827,12 @@ public:
 #endif
 	bool EquipItem(LPITEM item, int iCandidateCell = -1);
 	bool UnequipItem(LPITEM item);
-	// ���� item�� ������ �� �ִ� �� Ȯ���ϰ�, �Ұ��� �ϴٸ� ĳ���Ϳ��� ������ �˷��ִ� �Լ�
+	// ï¿½ï¿½ï¿½ï¿½ itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ È®ï¿½ï¿½ï¿½Ï°ï¿½, ï¿½Ò°ï¿½ï¿½ï¿½ ï¿½Ï´Ù¸ï¿½ Ä³ï¿½ï¿½ï¿½Í¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë·ï¿½ï¿½Ö´ï¿½ ï¿½Ô¼ï¿½
 	bool CanEquipNow(const LPITEM item, const TItemPos& srcCell = NPOS, const TItemPos& destCell = NPOS);
 
-	// �������� item�� ���� �� �ִ� �� Ȯ���ϰ�, �Ұ��� �ϴٸ� ĳ���Ϳ��� ������ �˷��ִ� �Լ�
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ È®ï¿½ï¿½ï¿½Ï°ï¿½, ï¿½Ò°ï¿½ï¿½ï¿½ ï¿½Ï´Ù¸ï¿½ Ä³ï¿½ï¿½ï¿½Í¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë·ï¿½ï¿½Ö´ï¿½ ï¿½Ô¼ï¿½
 	bool CanUnequipNow(const LPITEM item, const TItemPos& srcCell = NPOS, const TItemPos& destCell = NPOS);
-	// �������� item�� ���� �� �ִ� �� Ȯ���ϰ�, �Ұ��� �ϴٸ� ĳ���Ϳ��� ������ �˷��ִ� �Լ�
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ È®ï¿½ï¿½ï¿½Ï°ï¿½, ï¿½Ò°ï¿½ï¿½ï¿½ ï¿½Ï´Ù¸ï¿½ Ä³ï¿½ï¿½ï¿½Í¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë·ï¿½ï¿½Ö´ï¿½ ï¿½Ô¼ï¿½
 	// bool CanUnequipNow(const LPITEM item, const TItemPos& swapCell = NPOS);
 
 	bool SwapItem(UINT bCell, UINT bDestCell);
@@ -1842,9 +1859,9 @@ public:
 #endif
 	void CopyDragonSoulItemGrid(std::vector<WORD>& vDragonSoulItemGrid) const;
 
-/*** Ikarus function created for offlineshop & special inventory ***/
+	/*** Ikarus function created for offlineshop & special inventory ***/
 	bool CanTakeInventoryItem(LPITEM item, TItemPos* cell);
-/*** End ***/
+	/*** End ***/
 
 	int CountEmptyInventory() const;
 
@@ -1880,40 +1897,40 @@ public:
 
 	void SendEquipment(LPCHARACTER ch);
 	// End of Item
-	
+
 #ifdef __ENABLE_NEW_OFFLINESHOP__
-	public:
-		offlineshop::CShop* GetOfflineShop() {return m_pkOfflineShop;}
-		void SetOfflineShop(offlineshop::CShop* pkShop) {m_pkOfflineShop = pkShop;}
+public:
+	offlineshop::CShop* GetOfflineShop() { return m_pkOfflineShop; }
+	void SetOfflineShop(offlineshop::CShop* pkShop) { m_pkOfflineShop = pkShop; }
 
-		offlineshop::CShop* GetOfflineShopGuest() {return m_pkOfflineShopGuest;}
-		void SetOfflineShopGuest(offlineshop::CShop* pkShop) {m_pkOfflineShopGuest = pkShop;}
+	offlineshop::CShop* GetOfflineShopGuest() { return m_pkOfflineShopGuest; }
+	void SetOfflineShopGuest(offlineshop::CShop* pkShop) { m_pkOfflineShopGuest = pkShop; }
 
-		offlineshop::CShopSafebox* GetShopSafebox() {return m_pkShopSafebox;}
-		void SetShopSafebox(offlineshop::CShopSafebox* pk);
+	offlineshop::CShopSafebox* GetShopSafebox() { return m_pkShopSafebox; }
+	void SetShopSafebox(offlineshop::CShopSafebox* pk);
 
-		void SetAuction(offlineshop::CAuction* pk) {m_pkAuction = pk;}
-		void SetAuctionGuest(offlineshop::CAuction* pk) {m_pkAuctionGuest = pk;}
+	void SetAuction(offlineshop::CAuction* pk) { m_pkAuction = pk; }
+	void SetAuctionGuest(offlineshop::CAuction* pk) { m_pkAuctionGuest = pk; }
 
-		offlineshop::CAuction* GetAuction() {return m_pkAuction;}
-		offlineshop::CAuction* GetAuctionGuest() {return m_pkAuctionGuest;}
+	offlineshop::CAuction* GetAuction() { return m_pkAuction; }
+	offlineshop::CAuction* GetAuctionGuest() { return m_pkAuctionGuest; }
 
-		void SetLookingOfflineshopOfferList(bool is) { m_bIsLookingOfflineshopOfferList = is; }
-		bool IsLookingOfflineshopOfferList() { return m_bIsLookingOfflineshopOfferList; }
+	void SetLookingOfflineshopOfferList(bool is) { m_bIsLookingOfflineshopOfferList = is; }
+	bool IsLookingOfflineshopOfferList() { return m_bIsLookingOfflineshopOfferList; }
 
-	private:
-		offlineshop::CShop* m_pkOfflineShop;
-		offlineshop::CShop*	m_pkOfflineShopGuest;
-		offlineshop::CShopSafebox* m_pkShopSafebox;
-		offlineshop::CAuction* m_pkAuction;
-		offlineshop::CAuction* m_pkAuctionGuest;
+private:
+	offlineshop::CShop* m_pkOfflineShop;
+	offlineshop::CShop* m_pkOfflineShopGuest;
+	offlineshop::CShopSafebox* m_pkShopSafebox;
+	offlineshop::CAuction* m_pkAuction;
+	offlineshop::CAuction* m_pkAuctionGuest;
 
-		bool m_bIsLookingOfflineshopOfferList;
+	bool m_bIsLookingOfflineshopOfferList;
 #endif
 protected:
 	/**
-	* @param [in] dwItemVnum ������ vnum
-	* @param [in] dwItemPrice ������ ����
+	* @param [in] dwItemVnum ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ vnum
+	* @param [in] dwItemPrice ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	**/
 #if defined(__CHEQUE_SYSTEM__)
 	void SendMyShopPriceListCmd(DWORD dwItemVnum, DWORD dwItemPrice, DWORD dwItemPriceCheque);
@@ -1921,7 +1938,7 @@ protected:
 	void SendMyShopPriceListCmd(DWORD dwItemVnum, DWORD dwItemPrice);
 #endif
 
-	bool m_bNoOpenedShop; ///< �̹� ���� �� ���λ����� �� ���� �ִ����� ����(������ ���� ���ٸ� true)
+	bool m_bNoOpenedShop; ///< ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Î»ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ù¸ï¿½ true)
 
 	bool m_bItemLoaded;
 	int m_iRefineAdditionalCell;
@@ -1972,7 +1989,7 @@ public:
 	void SetGold(long long gold) { m_points.gold = gold; }
 	bool DropGold(INT gold);
 	long long GetAllowedGold() const;
-	void GiveGold(long long llAmount); // ��Ƽ�� ������ ��Ƽ �й�, �α� ���� ó��
+	void GiveGold(long long llAmount); // ï¿½ï¿½Æ¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ¼ ï¿½Ð¹ï¿½, ï¿½Î±ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
 	// End of Money
 
 	////////////////////////////////////////////////////////////////////////////////////////
@@ -2031,11 +2048,11 @@ public:
 	void SendWarTeleportButton(bool show = false);
 #endif
 
-// #ifdef ENABLE_SET_ITEM
-// public:
-// 	void RefreshSetBonus();
-// 	void ClearAffectSetBonus();
-// #endif
+	// #ifdef ENABLE_SET_ITEM
+	// public:
+	// 	void RefreshSetBonus();
+	// 	void ClearAffectSetBonus();
+	// #endif
 
 #ifdef ENABLE_ATTR_6TH_7TH_EXTEND
 public:
@@ -2099,9 +2116,9 @@ public:
 	bool CanFight() const;
 
 	bool CanBeginFight() const;
-	void BeginFight(LPCHARACTER pkVictim); // pkVictimr�� �ο�� �����Ѵ�. (��������, ������ �� �ֳ� üũ�Ϸ��� CanBeginFight�� ���)
+	void BeginFight(LPCHARACTER pkVictim); // pkVictimrï¿½ï¿½ ï¿½Î¿ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½. (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö³ï¿½ Ã¼Å©ï¿½Ï·ï¿½ï¿½ï¿½ CanBeginFightï¿½ï¿½ ï¿½ï¿½ï¿½)
 
-	bool CounterAttack(LPCHARACTER pkChr); // �ݰ��ϱ� (���͸� ���)
+	bool CounterAttack(LPCHARACTER pkChr); // ï¿½Ý°ï¿½ï¿½Ï±ï¿½ (ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½)
 
 	bool IsStun() const;
 	void Stun(bool bImmediate = false);
@@ -2134,7 +2151,7 @@ public:
 	void UpdateAlignment(int iAmount);
 	int GetAlignment() const;
 
-	// ����ġ ��� 
+	// ï¿½ï¿½ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ 
 	int GetRealAlignment() const;
 	void ShowAlignment(bool bShow);
 
@@ -2186,7 +2203,7 @@ protected:
 
 	DWORD m_dwFlyTargetID;
 	std::vector<DWORD> m_vec_dwFlyTargets;
-	TDamageMap m_map_kDamage; // � ĳ���Ͱ� ������ �󸶸�ŭ�� �������� �־��°�?
+	TDamageMap m_map_kDamage; // ï¿½î¶² Ä³ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ó¸¶¸ï¿½Å­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¾ï¿½ï¿½Â°ï¿½?
 	//AttackLog m_kAttackLog;
 	DWORD m_dwKillerPID;
 
@@ -2209,8 +2226,8 @@ public:
 	BYTE GetDropMetinStonePct() const { return m_bDropMetinStonePct; }
 
 protected:
-	LPCHARACTER m_pkChrStone; // ���� ������ ��
-	CHARACTER_SET m_set_pkChrSpawnedBy; // ���� ������ ���
+	LPCHARACTER m_pkChrStone; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
+	CHARACTER_SET m_set_pkChrSpawnedBy; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	DWORD m_dwDropMetinStone;
 	BYTE m_bDropMetinStonePct;
 	// End of Stone
@@ -2279,7 +2296,7 @@ public:
 
 private:
 	bool m_bDisableCooltime;
-	DWORD m_dwLastSkillTime; ///< ���������� skill �� �� �ð�(millisecond).
+	DWORD m_dwLastSkillTime; ///< ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ skill ï¿½ï¿½ ï¿½ï¿½ ï¿½Ã°ï¿½(millisecond).
 	// End of Skill
 
 	// MOB_SKILL
@@ -2368,10 +2385,10 @@ protected:
 	// AI related
 public:
 	void AssignTriggers(const TMobTable* table);
-	LPCHARACTER GetVictim() const; // ������ ��� ����
+	LPCHARACTER GetVictim() const; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	void SetVictim(LPCHARACTER pkVictim);
 	LPCHARACTER GetNearestVictim(LPCHARACTER pkChr);
-	LPCHARACTER GetProtege() const; // ��ȣ�ؾ� �� ��� ����
+	LPCHARACTER GetProtege() const; // ï¿½ï¿½È£ï¿½Ø¾ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
 	bool Follow(LPCHARACTER pkChr, float fMinimumDistance = 150.0f);
 	bool Return();
@@ -2395,8 +2412,8 @@ protected:
 	////////////////////////////////////////////////////////////////////////////////////////
 	// Target
 protected:
-	LPCHARACTER m_pkChrTarget; // �� Ÿ��
-	CHARACTER_SET m_set_pkChrTargetedBy; // ���� Ÿ������ ������ �ִ� �����
+	LPCHARACTER m_pkChrTarget; // ï¿½ï¿½ Å¸ï¿½ï¿½
+	CHARACTER_SET m_set_pkChrTargetedBy; // ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
 
 public:
 	void SetTarget(LPCHARACTER pkChrTarget);
@@ -2417,19 +2434,19 @@ public:
 	void ChangeSafeboxSize(BYTE bSize);
 	void CloseSafebox();
 
-	/// â�� ���� ��û
+	/// Ã¢ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»
 	/**
-	* @param [in] pszPassword 1�� �̻� 6�� ������ â�� ��й�ȣ
+	* @param [in] pszPassword 1ï¿½ï¿½ ï¿½Ì»ï¿½ 6ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¢ï¿½ï¿½ ï¿½ï¿½Ð¹ï¿½È£
 	*
-	* DB �� â�����⸦ ��û�Ѵ�.
-	* â���� �ߺ����� ���� ���ϸ�, �ֱ� â���� ���� �ð����� ���� 10�� �̳����� �� �� ���Ѵ�.
+	* DB ï¿½ï¿½ Ã¢ï¿½ï¿½ï¿½ï¿½ï¿½â¸¦ ï¿½ï¿½Ã»ï¿½Ñ´ï¿½.
+	* Ã¢ï¿½ï¿½ï¿½ï¿½ ï¿½ßºï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¸ï¿½, ï¿½Ö±ï¿½ Ã¢ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 10ï¿½ï¿½ ï¿½Ì³ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ñ´ï¿½.
 	**/
 	void ReqSafeboxLoad(const char* pszPassword);
 
-	/// â�� ���� ��û�� ���
+	/// Ã¢ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ï¿½
 	/**
-	* ReqSafeboxLoad �� ȣ���ϰ� CloseSafebox ���� �ʾ��� �� �� �Լ��� ȣ���ϸ� â���� �� �� �ִ�.
-	* â�������� ��û�� DB �������� ���������� �޾��� ��� �� �Լ��� ����ؼ� ��û�� �� �� �ְ� ���ش�.
+	* ReqSafeboxLoad ï¿½ï¿½ È£ï¿½ï¿½ï¿½Ï°ï¿½ CloseSafebox ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Ô¼ï¿½ï¿½ï¿½ È£ï¿½ï¿½ï¿½Ï¸ï¿½ Ã¢ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½.
+	* Ã¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ DB ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ô¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö°ï¿½ ï¿½ï¿½ï¿½Ø´ï¿½.
 	**/
 	void CancelSafeboxLoad(void) { m_bOpeningSafebox = false; }
 
@@ -2465,7 +2482,7 @@ protected:
 	CSafebox* m_pkSafebox;
 	int m_iSafeboxSize;
 	int m_iSafeboxLoadTime;
-	bool m_bOpeningSafebox; ///< â���� ���� ��û ���̰ų� �����ִ°� ����, true �� ��� �����û�̰ų� ��������.
+	bool m_bOpeningSafebox; ///< Ã¢ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã» ï¿½ï¿½ï¿½Ì°Å³ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö´Â°ï¿½ ï¿½ï¿½ï¿½ï¿½, true ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½Ì°Å³ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 
 	CSafebox* m_pkMall;
 	int m_iMallLoadTime;
@@ -2509,7 +2526,7 @@ public:
 
 	void HorseSummon(bool bSummon, bool bFromFar = false, DWORD dwVnum = 0, const char* name = 0);
 
-	LPCHARACTER GetHorse() const { return m_chHorse; } // ���� ��ȯ���� ��
+	LPCHARACTER GetHorse() const { return m_chHorse; } // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 	LPCHARACTER GetRider() const; // rider on horse
 	void SetRider(LPCHARACTER ch);
 
@@ -2586,7 +2603,7 @@ protected:
 	////////////////////////////////////////////////////////////////////////////////////////
 	// Resists & Proofs
 public:
-	bool CannotMoveByAffect() const; // Ư�� ȿ���� ���� ������ �� ���� �����ΰ�?
+	bool CannotMoveByAffect() const; // Æ¯ï¿½ï¿½ È¿ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Î°ï¿½?
 	bool IsImmune(DWORD dwImmuneFlag);
 	void SetImmuneFlag(DWORD dw) { m_pointsInstant.dwImmuneFlag = dw; }
 
@@ -2626,7 +2643,7 @@ public:
 	void UpdateStateMachine(DWORD dwPulse);
 	void SetNextStatePulse(int iPulseNext);
 
-	// ĳ���� �ν��Ͻ� ������Ʈ �Լ�. ������ �̻��� ��ӱ����� CFSM::Update �Լ��� ȣ���ϰų� UpdateStateMachine �Լ��� ����ߴµ�, ������ ������Ʈ �Լ� �߰���.
+	// Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½Î½ï¿½ï¿½Ï½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ô¼ï¿½. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì»ï¿½ï¿½ï¿½ ï¿½ï¿½Ó±ï¿½ï¿½ï¿½ï¿½ï¿½ CFSM::Update ï¿½Ô¼ï¿½ï¿½ï¿½ È£ï¿½ï¿½ï¿½Ï°Å³ï¿½ UpdateStateMachine ï¿½Ô¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ß´Âµï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ô¼ï¿½ ï¿½ß°ï¿½ï¿½ï¿½.
 	void UpdateCharacter(DWORD dwPulse);
 
 protected:
@@ -2681,7 +2698,7 @@ public:
 
 	//bool IsWarping() const { return m_bWarping; }
 	bool IsWarping() const;
-	
+
 	bool m_bHasPoisoned;
 	bool m_bHasBled;
 
@@ -2702,9 +2719,9 @@ private:
 	int m_aiPremiumTimes[PREMIUM_MAX_NUM];
 
 	// CHANGE_ITEM_ATTRIBUTES
-	static const DWORD msc_dwDefaultChangeItemAttrCycle; ///< ����Ʈ ������ �Ӽ����� ���� �ֱ�
-	static const char msc_szLastChangeItemAttrFlag[]; ///< �ֱ� ������ �Ӽ��� ������ �ð��� Quest Flag �̸�
-	static const char msc_szChangeItemAttrCycleFlag[]; ///< ������ �Ӽ����� ���� �ֱ��� Quest Flag �̸�
+	static const DWORD msc_dwDefaultChangeItemAttrCycle; ///< ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ó¼ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö±ï¿½
+	static const char msc_szLastChangeItemAttrFlag[]; ///< ï¿½Ö±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ó¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½ Quest Flag ï¿½Ì¸ï¿½
+	static const char msc_szChangeItemAttrCycleFlag[]; ///< ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ó¼ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö±ï¿½ï¿½ï¿½ Quest Flag ï¿½Ì¸ï¿½
 	// END_OF_CHANGE_ITEM_ATTRIBUTES
 
 	// PC_BANG_ITEM_ADD
@@ -2792,7 +2809,7 @@ public:
 	void SetExchangeTime() { m_iExchangeTime = thecore_pulse(); }
 	int m_iExchangeTime;
 	// END_PREVENT_PORTAL_AFTER_EXCHANGE
-	
+
 #ifdef ENABLE_ANTI_SPAM
 	int analyze_protect;
 	int analyze_protect_count;
@@ -2840,7 +2857,7 @@ public:
 	bool PreventTradeWindow(int flags, bool except = false) const;
 	// END_PREVENT_TRADE_WINDOW
 
-	// Hack ������ ���� üũ.
+	// Hack ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã¼Å©.
 	bool IsHack(bool bSendMsg = true, bool bCheckShopOwner = true, int limittime = g_nPortalLimitTime);
 
 	// MONARCH
@@ -2904,9 +2921,9 @@ public:
 	bool IsSiegeNPC() const;
 
 private:
-	// �߱� ����
-	// 18�� �̸� ����
-	// 3�ð� : 50 % 5 �ð� 0%
+	// ï¿½ß±ï¿½ ï¿½ï¿½ï¿½ï¿½
+	// 18ï¿½ï¿½ ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½
+	// 3ï¿½Ã°ï¿½ : 50 % 5 ï¿½Ã°ï¿½ 0%
 	e_overtime m_eOverTime;
 
 public:
@@ -2992,7 +3009,7 @@ private:
 
 	typedef std::map <uint16_t, CBuffOnAttributes*> TMapBuffOnAttrs; //@fixme532
 	TMapBuffOnAttrs m_map_buff_on_attrs;
-	// ���� : ��Ȱ�� �׽�Ʈ�� ���Ͽ�.
+	// ï¿½ï¿½ï¿½ï¿½ : ï¿½ï¿½È°ï¿½ï¿½ ï¿½×½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¿ï¿½.
 
 public:
 	void SetArmada() { cannot_dead = true; }
@@ -3002,12 +3019,12 @@ private:
 	bool cannot_dead;
 
 #if defined(__BL_67_ATTR__)
-	public:
-		void Open67Attr();
-		void Set67Attr(bool b) { b67Attr = b; }
-		bool Is67AttrOpen() const { return b67Attr; }
-	private:
-		bool b67Attr;
+public:
+	void Open67Attr();
+	void Set67Attr(bool b) { b67Attr = b; }
+	bool Is67AttrOpen() const { return b67Attr; }
+private:
+	bool b67Attr;
 #endif
 
 #if defined(__PET_SYSTEM__)
@@ -3073,7 +3090,7 @@ public:
 private:
 	bool IsValidItemPosition(TItemPos Pos) const;
 
-	// ���� ���� ��� ��Ŷ �ӽ� ����
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ ï¿½Ó½ï¿½ ï¿½ï¿½ï¿½ï¿½
 private:
 	unsigned int itemAward_vnum;
 	char itemAward_cmd[20];
@@ -3119,10 +3136,10 @@ protected:
 #endif
 
 public:
-	// ��ȥ��
+	// ï¿½ï¿½È¥ï¿½ï¿½
 
-	// ĳ������ affect, quest�� load �Ǳ� ���� DragonSoul_Initialize�� ȣ���ϸ� �ȵȴ�.
-	// affect�� ���� �������� �ε�Ǿ� LoadAffect���� ȣ����.
+	// Ä³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ affect, questï¿½ï¿½ load ï¿½Ç±ï¿½ ï¿½ï¿½ï¿½ï¿½ DragonSoul_Initializeï¿½ï¿½ È£ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ÈµÈ´ï¿½.
+	// affectï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½Ç¾ï¿½ LoadAffectï¿½ï¿½ï¿½ï¿½ È£ï¿½ï¿½ï¿½ï¿½.
 	void DragonSoul_Initialize();
 
 	bool DragonSoul_IsQualified() const;
@@ -3133,22 +3150,22 @@ public:
 	bool DragonSoul_ActivateDeck(int deck_idx);
 
 	void DragonSoul_DeactivateAll();
-	// �ݵ�� ClearItem ���� �ҷ��� �Ѵ�.
-	// �ֳ��ϸ�....
-	// ��ȥ�� �ϳ� �ϳ��� deactivate�� ������ ���� active�� ��ȥ���� �ִ��� Ȯ���ϰ�,
-	// active�� ��ȥ���� �ϳ��� ���ٸ�, ĳ������ ��ȥ�� affect��, Ȱ�� ���¸� �����Ѵ�.
+	// ï¿½Ýµï¿½ï¿½ ClearItem ï¿½ï¿½ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
+	// ï¿½Ö³ï¿½ï¿½Ï¸ï¿½....
+	// ï¿½ï¿½È¥ï¿½ï¿½ ï¿½Ï³ï¿½ ï¿½Ï³ï¿½ï¿½ï¿½ deactivateï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ activeï¿½ï¿½ ï¿½ï¿½È¥ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½Ï°ï¿½,
+	// activeï¿½ï¿½ ï¿½ï¿½È¥ï¿½ï¿½ï¿½ï¿½ ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ù¸ï¿½, Ä³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¥ï¿½ï¿½ affectï¿½ï¿½, È°ï¿½ï¿½ ï¿½ï¿½ï¿½Â¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	// 
-	// ������ ClearItem ��, ĳ���Ͱ� �����ϰ� �ִ� ��� �������� unequip�ϴ� �ٶ���,
-	// ��ȥ�� Affect�� ���ŵǰ�, �ᱹ �α��� ��, ��ȥ���� Ȱ��ȭ���� �ʴ´�.
-	// (Unequip�� ������ �α׾ƿ� ��������, �ƴ��� �� �� ����.)
-	// ��ȥ���� deactivate��Ű�� ĳ������ ��ȥ�� �� Ȱ�� ���´� �ǵ帮�� �ʴ´�.
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ClearItem ï¿½ï¿½, Ä³ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ unequipï¿½Ï´ï¿½ ï¿½Ù¶ï¿½ï¿½ï¿½,
+	// ï¿½ï¿½È¥ï¿½ï¿½ Affectï¿½ï¿½ ï¿½ï¿½ï¿½ÅµÇ°ï¿½, ï¿½á±¹ ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½, ï¿½ï¿½È¥ï¿½ï¿½ï¿½ï¿½ È°ï¿½ï¿½È­ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
+	// (Unequipï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Î±×¾Æ¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½Æ´ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.)
+	// ï¿½ï¿½È¥ï¿½ï¿½ï¿½ï¿½ deactivateï¿½ï¿½Å°ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¥ï¿½ï¿½ ï¿½ï¿½ È°ï¿½ï¿½ ï¿½ï¿½ï¿½Â´ï¿½ ï¿½Çµå¸®ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 	void DragonSoul_CleanUp();
 
 #if defined(__DS_SET__)
 	void DragonSoul_HandleSetBonus(/*bool bSet = true*/);
 #endif
 
-	// ��ȥ�� ��ȭâ
+	// ï¿½ï¿½È¥ï¿½ï¿½ ï¿½ï¿½È­Ã¢
 public:
 	bool DragonSoul_RefineWindow_Open(LPENTITY pEntity);
 #if defined(__DS_CHANGE_ATTR__)
@@ -3159,8 +3176,8 @@ public:
 	bool DragonSoul_RefineWindow_CanRefine();
 
 private:
-	// SyncPosition�� �ǿ��Ͽ� Ÿ������ �̻��� ������ ������ �� ����ϱ� ���Ͽ�,
-	// SyncPosition�� �Ͼ ���� ���.
+	// SyncPositionï¿½ï¿½ ï¿½Ç¿ï¿½ï¿½Ï¿ï¿½ Å¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì»ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½Ï¿ï¿½,
+	// SyncPositionï¿½ï¿½ ï¿½Ï¾î³¯ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½.
 	timeval m_tvLastSyncTime;
 	int m_iSyncHackCount;
 #ifdef ENABLE_SWITCHBOT
@@ -3174,17 +3191,17 @@ public:
 	int GetSyncHackCount() { return m_iSyncHackCount; }
 
 	// @fixme188 BEGIN
-	public:
-		void ResetRewardInfo() {
-			m_map_kDamage.clear();
-			if (!IsPC())
-				SetExp(0);
-		}
-		void DeadNoReward() {
-			if (!IsDead())
-				ResetRewardInfo();
-			Dead();
-		}
+public:
+	void ResetRewardInfo() {
+		m_map_kDamage.clear();
+		if (!IsPC())
+			SetExp(0);
+	}
+	void DeadNoReward() {
+		if (!IsDead())
+			ResetRewardInfo();
+		Dead();
+	}
 	// @fixme188 END
 
 #if defined(ENABLE_BATTLE_FIELD) || defined(ENABLE_MEDAL_OF_HONOR)
@@ -3413,62 +3430,62 @@ public:
 #endif
 
 #ifdef __ENABLE_BIOLOG_SYSTEM__
-	protected:
-		BYTE	m_BiologActualMission;
-		WORD	m_BiologCollectedItems;
-		BYTE	m_BiologCooldownReminder;
-		long	m_BiologCooldown;
+protected:
+	BYTE	m_BiologActualMission;
+	WORD	m_BiologCollectedItems;
+	BYTE	m_BiologCooldownReminder;
+	long	m_BiologCooldown;
 
-	public:
-		CBiologSystem* GetBiologManager() const { return m_pkBiologManager; }
+public:
+	CBiologSystem* GetBiologManager() const { return m_pkBiologManager; }
 
-		BYTE	GetBiologMissions() const { return m_BiologActualMission; }
-		WORD	GetBiologCollectedItems() const { return m_BiologCollectedItems; }
-		BYTE	GetBiologCooldownReminder() const { return m_BiologCooldownReminder; }
-		long	GetBiologCooldown() const { return m_BiologCooldown; }
+	BYTE	GetBiologMissions() const { return m_BiologActualMission; }
+	WORD	GetBiologCollectedItems() const { return m_BiologCollectedItems; }
+	BYTE	GetBiologCooldownReminder() const { return m_BiologCooldownReminder; }
+	long	GetBiologCooldown() const { return m_BiologCooldown; }
 
-		void	SetBiologMissions(BYTE value) { m_BiologActualMission = value; }
-		void	SetBiologCollectedItems(WORD value) { m_BiologCollectedItems = value; }
-		void	SetBiologCooldownReminder(BYTE value) { m_BiologCooldownReminder = value; }
-		void	SetBiologCooldown(long value) { m_BiologCooldown = value; }
+	void	SetBiologMissions(BYTE value) { m_BiologActualMission = value; }
+	void	SetBiologCollectedItems(WORD value) { m_BiologCollectedItems = value; }
+	void	SetBiologCooldownReminder(BYTE value) { m_BiologCooldownReminder = value; }
+	void	SetBiologCooldown(long value) { m_BiologCooldown = value; }
 
-	private:
-		CBiologSystem* m_pkBiologManager;
+private:
+	CBiologSystem* m_pkBiologManager;
 #endif
 
-	public:
+public:
 #ifdef ENABLE_WHITE_DRAGON
-		bool			IsWhiteMap();
+	bool			IsWhiteMap();
 #endif
 #ifdef ENABLE_QUEEN_NETHIS
-		bool			IsSnakeMap();
+	bool			IsSnakeMap();
 #endif
 
 #ifdef ENABLE_GUILD_TOKEN_AUTH
-	public:
-		bool IsGuildMaster() const;
-		uint64_t GetGuildToken() const;
-		void SendGuildToken();
+public:
+	bool IsGuildMaster() const;
+	uint64_t GetGuildToken() const;
+	void SendGuildToken();
 #endif
 #if defined(__ENABLE_RIDING_EXTENDED__)
-	public:
-		void SetMountUpGradeExp(uint32_t exp) {m_mount_up_grade_exp = exp;}
-		uint32_t GetMountUpGradeExp() const { return m_mount_up_grade_exp; }
+public:
+	void SetMountUpGradeExp(uint32_t exp) { m_mount_up_grade_exp = exp; }
+	uint32_t GetMountUpGradeExp() const { return m_mount_up_grade_exp; }
 
-		void SetMountUpGradeFail(uint8_t fail) {m_mount_up_grade_fail = fail;}
-		uint8_t IsMountUpGradeFail() const { return m_mount_up_grade_fail; }
+	void SetMountUpGradeFail(uint8_t fail) { m_mount_up_grade_fail = fail; }
+	uint8_t IsMountUpGradeFail() const { return m_mount_up_grade_fail; }
 
-	protected:
-		uint32_t m_mount_up_grade_exp;
-		uint8_t	 m_mount_up_grade_fail;
+protected:
+	uint32_t m_mount_up_grade_exp;
+	uint8_t	 m_mount_up_grade_fail;
 #endif
 #ifdef ENABLE_PET_SUMMON_AFTER_REWARP
-	public:
-		void SetSummonGrowthPet(LPITEM pPetItem);
-		LPITEM GetSummonGrowthPet() const;
-		LPITEM GetSummonGrowthPetSystem() const { return m_pkSummonGrowthPet; }
-	//private:
-		LPITEM m_pkSummonGrowthPet;
+public:
+	//void SetSummonGrowthPetWithDelay(LPITEM pPetItem);
+	void SetSummonGrowthPet(LPITEM pPetItem);
+	LPITEM GetSummonGrowthPet() const;
+private:
+	LPITEM m_pkSummonGrowthPet;
 #endif
 };
 
