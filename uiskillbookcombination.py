@@ -93,12 +93,14 @@ class SkillBookCombinationWindow(ui.ScriptWindow):
 
 		invenPos = self.SkillBookList[slotIndex][1]
 
-		if app.ENABLE_EXTEND_INVEN_SYSTEM:
-			if 0 <= invenPos < INVENTORY_PAGE_SIZE * player.INVENTORY_PAGE_COUNT: 
-				self.itemToolTip.SetInventoryItem(invenPos, player.INVENTORY)
-		else:
-			if -1 < invenPos < INVENTORY_PAGE_SIZE * 2:
-				self.itemToolTip.SetInventoryItem(invenPos, player.INVENTORY)
+		#if app.ENABLE_EXTEND_INVEN_SYSTEM:
+		#	if 0 <= invenPos < INVENTORY_PAGE_SIZE * player.INVENTORY_PAGE_COUNT:
+		self.itemToolTip.SetInventoryItem(invenPos, player.INVENTORY)
+		#	if 0 <= invenPos < SPECIAL_INVENTORY_PAGE_SIZE * player.INVENTORY_PAGE_COUNT:
+		#		self.itemToolTip.SetInventoryItem(invenPos, player.INVENTORY)
+		#else:
+		#	if -1 < invenPos < INVENTORY_PAGE_SIZE * 2:
+		#		self.itemToolTip.SetInventoryItem(invenPos, player.INVENTORY)
 
 	def OverOutItem(self):
 		if not self.itemToolTip:
@@ -264,6 +266,34 @@ class SkillBookCombinationWindow(ui.ScriptWindow):
 	def OnPressEscapeKey(self):
 		self.Close()
 		return True
+
+	def AddItemFromInventory(self, inventorySlotIndex):
+		if len(self.SkillBookList) >= SKILLBOOK_SLOT_MAX:
+			chat.AppendChat(chat.CHAT_TYPE_INFO, localeInfo.COMB_NOT_FULL_BOOK)
+			return
+
+		attachedItemVnum = player.GetItemIndex(inventorySlotIndex)
+		item.SelectItem(attachedItemVnum)
+
+		itemType = item.GetItemType()
+
+		if itemType != item.ITEM_TYPE_SKILLBOOK:
+			return
+
+		for index, key in self.SkillBookList.items():
+			if inventorySlotIndex == key[1]:
+				return
+
+		slotIndex = len(self.SkillBookList)
+		self.SkillBookList[slotIndex] = (player.SLOT_TYPE_INVENTORY, inventorySlotIndex, 1)
+		self.Slot.SetItemSlot(slotIndex, attachedItemVnum)
+		self.Slot.RefreshSlot()
+
+	def IsItemInCombination(self, slotIndex):
+		for index, key in self.SkillBookList.items():
+			if key[1] == slotIndex:
+				return True
+		return False
 
 	def OnUpdate(self):
 		if app.ENABLE_SPECIAL_INVENTORY_SYSTEM:

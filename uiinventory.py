@@ -2379,6 +2379,10 @@ class InventoryWindow(ui.ScriptWindow):
 
 		slotIndex = self.__InventoryLocalSlotPosToGlobalSlotPos(slotIndex)
 
+		if self.interface and self.interface.wndSkillBookCombination and self.interface.wndSkillBookCombination.IsShow():
+			self.interface.wndSkillBookCombination.AddItemFromInventory(slotIndex)
+			return
+
 		if app.__ENABLE_NEW_OFFLINESHOP__:
 			if uiofflineshop.IsBuildingShop():
 				if not item.IsAntiFlag(item.ANTIFLAG_GIVE) and not item.IsAntiFlag(item.ANTIFLAG_MYSHOP):
