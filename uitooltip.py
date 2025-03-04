@@ -1054,10 +1054,22 @@ class ItemToolTip(ToolTip):
 
 		self.AddItemData(itemVnum, metinSlot, attrSlot, None, 0, 0, window_type, slotIndex, None, apply_random_list, set_value)
 
-		if app.__BL_CHEST_DROP_INFO__:
-			self.AppendChestDropInfo(itemVnum)
-		if app.QUICK_SELL_SYSTEM:
-			self.AppendQuckSellItem(slotIndex)
+		if app.ENABLE_SKILLBOOK_COMB_SYSTEM:
+			if self.interface and self.interface.wndSkillBookCombination:
+				# Nu afișa tooltip-ul AppendQuckSellItem pentru itemele din SkillBookCombination
+				#return
+
+				if app.__BL_CHEST_DROP_INFO__:
+					self.AppendChestDropInfo(itemVnum)
+				if app.QUICK_SELL_SYSTEM:
+					self.AppendQuckSellItem(slotIndex)
+			else:
+				return
+		else:
+			if app.__BL_CHEST_DROP_INFO__:
+				self.AppendChestDropInfo(itemVnum)
+			if app.QUICK_SELL_SYSTEM:
+				self.AppendQuckSellItem(slotIndex)
 
 	def SetResulItemAttrMove(self, baseSlotIndex, materialSlotIndex, window_type = player.INVENTORY):
 		baseItemVnum = player.GetItemIndex(window_type, baseSlotIndex)
